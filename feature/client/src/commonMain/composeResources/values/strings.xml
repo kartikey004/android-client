@@ -29,6 +29,7 @@
     <string name="feature_client_loan_account">Loan Accounts</string>
     <string name="feature_client_savings_account">Savings Accounts</string>
     <string name="feature_client_accounts">Accounts</string>
+    <string name="feature_client_no_savings_accounts_found">No Savings Accounts found for this client</string>
 
     <string name="feature_client_upload_signature">Upload Signature</string>
     <string name="feature_client_survey">Survey</string>
@@ -373,6 +374,7 @@
     <string name="delete_dialog_message">Please confirm that you want to remove the photo? You can upload the new photo again through the app or website.</string>
     <string name="remove">Remove</string>
     <string name="cancel">Cancel</string>
+    <string name="delete_dialog_identifier_message">Are you sure you want to delete this document with ID %1$s?</string>
 
     <!-- Document Delete Confirmation Dialog -->
     <string name="delete_dialog_title">Are you sure?</string>
@@ -388,6 +390,8 @@
     <string name="mobile_na">Mobile: N/A</string>
     <string name="email_na">Email: N/A</string>
     <string name="office_na">Office: N/A</string>
+    <string name="group_na">N/A</string>
+    <string name="group_label">Group:</string>
 
     <!-- Titles -->
     <string name="title_client_assign_staff">Client Assign Staff</string>
@@ -470,6 +474,10 @@
     <string name="client_profile_select_account_type">Select Account Type</string>
     <string name="client_profile_savings_account">Savings Account</string>
     <string name="client_profile_loan_account">Loan Account</string>
+    <string name="client_profile_photo_updated_success">Profile photo updated successfully</string>
+    <string name="client_profile_photo_updated_failure">Unknown Error</string>
+    <string name="client_profile_edit_success_title">Success</string>
+    <string name="client_profile_edit_failure_title">Error</string>
 
     <string name="client_identifiers_click_on_plus_button_to_add_an_item">Click on “+” Button to add an item.</string>
     <string name="client_identifiers_not_available">Not available</string>

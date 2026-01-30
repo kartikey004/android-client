@@ -8,7 +8,7 @@
  * See https://github.com/openMF/android-client/blob/master/LICENSE.md
  */
 plugins {
-    alias(libs.plugins.mifos.cmp.feature)
+    alias(libs.plugins.cmp.feature.convention)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -30,6 +30,7 @@ kotlin {
             implementation(projects.feature.loan)
             implementation(projects.feature.document)
             implementation(projects.feature.recurringDeposit)
+            implementation(projects.feature.groups)
 
             implementation(compose.ui)
             implementation(compose.material3)

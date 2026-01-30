@@ -68,6 +68,14 @@ include(":core:model")
 include(":core:network")
 include(":core:ui")
 
+include(":core-base:analytics")
+include(":core-base:common")
+include(":core-base:database")
+include(":core-base:designsystem")
+include(":core-base:network")
+include(":core-base:platform")
+include(":core-base:ui")
+
 // Lint Modules
 //include(":lint")
 

@@ -14,10 +14,12 @@ import androidclient.feature.client.generated.resources.account_number_prefix
 import androidclient.feature.client.generated.resources.arrow_up
 import androidclient.feature.client.generated.resources.cancel
 import androidclient.feature.client.generated.resources.choose_from_option
+import androidclient.feature.client.generated.resources.client_profile_edit_failure_title
+import androidclient.feature.client.generated.resources.client_profile_edit_success_title
 import androidclient.feature.client.generated.resources.delete_dialog_message
 import androidclient.feature.client.generated.resources.delete_dialog_title
 import androidclient.feature.client.generated.resources.delete_photo
-import androidclient.feature.client.generated.resources.edit_profile_title
+import androidclient.feature.client.generated.resources.dialog_continue
 import androidclient.feature.client.generated.resources.from_camera
 import androidclient.feature.client.generated.resources.from_gallery
 import androidclient.feature.client.generated.resources.remove
@@ -35,21 +37,23 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mifos.core.designsystem.component.BasicDialogState
 import com.mifos.core.designsystem.component.MifosBasicDialog
 import com.mifos.core.designsystem.component.MifosOutlinedButton
-import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.MifosTextButton
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
@@ -57,8 +61,11 @@ import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosProgressIndicator
+import com.mifos.core.ui.components.MifosStatusDialog
 import com.mifos.core.ui.components.MifosUserImage
+import com.mifos.core.ui.components.ResultStatus
 import com.mifos.core.ui.util.EventsEffect
+import kotlinx.coroutines.delay
 import network.chaintech.cmpimagepickncrop.CMPImagePickNCropDialog
 import network.chaintech.cmpimagepickncrop.imagecropper.ImageAspectRatio
 import network.chaintech.cmpimagepickncrop.imagecropper.rememberImageCropper
@@ -85,7 +92,7 @@ internal fun ClientProfileEditScreen(
         }
     }
 
-    ClientProfileEditScaffold(
+    ClientProfileEditContent(
         modifier = modifier,
         state = state,
         onAction = remember(viewModel) { { viewModel.trySendAction(it) } },
@@ -94,94 +101,87 @@ internal fun ClientProfileEditScreen(
 
     ClientProfileEditDialogs(
         state = state,
-        onRetry = remember(viewModel) {
-            { viewModel.trySendAction(ClientProfileEditAction.OnRetry) }
-        },
         onAction = remember(viewModel) { { viewModel.trySendAction(it) } },
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ClientProfileEditScaffold(
+private fun ClientProfileEditContent(
     state: ClientProfileEditState,
     navController: NavController,
     modifier: Modifier = Modifier,
     onAction: (ClientProfileEditAction) -> Unit,
 ) {
-    MifosScaffold(
-        title = stringResource(Res.string.edit_profile_title),
-        onBackPressed = { onAction(ClientProfileEditAction.NavigateBack) },
-        modifier = modifier,
-    ) { paddingValues ->
-        if (state.dialogState != ClientProfileEditState.DialogState.Loading) {
-            Column(Modifier.fillMaxSize().padding(paddingValues)) {
-                MifosBreadcrumbNavBar(navController)
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(
-                            horizontal = DesignToken.padding.large,
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
+    if (state.dialogState != ClientProfileEditState.DialogState.Loading) {
+        Column(modifier.fillMaxSize()) {
+            MifosBreadcrumbNavBar(navController)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(
+                        horizontal = DesignToken.padding.large,
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+
+                Text(
+                    text = state.name,
+                    style = MifosTypography.titleMediumEmphasized,
+                )
+                Spacer(Modifier.height(DesignToken.padding.extraExtraSmall))
+                Text(
+                    text = stringResource(Res.string.account_number_prefix, state.accountNo),
+                    style = MifosTypography.bodySmall,
+                    color = MaterialTheme.colorScheme.secondary,
+                )
+                Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                MifosUserImage(
+                    bitmap = state.profileImage,
+                    modifier = Modifier.size(DesignToken.sizes.avatarLargeLarge),
+                    hasBorder = true,
+                )
+                if (state.profileImage == null) {
+                    Spacer(Modifier.height(DesignToken.padding.large))
                     Text(
-                        text = state.name,
-                        style = MifosTypography.titleMediumEmphasized,
-                    )
-                    Spacer(Modifier.height(DesignToken.padding.extraExtraSmall))
-                    Text(
-                        text = stringResource(Res.string.account_number_prefix, state.accountNo),
+                        text = stringResource(Res.string.update_profile_photo_message),
                         style = MifosTypography.bodySmall,
                         color = MaterialTheme.colorScheme.secondary,
-                    )
-                    Spacer(Modifier.height(DesignToken.padding.largeIncreased))
-                    MifosUserImage(
-                        bitmap = state.profileImage,
-                        modifier = Modifier.size(DesignToken.sizes.avatarLargeLarge),
-                        hasBorder = true,
-                    )
-                    if (state.profileImage == null) {
-                        Spacer(Modifier.height(DesignToken.padding.large))
-                        Text(
-                            text = stringResource(Res.string.update_profile_photo_message),
-                            style = MifosTypography.bodySmall,
-                            color = MaterialTheme.colorScheme.secondary,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    Spacer(Modifier.height(DesignToken.padding.extraExtraLarge))
-                    MifosOutlinedButton(
-                        text = { Text(stringResource(Res.string.delete_photo)) },
-                        onClick = {
-                            onAction(ClientProfileEditAction.OnDeleteImage)
-                        },
-                        enabled = state.profileImage != null,
-                        leadingIcon = {
-                            Icon(
-                                imageVector = MifosIcons.DeleteDocument,
-                                contentDescription = null,
-                            )
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    Spacer(Modifier.height(DesignToken.padding.large))
-                    MifosTextButton(
-                        text = { Text(stringResource(Res.string.upload_new_photo)) },
-                        onClick = {
-                            onAction(ClientProfileEditAction.OnUploadNewPhotoClick)
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(Res.drawable.arrow_up),
-                                contentDescription = null,
-                                modifier = Modifier.size(DesignToken.sizes.iconAverage),
-                            )
-                        },
+                        textAlign = TextAlign.Center,
                     )
                 }
+                Spacer(Modifier.height(DesignToken.padding.extraExtraLarge))
+                MifosOutlinedButton(
+                    text = { Text(stringResource(Res.string.delete_photo)) },
+                    onClick = {
+                        onAction(ClientProfileEditAction.OnDeleteImage)
+                    },
+                    enabled = state.profileImage != null,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = MifosIcons.DeleteDocument,
+                            contentDescription = null,
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Spacer(Modifier.height(DesignToken.padding.large))
+                MifosTextButton(
+                    text = { Text(stringResource(Res.string.upload_new_photo)) },
+                    onClick = {
+                        onAction(ClientProfileEditAction.OnUploadNewPhotoClick)
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(Res.drawable.arrow_up),
+                            contentDescription = null,
+                            modifier = Modifier.size(DesignToken.sizes.iconAverage),
+                        )
+                    },
+                )
             }
         }
     }
@@ -191,7 +191,6 @@ private fun ClientProfileEditScaffold(
 @Composable
 private fun ClientProfileEditDialogs(
     state: ClientProfileEditState,
-    onRetry: () -> Unit,
     onAction: (ClientProfileEditAction) -> Unit,
 ) {
     when (state.dialogState) {
@@ -202,7 +201,9 @@ private fun ClientProfileEditDialogs(
                 isNetworkConnected = state.networkConnection,
                 message = state.dialogState.message,
                 isRetryEnabled = true,
-                onRetry = onRetry,
+                onRetry = {
+                    onAction(ClientProfileEditAction.OnRetry)
+                },
             )
         }
 
@@ -259,6 +260,43 @@ private fun ClientProfileEditDialogs(
                 },
                 selectedImageFileCallback = {},
             )
+        }
+
+        is ClientProfileEditState.DialogState.ShowStatusDialog -> {
+            LaunchedEffect(state.dialogState.status) {
+                if (state.dialogState.status == ResultStatus.SUCCESS) {
+                    delay(1500)
+                    onAction(ClientProfileEditAction.OnNext)
+                }
+            }
+            Dialog(
+                onDismissRequest = {},
+                properties = DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
+            ) {
+                Surface(
+                    shape = DesignToken.shapes.extraLarge,
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(DesignToken.padding.large),
+                ) {
+                    MifosStatusDialog(
+                        status = state.dialogState.status,
+                        onConfirm = {
+                            onAction(ClientProfileEditAction.OnNext)
+                        },
+                        btnText = stringResource(Res.string.dialog_continue),
+                        successTitle = stringResource(Res.string.client_profile_edit_success_title),
+                        successMessage = state.dialogState.msg,
+                        failureTitle = stringResource(Res.string.client_profile_edit_failure_title),
+                        failureMessage = state.dialogState.msg,
+                        showButton = state.dialogState.status == ResultStatus.FAILURE,
+                    )
+                }
+            }
         }
     }
 }
