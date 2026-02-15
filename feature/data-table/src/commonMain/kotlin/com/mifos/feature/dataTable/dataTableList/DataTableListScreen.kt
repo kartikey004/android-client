@@ -30,7 +30,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
@@ -47,12 +46,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.component.MifosDatePickerTextField
@@ -65,6 +60,7 @@ import com.mifos.room.entities.noncore.DataTableEntity
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -169,13 +165,13 @@ fun DataTableListContent(
         for (table in dataTableList) {
             Text(
                 text = table.registeredTableName ?: "",
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
             TableColumnHeader(table = table)
         }
@@ -184,10 +180,16 @@ fun DataTableListContent(
             onClick = { onSaveClicked() },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                .padding(KptTheme.spacing.md),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = KptTheme.colorScheme.primary,
+            ),
         ) {
-            Text(text = stringResource(Res.string.feature_data_table_save), color = Color.White)
+            Text(
+                text = stringResource(Res.string.feature_data_table_save),
+                color = KptTheme.colorScheme.onPrimary,
+                style = KptTheme.typography.labelLarge,
+            )
         }
     }
 }
@@ -209,7 +211,7 @@ fun TableColumnHeader(
                         modifier = Modifier.fillMaxWidth(),
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 }
 
                 BaseFormWidget.SCHEMA_KEY_INT, BaseFormWidget.SCHEMA_KEY_DECIMAL -> {
@@ -220,10 +222,10 @@ fun TableColumnHeader(
                         keyboardType = KeyboardType.Number,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 }
 
                 BaseFormWidget.SCHEMA_KEY_CODELOOKUP, BaseFormWidget.SCHEMA_KEY_CODEVALUE -> {
@@ -233,7 +235,7 @@ fun TableColumnHeader(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                     ) {
                         MifosTextFieldDropdown(
                             value = selectedValue,
@@ -246,7 +248,7 @@ fun TableColumnHeader(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 }
 
                 BaseFormWidget.SCHEMA_KEY_DATE -> {
@@ -299,18 +301,20 @@ fun TableColumnHeader(
                             showDatePicker = true
                         },
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 }
 
                 BaseFormWidget.SCHEMA_KEY_BOOL -> {
                     var checked by remember { mutableStateOf(false) }
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier.padding(vertical = KptTheme.spacing.sm),
                     ) {
                         Text(
                             text = columnHeader.dataTableColumnName ?: "",
                             modifier = Modifier.weight(1f),
+                            style = KptTheme.typography.bodyLarge,
+                            color = KptTheme.colorScheme.onSurface,
                         )
 
                         Switch(

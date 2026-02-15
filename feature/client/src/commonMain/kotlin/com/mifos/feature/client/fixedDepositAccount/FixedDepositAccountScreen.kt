@@ -47,8 +47,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.icon.MifosIcons
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.MifosActionsSavingsListingComponent
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
@@ -59,6 +57,7 @@ import com.mifos.core.ui.util.EventsEffect
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun FixedDepositAccountScreen(
@@ -145,9 +144,7 @@ fun FixedDepositAccountContent(
             false -> {
                 Column(
                     Modifier.fillMaxSize()
-                        .padding(
-                            horizontal = DesignToken.padding.large,
-                        ),
+                        .padding(horizontal = KptTheme.spacing.md),
                 ) {
                     val notAvailableText = stringResource(Res.string.client_savings_not_avilable)
 
@@ -176,8 +173,7 @@ fun FixedDepositAccountContent(
                             },
                         )
                     }
-
-                    Spacer(modifier = Modifier.height(DesignToken.padding.largeIncreasedExtra))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
 
                     if (state.fixedDepositAccount.isEmpty()) {
                         MifosEmptyCard(msg = stringResource(Res.string.client_empty_card_message))
@@ -236,8 +232,7 @@ fun FixedDepositAccountContent(
                                         else -> null
                                     }
                                 }
-
-                                Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+                                Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
                             }
                         }
                     }
@@ -261,12 +256,12 @@ fun FixedDepositAccountHeader(
         Column {
             Text(
                 text = stringResource(Res.string.client_profile_fixed_deposit_account_title),
-                style = MifosTypography.titleMedium,
+                style = KptTheme.typography.titleMedium,
             )
 
             Text(
                 text = totalItem + " " + stringResource(Res.string.client_savings_item),
-                style = MifosTypography.labelMedium,
+                style = KptTheme.typography.labelMedium,
             )
         }
 
@@ -280,7 +275,7 @@ fun FixedDepositAccountHeader(
             },
         )
 
-        Spacer(modifier = Modifier.width(DesignToken.spacing.largeIncreased))
+        Spacer(modifier = Modifier.width(KptTheme.spacing.lg))
 
         Icon(
             painter = painterResource(Res.drawable.filter),

@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,7 +52,6 @@ import com.mifos.core.designsystem.component.BasicDialogState
 import com.mifos.core.designsystem.component.MifosBasicDialog
 import com.mifos.core.designsystem.component.MifosTextButton
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosDefaultListingComponentFromStringResources
 import com.mifos.core.ui.components.MifosErrorComponent
@@ -68,6 +66,7 @@ import com.mifos.feature.client.clientDetailsProfile.components.clientsDetailsAc
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientProfileDetailsScreen(
@@ -192,9 +191,7 @@ private fun ClientProfileDetailsContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(
-                        horizontal = DesignToken.padding.large,
-                    ),
+                    .padding(horizontal = KptTheme.spacing.md),
             ) {
                 ClientDetailsProfile(
                     image = state.profileImage,
@@ -202,7 +199,7 @@ private fun ClientProfileDetailsContent(
                     mobile = state.client?.mobileNo,
                     email = state.client?.emailAddress,
                 )
-                Spacer(Modifier.height(DesignToken.padding.medium))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
@@ -214,18 +211,18 @@ private fun ClientProfileDetailsContent(
                             Icon(
                                 painter = painterResource(Res.drawable.arrow_up),
                                 contentDescription = null,
-                                modifier = Modifier.size(DesignToken.sizes.iconAverage),
+                                modifier = Modifier.size(DesignToken.sizes.iconSmall),
                             )
                         },
                         text = {
                             Text(
                                 text = stringResource(Res.string.update_photo),
-                                style = MifosTypography.labelMediumEmphasized,
+                                style = KptTheme.typography.labelLarge,
                             )
                         },
                         modifier = Modifier.weight(1f),
                     )
-                    Spacer(Modifier.width(DesignToken.padding.small))
+                    Spacer(Modifier.width(KptTheme.spacing.sm))
                     MifosTextButton(
                         onClick = {
                             onAction(ClientProfileDetailsAction.OnUpdateSignatureClick)
@@ -234,24 +231,24 @@ private fun ClientProfileDetailsContent(
                             Icon(
                                 painter = painterResource(Res.drawable.update_signature),
                                 contentDescription = null,
-                                modifier = Modifier.size(DesignToken.sizes.iconAverage),
+                                modifier = Modifier.size(DesignToken.sizes.iconSmall),
                             )
                         },
                         text = {
                             Text(
                                 text = stringResource(Res.string.update_signature),
-                                style = MifosTypography.labelMediumEmphasized,
+                                style = KptTheme.typography.labelLarge,
                             )
                         },
                         modifier = Modifier.weight(1f),
                     )
                 }
 
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.md))
 
                 state.details.forEach { list ->
                     MifosDefaultListingComponentFromStringResources(data = list)
-                    Spacer(Modifier.height(DesignToken.padding.large))
+                    Spacer(Modifier.height(KptTheme.spacing.md))
                 }
 
                 Row(
@@ -266,16 +263,16 @@ private fun ClientProfileDetailsContent(
                             painterResource(Res.drawable.arrow_downward),
                             contentDescription = null,
                             modifier = Modifier.size(DesignToken.sizes.iconAverage),
-                            tint = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
+                            tint = KptTheme.colorScheme.secondary.copy(alpha = 0.5f),
                         )
-                        Spacer(Modifier.width(DesignToken.padding.small))
+                        Spacer(Modifier.width(KptTheme.spacing.sm))
                         Text(
                             text = stringResource(Res.string.scroll_for_more_options),
-                            style = MifosTypography.tag,
-                            color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
+                            style = KptTheme.typography.labelSmall,
+                            color = KptTheme.colorScheme.secondary.copy(alpha = 0.5f),
                         )
                     }
-                    Spacer(Modifier.width(DesignToken.padding.small))
+                    Spacer(Modifier.width(KptTheme.spacing.sm))
                     MifosTextButton(
                         onClick = {
                             onAction(ClientProfileDetailsAction.OnUpdateDetailsClick)
@@ -284,25 +281,25 @@ private fun ClientProfileDetailsContent(
                             Icon(
                                 painter = painterResource(Res.drawable.pen_icon),
                                 contentDescription = null,
-                                modifier = Modifier.size(DesignToken.sizes.iconAverage),
+                                modifier = Modifier.size(DesignToken.sizes.iconSmall),
                             )
                         },
                         text = {
                             Text(
                                 text = stringResource(Res.string.update_details),
-                                style = MifosTypography.labelMediumEmphasized,
+                                style = KptTheme.typography.labelLarge,
                             )
                         },
                         modifier = Modifier.weight(1f),
                     )
                 }
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 Text(
                     text = stringResource(Res.string.client_profile_actions),
-                    style = MifosTypography.labelLargeEmphasized,
+                    style = KptTheme.typography.titleMedium,
                 )
 
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 clientsDetailsActionItems.forEach {
                     MifosRowCard(
                         title = stringResource(it.title),
@@ -310,8 +307,8 @@ private fun ClientProfileDetailsContent(
                         leftValues = listOf(
                             TextUtil(
                                 text = stringResource(it.subTitle),
-                                style = MifosTypography.bodySmall,
-                                color = MaterialTheme.colorScheme.secondary,
+                                style = KptTheme.typography.bodySmall,
+                                color = KptTheme.colorScheme.secondary,
                             ),
                         ),
                         rightValues = emptyList(),
@@ -319,7 +316,7 @@ private fun ClientProfileDetailsContent(
                             .clickable {
                                 onAction(ClientProfileDetailsAction.OnActionClick(it))
                             }
-                            .padding(vertical = DesignToken.padding.medium),
+                            .padding(vertical = KptTheme.spacing.md),
                     )
                 }
             }

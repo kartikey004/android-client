@@ -29,10 +29,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -55,18 +53,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.common.utils.Constants
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.MifosSweetError
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.model.objects.runreport.DataRow
 import com.mifos.core.model.objects.runreport.client.ClientReportTypeItem
 import com.mifos.core.ui.components.MifosProgressIndicator
@@ -77,6 +69,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ReportDetailScreen(
@@ -240,7 +233,11 @@ internal fun ReportDetailScreen(
             TextButton(
                 onClick = { runReport(runReportDetail) },
             ) {
-                Text(text = stringResource(Res.string.feature_report_run_report))
+                Text(
+                    text = stringResource(Res.string.feature_report_run_report),
+                    style = KptTheme.typography.labelLarge,
+                    color = KptTheme.colorScheme.primary,
+                )
             }
         },
         snackbarHostState = snackbarHostState,
@@ -329,7 +326,7 @@ private fun RunReportContent(
         selectedGlAccount,
         selectedObligationDate,
     ) {
-        if (selectedOffice.isNotEmpty() && selectedOffice.isNotEmpty()) {
+        if (selectedOffice.isNotEmpty()) {
             runReportDetail[Constants.R_OFFICE_ID] = selectedOfficeId
         }
 
@@ -337,7 +334,7 @@ private fun RunReportContent(
             runReportDetail[Constants.R_LOAN_PURPOSE_ID] = selectedLoanPurposeId
         }
 
-        if (selectedLoanOfficer.isNotEmpty() && selectedLoanOfficer.isNotEmpty()) {
+        if (selectedLoanOfficer.isNotEmpty()) {
             runReportDetail[Constants.R_LOAN_OFFICER_ID] = selectedLoanOfficerId
         }
 
@@ -374,244 +371,206 @@ private fun RunReportContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = KptTheme.spacing.md),
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
     ) {
         OutlinedCard(
-            modifier = modifier
-                .padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = KptTheme.spacing.md),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        16.dp,
-                    ),
+                    .padding(KptTheme.spacing.md),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .size(42.dp)
-                        .background(Blue, CircleShape),
+                        .size(DesignToken.sizes.dp42)
+                        .background(KptTheme.colorScheme.primaryContainer, CircleShape),
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.feature_report_ic_report_item),
                         contentDescription = null,
-                        tint = Black,
+                        tint = KptTheme.colorScheme.onPrimaryContainer,
                     )
                 }
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 16.dp),
-                ) {
+                Column(modifier = Modifier.weight(1f)) {
                     reportItem.reportName?.let {
                         Text(
                             text = it,
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontStyle = FontStyle.Normal,
-                            ),
+                            style = KptTheme.typography.titleMedium,
+                            color = KptTheme.colorScheme.onSurface,
                         )
                     }
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp),
+                            .padding(top = KptTheme.spacing.xs),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
                             text = reportItem.reportType.toString(),
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontStyle = FontStyle.Normal,
-                            ),
+                            style = KptTheme.typography.bodyMedium,
+                            color = KptTheme.colorScheme.onSurfaceVariant,
                         )
                         Text(
                             text = reportItem.reportCategory.toString(),
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontStyle = FontStyle.Normal,
-                            ),
+                            style = KptTheme.typography.bodyMedium,
+                            color = KptTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Column(
+            modifier = Modifier.padding(horizontal = KptTheme.spacing.md),
+            verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
+        ) {
+            if (officeList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedOffice,
+                    onValueChanged = { selectedOffice = it },
+                    onOptionSelected = { index, value ->
+                        selectedOffice = value
+                        selectedOfficeId = officeList.getOrNull(index)?.row?.getOrNull(0) ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_office),
+                    options = officeList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (officeList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedOffice,
-                onValueChanged = {
-                    selectedOffice = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedOffice = value
-                    selectedOfficeId = officeList.getOrNull(index)?.row?.getOrNull(0) ?: ""
-                },
-                label = stringResource(Res.string.feature_report_office),
-                options = officeList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (loanPurposeList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedLoanPurpose,
+                    onValueChanged = { selectedLoanPurpose = it },
+                    onOptionSelected = { index, value ->
+                        selectedLoanPurpose = value
+                        selectedLoanPurposeId = loanPurposeList.getOrNull(index)?.row?.getOrNull(0) ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_loan_purpose),
+                    options = loanPurposeList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (loanPurposeList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedLoanPurpose,
-                onValueChanged = {
-                    selectedLoanPurpose = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedLoanPurpose = value
-                    selectedLoanPurposeId = loanPurposeList.getOrNull(index)?.row?.getOrNull(0) ?: ""
-                },
-                label = stringResource(Res.string.feature_report_loan_purpose),
-                options = loanPurposeList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (reportOffices.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedLoanOfficer,
+                    onValueChanged = { selectedLoanOfficer = it },
+                    onOptionSelected = { index, value ->
+                        selectedLoanOfficer = value
+                        selectedLoanOfficerId = reportOffices.getOrNull(index)?.row?.getOrNull(0) ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_loan_officer),
+                    options = reportOffices.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (reportOffices.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedLoanOfficer,
-                onValueChanged = {
-                    selectedLoanOfficer = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedLoanOfficer = value
-                    selectedLoanOfficerId = reportOffices.getOrNull(index)?.row?.getOrNull(0) ?: ""
-                },
-                label = stringResource(Res.string.feature_report_loan_officer),
-                options = reportOffices.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (reportProducts.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedProducts,
+                    onValueChanged = { selectedProducts = it },
+                    onOptionSelected = { index, value ->
+                        selectedProducts = value
+                        selectedProductsId = reportProducts.getOrNull(index)?.row?.getOrNull(0) ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_product),
+                    options = reportProducts.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (reportProducts.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedProducts,
-                onValueChanged = {
-                    selectedProducts = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedProducts = value
-                    selectedProductsId = reportProducts.getOrNull(index)?.row?.getOrNull(0) ?: ""
-                },
-                label = stringResource(Res.string.feature_report_product),
-                options = reportProducts.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (fundList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedFund,
+                    onValueChanged = { selectedFund = it },
+                    onOptionSelected = { index, value ->
+                        selectedFund = value
+                        selectedFundId = fundList[index].row.first() ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_fund),
+                    options = fundList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (fundList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedFund,
-                onValueChanged = {
-                    selectedFund = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedFund = value
-                    selectedFundId = fundList[index].row.first() ?: ""
-                },
-                label = stringResource(Res.string.feature_report_fund),
-                options = fundList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (currencyList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedCurrency,
+                    onValueChanged = { selectedCurrency = it },
+                    onOptionSelected = { index, value ->
+                        selectedCurrency = value
+                        selectedCurrencyId = currencyList[index].row.first() ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_currency),
+                    options = currencyList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (currencyList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedCurrency,
-                onValueChanged = {
-                    selectedCurrency = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedCurrency = value
-                    selectedCurrencyId = currencyList[index].row.first() ?: ""
-                },
-                label = stringResource(Res.string.feature_report_currency),
-                options = currencyList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (parCalculatorList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedParCalculator,
+                    onValueChanged = { selectedParCalculator = it },
+                    onOptionSelected = { index, value ->
+                        selectedParCalculator = value
+                        selectedParCalculatorId = parCalculatorList[index].row.first() ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_par_type),
+                    options = parCalculatorList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (parCalculatorList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedParCalculator,
-                onValueChanged = {
-                    selectedParCalculator = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedParCalculator = value
-                    selectedParCalculatorId = parCalculatorList[index].row.first() ?: ""
-                },
-                label = stringResource(Res.string.feature_report_par_type),
-                options = parCalculatorList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (savingsAccountDepositList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedSavingsAccountDeposit,
+                    onValueChanged = { selectedSavingsAccountDeposit = it },
+                    onOptionSelected = { index, value ->
+                        selectedSavingsAccountDeposit = value
+                        selectedSavingsAccountDepositId = savingsAccountDepositList[index].row.first() ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_saving_account),
+                    options = savingsAccountDepositList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (savingsAccountDepositList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedSavingsAccountDeposit,
-                onValueChanged = {
-                    selectedSavingsAccountDeposit = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedSavingsAccountDeposit = value
-                    selectedSavingsAccountDepositId = savingsAccountDepositList[index].row.first() ?: ""
-                },
-                label = stringResource(Res.string.feature_report_saving_account),
-                options = savingsAccountDepositList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+            if (glAccountList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedGlAccount,
+                    onValueChanged = { selectedGlAccount = it },
+                    onOptionSelected = { index, value ->
+                        selectedGlAccount = value
+                        selectedGlAccountId = glAccountList[index].row.first() ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_gl_account),
+                    options = glAccountList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
 
-        if (glAccountList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedGlAccount,
-                onValueChanged = {
-                    selectedGlAccount = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedGlAccount = value
-                    selectedGlAccountId = glAccountList[index].row.first() ?: ""
-                },
-                label = stringResource(Res.string.feature_report_gl_account),
-                options = glAccountList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        if (obligationDateList.isNotEmpty()) {
-            MifosTextFieldDropdown(
-                value = selectedObligationDate,
-                onValueChanged = {
-                    selectedObligationDate = it
-                },
-                onOptionSelected = { index, value ->
-                    selectedObligationDate = value
-                    selectedObligationDateId = obligationDateList[index].row.first() ?: ""
-                },
-                label = stringResource(Res.string.feature_report_obligation_date),
-                options = obligationDateList.mapNotNull { it.row.getOrNull(1) },
-                readOnly = true,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+            if (obligationDateList.isNotEmpty()) {
+                MifosTextFieldDropdown(
+                    value = selectedObligationDate,
+                    onValueChanged = { selectedObligationDate = it },
+                    onOptionSelected = { index, value ->
+                        selectedObligationDate = value
+                        selectedObligationDateId = obligationDateList[index].row.first() ?: ""
+                    },
+                    label = stringResource(Res.string.feature_report_obligation_date),
+                    options = obligationDateList.mapNotNull { it.row.getOrNull(1) },
+                    readOnly = true,
+                )
+            }
         }
     }
 }

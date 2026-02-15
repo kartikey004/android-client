@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
@@ -42,13 +43,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mifos.core.common.utils.DateHelper
-import com.mifos.core.designsystem.theme.AppColors
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.MifosActionsSavingsListingComponent
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
@@ -59,6 +57,7 @@ import com.mifos.room.entities.accounts.savings.SavingAccountDepositTypeEntity
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun SavingsAccountsScreen(
@@ -115,7 +114,7 @@ fun SavingsAccountsContent(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = DesignToken.padding.large),
+                        .padding(horizontal = KptTheme.spacing.md),
                 ) {
                     SavingsAccountsHeader(
                         totalItem = state.savingsAccounts.size.toString(),
@@ -138,7 +137,7 @@ fun SavingsAccountsContent(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
                     if (state.savingsAccounts.isEmpty()) {
                         EmptySavingsCard()
@@ -198,7 +197,7 @@ fun SavingsAccountsContent(
                                     },
                                 )
 
-                                Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+                                Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
                             }
                         }
                     }
@@ -219,12 +218,12 @@ fun SavingsAccountsHeader(
         Column {
             Text(
                 text = stringResource(Res.string.client_savings_savings_accounts),
-                style = MifosTypography.titleMedium,
+                style = KptTheme.typography.titleMedium,
             )
 
             Text(
                 text = totalItem + " " + stringResource(Res.string.client_savings_item),
-                style = MifosTypography.labelMedium,
+                style = KptTheme.typography.labelMedium,
             )
         }
 
@@ -239,8 +238,7 @@ fun SavingsAccountsHeader(
                 contentDescription = null,
             )
         }
-
-        DesignToken.padding
+        Spacer(modifier = Modifier.width(KptTheme.spacing.md))
 
         IconButton(
             onClick = { onAction.invoke(SavingsAccountAction.ToggleFilter) },
@@ -258,23 +256,23 @@ private fun EmptySavingsCard() {
     OutlinedCard(
         modifier = Modifier.fillMaxWidth(),
         border = BorderStroke(
-            width = 1.dp,
-            color = AppColors.cardBorders,
+            width = DesignToken.spacing.dp1,
+            color = KptTheme.colorScheme.outlineVariant,
         ),
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(KptTheme.spacing.md),
         ) {
             Text(
                 text = "No Item Found",
-                style = MifosTypography.titleSmallEmphasized,
+                style = KptTheme.typography.titleSmall,
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
             Text(
                 text = "Click Here To View Filled State. ",
-                style = MifosTypography.bodySmall,
+                style = KptTheme.typography.bodySmall,
             )
         }
     }

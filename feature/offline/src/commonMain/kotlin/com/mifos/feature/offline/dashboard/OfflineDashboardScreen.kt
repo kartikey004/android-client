@@ -28,7 +28,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -42,7 +41,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.touchlab.kermit.Logger
 import com.mifos.core.designsystem.component.MifosScaffold
@@ -52,6 +50,7 @@ import com.mifos.core.ui.util.DevicePreview
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 /**
  * Created by Pronay Sarker on 27/08/2024 (12:09 AM)
@@ -128,24 +127,24 @@ internal fun OfflineDashboardScreen(
                 title = {
                     Text(
                         text = stringResource(Res.string.feature_offline_offline_Sync),
-                        style = MaterialTheme.typography.titleLarge
+                        style = KptTheme.typography.titleLarge,
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackPressed) {
                         Icon(
                             imageVector = MifosIcons.ArrowBack,
-                            contentDescription = "Navigate back"
+                            contentDescription = "Navigate back",
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
-                )
+                    containerColor = KptTheme.colorScheme.surface,
+                    titleContentColor = KptTheme.colorScheme.onSurface,
+                    navigationIconContentColor = KptTheme.colorScheme.onSurface,
+                ),
             )
-        }
+        },
 //        onBackPressed = onBackPressed,
 //        title = stringResource(Res.string.feature_offline_offline_Sync),
     ) {
@@ -206,21 +205,21 @@ private fun OfflineDashboardItemCard(
     OutlinedCard(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = KptTheme.spacing.md, vertical = KptTheme.spacing.sm),
         onClick = onClick,
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(KptTheme.spacing.md),
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = stringResource(paymentItem),
-                style = MaterialTheme.typography.bodyLarge,
+                style = KptTheme.typography.bodyLarge,
             )
 
             Text(
                 text = "$count",
-                style = MaterialTheme.typography.bodyLarge,
+                style = KptTheme.typography.bodyLarge,
             )
         }
     }

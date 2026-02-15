@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,8 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosProgressIndicator
@@ -45,6 +42,7 @@ import com.mifos.feature.client.clientProfile.components.ProfileCard
 import com.mifos.feature.client.clientProfile.components.clientsActionItems
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientProfileScreen(
@@ -143,15 +141,13 @@ private fun ClientProfileContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(
-                        horizontal = DesignToken.padding.large,
-                    ),
+                    .padding(horizontal = KptTheme.spacing.md),
             ) {
                 Text(
                     text = stringResource(Res.string.client_profile_profile),
-                    style = MifosTypography.labelLargeEmphasized,
+                    style = KptTheme.typography.titleMedium,
                 )
-                Spacer(Modifier.height(DesignToken.padding.medium))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 ProfileCard(
                     image = state.profileImage,
                     name = state.client?.displayName ?: stringResource(Res.string.name_na),
@@ -170,12 +166,12 @@ private fun ClientProfileContent(
                         )
                     },
                 )
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 Text(
                     text = stringResource(Res.string.client_profile_actions),
-                    style = MifosTypography.labelLargeEmphasized,
+                    style = KptTheme.typography.titleMedium,
                 )
-                Spacer(Modifier.height(DesignToken.padding.medium))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 clientsActionItems.forEach {
                     MifosRowCard(
                         title = stringResource(it.title),
@@ -183,8 +179,8 @@ private fun ClientProfileContent(
                         leftValues = listOf(
                             TextUtil(
                                 text = stringResource(it.subTitle),
-                                style = MifosTypography.bodySmall,
-                                color = MaterialTheme.colorScheme.secondary,
+                                style = KptTheme.typography.bodySmall,
+                                color = KptTheme.colorScheme.secondary,
                             ),
                         ),
                         rightValues = emptyList(),
@@ -192,7 +188,7 @@ private fun ClientProfileContent(
                             .clickable {
                                 onAction(ClientProfileAction.OnActionClick(it))
                             }
-                            .padding(vertical = DesignToken.padding.medium),
+                            .padding(vertical = KptTheme.spacing.md),
                     )
                 }
             }

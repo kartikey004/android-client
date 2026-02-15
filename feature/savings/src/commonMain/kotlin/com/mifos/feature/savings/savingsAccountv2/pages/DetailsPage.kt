@@ -42,12 +42,11 @@ import com.mifos.core.designsystem.component.MifosDatePickerTextField
 import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosTextFieldConfig
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.savings.savingsAccountv2.SavingsAccountAction
 import com.mifos.feature.savings.savingsAccountv2.SavingsAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -98,15 +97,16 @@ fun DetailsPage(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    Column(modifier = Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = stringResource(Res.string.step_details),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosTextFieldDropdown(
                 value = if (state.savingsProductSelected == -1) {
@@ -132,7 +132,7 @@ fun DetailsPage(
                 },
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
             MifosTextFieldDropdown(
                 value = if (state.fieldOfficerIndex == -1) {
                     ""
@@ -161,7 +161,7 @@ fun DetailsPage(
                     ),
                 ),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
         }
         MifosTwoButtonRow(
             firstBtnText = stringResource(Res.string.feature_savings_back),

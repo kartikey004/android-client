@@ -72,7 +72,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -86,8 +85,6 @@ import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosTextFieldConfig
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
 import com.mifos.core.designsystem.icon.MifosIcons
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosListingComponentOutline
 import com.mifos.core.ui.components.MifosListingRowItem
 import com.mifos.core.ui.components.MifosRowWithTextAndButton
@@ -95,6 +92,7 @@ import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountAction
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -179,16 +177,20 @@ fun TermsPage(
         }
     }
 
-    Column(Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    // PADDING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+    Column(Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = stringResource(Res.string.terms),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.principalAmount,
@@ -202,14 +204,18 @@ fun TermsPage(
                     ),
                 ),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             Text(
                 text = stringResource(Res.string.term_options),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = (state.noOfRepayments * state.repaidEvery).toString(),
@@ -220,7 +226,8 @@ fun TermsPage(
                     enabled = false,
                 ),
             )
-            Spacer(Modifier.height(DesignToken.padding.medium))
+            // SPACING: Replaced DesignToken.padding.medium with KptTheme.spacing.md
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             MifosTextFieldDropdown(
                 value = if (state.termFrequencyIndex == -1) {
@@ -240,10 +247,13 @@ fun TermsPage(
 
             Text(
                 text = stringResource(Res.string.repayments),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.noOfRepayments.toString(),
@@ -252,7 +262,8 @@ fun TermsPage(
                 },
                 label = stringResource(Res.string.number_of_repayments),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
             MifosDatePickerTextField(
                 value = state.firstRepaymentDate,
                 label = stringResource(Res.string.first_repayment_date),
@@ -260,7 +271,8 @@ fun TermsPage(
                     onAction(NewLoanAccountAction.OnFirstRepaymentDatePick(true))
                 },
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
             MifosDatePickerTextField(
                 value = state.interestChargedFromDate,
                 label = stringResource(Res.string.interest_charged_from),
@@ -269,14 +281,18 @@ fun TermsPage(
                 },
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             Text(
                 text = stringResource(Res.string.repaid_every),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.repaidEvery.toString(),
@@ -286,7 +302,8 @@ fun TermsPage(
                 label = stringResource(Res.string.repaid_every_label),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.medium))
+            // SPACING: Replaced DesignToken.padding.medium with KptTheme.spacing.md
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             MifosTextFieldDropdown(
                 value = if (state.termFrequencyIndex == -1) {
@@ -344,14 +361,18 @@ fun TermsPage(
                     label = stringResource(Res.string.select_day),
                 )
 
-                Spacer(Modifier.height(DesignToken.padding.large))
+                // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+                Spacer(Modifier.height(KptTheme.spacing.lg))
             }
             Text(
                 text = stringResource(Res.string.nominal_interest_rate),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.nominalInterestRate,
@@ -370,7 +391,8 @@ fun TermsPage(
                 ),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.medium))
+            // SPACING: Replaced DesignToken.padding.medium with KptTheme.spacing.md
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             MifosTextFieldDropdown(
                 value = if (state.nominalFrequencyIndex == -1) {
@@ -436,28 +458,36 @@ fun TermsPage(
                 )
                 Text(
                     text = stringResource(Res.string.is_equal_amortization),
-                    style = MifosTypography.labelLarge,
+                    // TYPOGRAPHY: Mapped to KptTheme
+                    style = KptTheme.typography.labelLarge,
+                    color = KptTheme.colorScheme.onSurface,
                 )
             }
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             Text(
                 text = stringResource(Res.string.loan_schedule),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosListingComponentOutline {
                 MifosListingRowItem(
                     key = stringResource(Res.string.loan_schedule_type),
-                    keyStyle = MifosTypography.labelMediumEmphasized,
+                    // TYPOGRAPHY: Mapped to KptTheme
+                    keyStyle = KptTheme.typography.labelMedium,
                     value = state.loanTemplate?.loanScheduleType?.value ?: "",
                 )
             }
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosTextFieldDropdown(
                 value = if (state.repaymentStrategyIndex == -1) {
@@ -493,14 +523,18 @@ fun TermsPage(
                 ),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             Text(
                 text = stringResource(Res.string.interest_calculations),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosTextFieldDropdown(
                 value = if (state.interestCalculationPeriodIndex == -1) {
@@ -534,7 +568,9 @@ fun TermsPage(
                 )
                 Text(
                     text = stringResource(Res.string.calculate_interest_partial),
-                    style = MifosTypography.labelLarge,
+                    // TYPOGRAPHY: Mapped to KptTheme
+                    style = KptTheme.typography.labelLarge,
+                    color = KptTheme.colorScheme.onSurface,
                 )
             }
 
@@ -551,7 +587,8 @@ fun TermsPage(
                 ),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.interestFreePeriod.toString(),
@@ -566,14 +603,18 @@ fun TermsPage(
                 ),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             Text(
                 text = stringResource(Res.string.moratorium),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.moratoriumGraceOnPrincipalPayment.toString(),
@@ -592,7 +633,8 @@ fun TermsPage(
                 ),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.moratoriumGraceOnInterestPayment.toString(),
@@ -611,7 +653,8 @@ fun TermsPage(
                 ),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosOutlinedTextField(
                 value = state.moratoriumOnArrearsAgeing.toString(),
@@ -630,12 +673,14 @@ fun TermsPage(
                 ),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosListingComponentOutline {
                 MifosListingRowItem(
                     key = stringResource(Res.string.recalculate_interest),
-                    keyStyle = MifosTypography.labelMediumEmphasized,
+                    // TYPOGRAPHY: Mapped to KptTheme
+                    keyStyle = KptTheme.typography.labelMedium,
                     value = if (state.loanTemplate?.isInterestRecalculationEnabled ?: false) {
                         stringResource(Res.string.yes)
                     } else {
@@ -644,14 +689,17 @@ fun TermsPage(
                 )
             }
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
                     text = stringResource(Res.string.collateral_data),
-                    style = MifosTypography.labelLargeEmphasized,
+                    // TYPOGRAPHY: Mapped to KptTheme
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
                 )
                 Row(
                     Modifier.clickable {
@@ -662,19 +710,24 @@ fun TermsPage(
                     Icon(
                         imageVector = MifosIcons.Add,
                         contentDescription = "",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(DesignToken.sizes.iconSmall),
+                        // COLOR: Updated to KptTheme.colorScheme.primary
+                        tint = KptTheme.colorScheme.primary,
+                        // SIZE: Replaced DesignToken.sizes.iconSmall with KptTheme.spacing.md
+                        modifier = Modifier.size(KptTheme.spacing.md),
                     )
 
                     Text(
                         text = stringResource(Res.string.add_new),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MifosTypography.labelLargeEmphasized,
+                        // COLOR: Updated to KptTheme.colorScheme.primary
+                        color = KptTheme.colorScheme.primary,
+                        // TYPOGRAPHY: Mapped to KptTheme
+                        style = KptTheme.typography.titleMedium,
                     )
                 }
             }
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosRowWithTextAndButton(
                 onBtnClick = {
@@ -684,7 +737,8 @@ fun TermsPage(
                 text = stringResource(Res.string.collateral_count, state.addedCollaterals.size),
                 btnEnabled = state.addedCollaterals.isNotEmpty(),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
         }
         MifosTwoButtonRow(
             firstBtnText = stringResource(Res.string.back),

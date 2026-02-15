@@ -39,18 +39,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
@@ -58,7 +59,6 @@ import com.mifos.core.designsystem.component.MifosCard
 import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosAlertDialog
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
@@ -71,6 +71,7 @@ import com.mifos.core.ui.util.EventsEffect
 import com.mifos.feature.client.utils.PdfPreview
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientIdentifiersAddUpdateScreen(
@@ -137,7 +138,7 @@ private fun ClientIdentifiersAddUpdateDialog(
                 )
             } else {
                 MifosErrorComponent(
-                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                    modifier = Modifier.background(KptTheme.colorScheme.background),
                     message = state.dialogState.message,
                     isRetryEnabled = true,
                     onRetry = {
@@ -192,7 +193,7 @@ internal fun ClientIdentifiersAddUpdateContent(
 
         Column(
             modifier = Modifier.fillMaxSize().padding(
-                horizontal = DesignToken.padding.large,
+                horizontal = KptTheme.spacing.md,
             ),
         ) {
             if (state.feature != Feature.VIEW_DOCUMENT) {
@@ -204,17 +205,18 @@ internal fun ClientIdentifiersAddUpdateContent(
 
                         else -> stringResource(Res.string.add_document_title)
                     },
-                    style = MifosTypography.titleMedium,
+                    style = KptTheme.typography.titleMedium,
                 )
             }
 
-            Spacer(Modifier.height(DesignToken.spacing.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             when (state.feature) {
                 Feature.ADD_IDENTIFIER -> {
                     ClientIdentifiersAddIdentifier(
                         state = state,
                         onAction = onAction,
+                        modifier = Modifier.weight(1f),
                     )
                 }
 
@@ -222,6 +224,7 @@ internal fun ClientIdentifiersAddUpdateContent(
                     ClientIdentifiersAddUpdateDocument(
                         state = state,
                         onAction = onAction,
+                        modifier = Modifier.weight(1f),
                     )
                 }
 
@@ -229,6 +232,7 @@ internal fun ClientIdentifiersAddUpdateContent(
                     ClientIdentifiersDocumentPreview(
                         state = state,
                         onAction = onAction,
+                        modifier = Modifier.weight(1f),
                     )
                 }
             }
@@ -240,113 +244,135 @@ internal fun ClientIdentifiersAddUpdateContent(
 private fun ClientIdentifiersAddIdentifier(
     state: ClientIdentifiersAddUpdateState,
     onAction: (ClientIdentifiersAddUpdateAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    MifosTextFieldDropdown(
-        value = state.documentType ?: "",
-        onValueChanged = {},
-        onOptionSelected = { index, value ->
-            onAction(ClientIdentifiersAddUpdateAction.OnDocumentTypeChange(index))
-        },
-        options = state.identifierTemplate?.map {
-            it.name ?: ""
-        } ?: emptyList(),
-        label = stringResource(Res.string.client_identifier_document_type),
-    )
+    Column(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            MifosTextFieldDropdown(
+                value = state.documentType ?: "",
+                onValueChanged = {},
+                onOptionSelected = { index, value ->
+                    onAction(ClientIdentifiersAddUpdateAction.OnDocumentTypeChange(index))
+                },
+                options = state.identifierTemplate?.map {
+                    it.name ?: ""
+                } ?: emptyList(),
+                label = stringResource(Res.string.client_identifier_document_type),
+            )
 
-    MifosTextFieldDropdown(
-        value = state.status ?: "",
-        onValueChanged = {},
-        onOptionSelected = { index, value ->
-            onAction(ClientIdentifiersAddUpdateAction.OnStatusChange(index))
-        },
-        options = state.statusList.map {
-            it
-        },
-        label = stringResource(Res.string.client_identifier_status),
-    )
+            MifosTextFieldDropdown(
+                value = state.status ?: "",
+                onValueChanged = {},
+                onOptionSelected = { index, value ->
+                    onAction(ClientIdentifiersAddUpdateAction.OnStatusChange(index))
+                },
+                options = state.statusList.map {
+                    it
+                },
+                label = stringResource(Res.string.client_identifier_status),
+            )
 
-    MifosOutlinedTextField(
-        value = state.documentKey ?: "",
-        onValueChange = {
-            onAction(ClientIdentifiersAddUpdateAction.OnDocumentKeyChange(it))
-        },
-        label = stringResource(Res.string.client_identifier_document_key),
-    )
+            MifosOutlinedTextField(
+                value = state.documentKey ?: "",
+                onValueChange = {
+                    onAction(ClientIdentifiersAddUpdateAction.OnDocumentKeyChange(it))
+                },
+                label = stringResource(Res.string.client_identifier_document_key),
+            )
 
-    Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
-    MifosOutlinedTextField(
-        value = state.description ?: "",
-        onValueChange = {
-            onAction(ClientIdentifiersAddUpdateAction.OnDescriptionChange(it))
-        },
-        label = stringResource(Res.string.client_identifier_description),
-    )
+            MifosOutlinedTextField(
+                value = state.description ?: "",
+                onValueChange = {
+                    onAction(ClientIdentifiersAddUpdateAction.OnDescriptionChange(it))
+                },
+                label = stringResource(Res.string.client_identifier_description),
+            )
+        }
 
-    Spacer(Modifier.height(DesignToken.spacing.largeIncreased))
-
-    MifosTwoButtonRow(
-        firstBtnText = stringResource(Res.string.client_identifier_btn_back),
-        secondBtnText = stringResource(Res.string.client_identifier_btn_next),
-        onFirstBtnClick = {
-            onAction(ClientIdentifiersAddUpdateAction.NavigateBack)
-        },
-        onSecondBtnClick = {
-            onAction(ClientIdentifiersAddUpdateAction.OnCreateClientIdentifier)
-        },
-        isSecondButtonEnabled = !state.documentKey.isNullOrEmpty() && !state.documentType.isNullOrEmpty() && !state.status.isNullOrEmpty(),
-    )
+        Column(modifier = Modifier.fillMaxWidth().padding(vertical = KptTheme.spacing.md)) {
+            MifosTwoButtonRow(
+                firstBtnText = stringResource(Res.string.client_identifier_btn_back),
+                secondBtnText = stringResource(Res.string.client_identifier_btn_next),
+                onFirstBtnClick = {
+                    onAction(ClientIdentifiersAddUpdateAction.NavigateBack)
+                },
+                onSecondBtnClick = {
+                    onAction(ClientIdentifiersAddUpdateAction.OnCreateClientIdentifier)
+                },
+                isSecondButtonEnabled = !state.documentKey.isNullOrEmpty() && !state.documentType.isNullOrEmpty() && !state.status.isNullOrEmpty(),
+            )
+        }
+    }
 }
 
 @Composable
 private fun ClientIdentifiersAddUpdateDocument(
     state: ClientIdentifiersAddUpdateState,
     onAction: (ClientIdentifiersAddUpdateAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    MifosOutlinedTextField(
-        value = state.documentName ?: "",
-        onValueChange = {
-            onAction(ClientIdentifiersAddUpdateAction.OnDocumentNameChange(it))
-        },
-        label = stringResource(Res.string.client_identifier_document_name),
-    )
-
-    Spacer(Modifier.height(DesignToken.padding.large))
-
-    MifosRowWithTextAndButton(
-        text = state.imageFileName ?: stringResource(Res.string.client_identifier_no_file_selected),
-        onBtnClick = {
-            if (state.imageFileName == null) {
-                onAction(ClientIdentifiersAddUpdateAction.OnShowBottomSheet)
-            } else {
-                onAction(ClientIdentifiersAddUpdateAction.OnOpenPreview)
-            }
-        },
-        btnText = if (state.imageFileName == null) {
-            stringResource(Res.string.client_identifier_btn_add)
-        } else {
-            stringResource(
-                Res.string.client_identifier_btn_view,
+    Column(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            MifosOutlinedTextField(
+                value = state.documentName ?: "",
+                onValueChange = {
+                    onAction(ClientIdentifiersAddUpdateAction.OnDocumentNameChange(it))
+                },
+                label = stringResource(Res.string.client_identifier_document_name),
             )
-        },
-    )
 
-    Spacer(Modifier.height(DesignToken.spacing.largeIncreased))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
-    MifosTwoButtonRow(
-        firstBtnText = stringResource(Res.string.client_identifier_btn_back),
-        secondBtnText = when {
-            state.documentKey == null -> stringResource(Res.string.client_identifier_btn_update)
-            else -> stringResource(Res.string.client_identifier_btn_submit)
-        },
-        onFirstBtnClick = {
-            onAction(ClientIdentifiersAddUpdateAction.NavigateBack)
-        },
-        onSecondBtnClick = {
-            onAction(ClientIdentifiersAddUpdateAction.OnCreateDocument)
-        },
-        isSecondButtonEnabled = !state.imageFileName.isNullOrEmpty() && !state.documentName.isNullOrEmpty(),
-    )
+            MifosRowWithTextAndButton(
+                text = state.imageFileName ?: stringResource(Res.string.client_identifier_no_file_selected),
+                onBtnClick = {
+                    if (state.imageFileName == null) {
+                        onAction(ClientIdentifiersAddUpdateAction.OnShowBottomSheet)
+                    } else {
+                        onAction(ClientIdentifiersAddUpdateAction.OnOpenPreview)
+                    }
+                },
+                btnText = if (state.imageFileName == null) {
+                    stringResource(Res.string.client_identifier_btn_add)
+                } else {
+                    stringResource(
+                        Res.string.client_identifier_btn_view,
+                    )
+                },
+            )
+        }
+
+        Column(modifier = Modifier.fillMaxWidth().padding(vertical = KptTheme.spacing.md)) {
+            MifosTwoButtonRow(
+                firstBtnText = stringResource(Res.string.client_identifier_btn_back),
+                secondBtnText = when {
+                    state.documentKey == null -> stringResource(Res.string.client_identifier_btn_update)
+                    else -> stringResource(Res.string.client_identifier_btn_submit)
+                },
+                onFirstBtnClick = {
+                    onAction(ClientIdentifiersAddUpdateAction.NavigateBack)
+                },
+                onSecondBtnClick = {
+                    onAction(ClientIdentifiersAddUpdateAction.OnCreateDocument)
+                },
+                isSecondButtonEnabled = !state.imageFileName.isNullOrEmpty() && !state.documentName.isNullOrEmpty(),
+            )
+        }
+    }
 }
 
 @Composable
@@ -356,59 +382,63 @@ private fun ClientIdentifiersDocumentPreview(
     onAction: (ClientIdentifiersAddUpdateAction) -> Unit,
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        MifosCard(
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
-            elevation = 0.dp,
-            borderStroke = BorderStroke(1.dp, MaterialTheme.colorScheme.secondaryContainer),
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Box(
-                modifier = Modifier.aspectRatio(0.707f, true),
-                contentAlignment = Alignment.Center,
+            MifosCard(
+                colors = CardDefaults.cardColors(containerColor = KptTheme.colorScheme.onPrimary),
+                borderStroke = BorderStroke(DesignToken.spacing.dp1, KptTheme.colorScheme.secondaryContainer),
             ) {
-                if (state.fileExtension == "pdf") {
-                    PdfPreview(state.documentImageFile!!, Modifier.matchParentSize())
-                } else {
-                    AsyncImage(
-                        model = state.documentImageFile,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize().align(Alignment.Center),
-                    )
+                Box(
+                    modifier = Modifier.aspectRatio(0.707f, true),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (state.fileExtension == "pdf") {
+                        PdfPreview(state.documentImageFile!!, Modifier.matchParentSize())
+                    } else {
+                        AsyncImage(
+                            model = state.documentImageFile,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize().align(Alignment.Center),
+                        )
+                    }
                 }
             }
         }
 
-        Spacer(Modifier.height(DesignToken.spacing.largeIncreased))
-
-        MifosTwoButtonRow(
-            firstBtnText = stringResource(Res.string.client_identifier_btn_back),
-            secondBtnText = if (state.previewButtonHandle == PreviewButtonHandle.UploadNew) {
-                stringResource(
-                    Res.string.client_identifier_btn_upload_new,
-                )
-            } else {
-                stringResource(
-                    Res.string.client_identifier_btn_submit,
-                )
-            },
-            onFirstBtnClick = {
-                if (state.previewButtonHandle == PreviewButtonHandle.Hide) {
-                    onAction(ClientIdentifiersAddUpdateAction.NavigateBack)
+        Column(modifier = Modifier.fillMaxWidth().padding(vertical = KptTheme.spacing.md)) {
+            MifosTwoButtonRow(
+                firstBtnText = stringResource(Res.string.client_identifier_btn_back),
+                secondBtnText = if (state.previewButtonHandle == PreviewButtonHandle.UploadNew) {
+                    stringResource(
+                        Res.string.client_identifier_btn_upload_new,
+                    )
                 } else {
-                    onAction(ClientIdentifiersAddUpdateAction.OnClosePreview)
-                }
-            },
-            onSecondBtnClick = {
-                if (state.previewButtonHandle == PreviewButtonHandle.UploadNew) {
-                    onAction(ClientIdentifiersAddUpdateAction.OnShowBottomSheet)
-                } else {
-                    onAction(ClientIdentifiersAddUpdateAction.OnClosePreview)
-                }
-            },
-            isSecondButtonEnabled = state.previewButtonHandle != PreviewButtonHandle.Hide,
-            isButtonIconVisible = false,
-        )
+                    stringResource(
+                        Res.string.client_identifier_btn_submit,
+                    )
+                },
+                onFirstBtnClick = {
+                    if (state.previewButtonHandle == PreviewButtonHandle.Hide) {
+                        onAction(ClientIdentifiersAddUpdateAction.NavigateBack)
+                    } else {
+                        onAction(ClientIdentifiersAddUpdateAction.OnClosePreview)
+                    }
+                },
+                onSecondBtnClick = {
+                    if (state.previewButtonHandle == PreviewButtonHandle.UploadNew) {
+                        onAction(ClientIdentifiersAddUpdateAction.OnShowBottomSheet)
+                    } else {
+                        onAction(ClientIdentifiersAddUpdateAction.OnClosePreview)
+                    }
+                },
+                isSecondButtonEnabled = state.previewButtonHandle != PreviewButtonHandle.Hide,
+                isButtonIconVisible = false,
+            )
+        }
     }
 }

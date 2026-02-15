@@ -33,14 +33,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -59,8 +57,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.common.utils.DateHelper
@@ -69,6 +65,7 @@ import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosSweetError
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
 import com.mifos.core.designsystem.icon.MifosIcons
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.model.objects.payloads.ChargesPayload
 import com.mifos.core.ui.components.MifosProgressIndicator
 import com.mifos.room.entities.client.ChargesEntity
@@ -78,6 +75,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -169,8 +167,8 @@ internal fun LoanChargeDialogScreen(
         onDismissRequest = { onDismiss() },
     ) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = Color.White,
+            shape = KptTheme.shapes.medium,
+            color = KptTheme.colorScheme.surface,
         ) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -184,25 +182,25 @@ internal fun LoanChargeDialogScreen(
                             )
                         }
 
-                        Column(modifier = Modifier.padding(20.dp)) {
+                        Column(modifier = Modifier.padding(KptTheme.spacing.lg)) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(bottom = 16.dp),
+                                    .padding(bottom = KptTheme.spacing.md),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
                                     text = stringResource(Res.string.feature_loan_charge_dialog),
-                                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                    style = KptTheme.typography.titleLarge,
                                 )
                                 IconButton(onClick = { onDismiss() }) {
                                     Icon(
                                         imageVector = MifosIcons.Close,
                                         contentDescription = "",
                                         modifier = Modifier
-                                            .width(30.dp)
-                                            .height(30.dp),
+                                            .width(KptTheme.spacing.xl)
+                                            .height(KptTheme.spacing.xl),
                                     )
                                 }
                             }
@@ -251,6 +249,8 @@ internal fun LoanChargeDialogScreen(
                                 },
                             )
 
+                            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
+
                             MifosDatePickerTextField(
                                 value = DateHelper.getDateAsStringFromLong(
                                     dueDate,
@@ -261,6 +261,8 @@ internal fun LoanChargeDialogScreen(
                                 },
                             )
 
+                            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
+
                             MifosOutlinedTextField(
                                 value = locale,
                                 onValueChange = {},
@@ -269,7 +271,7 @@ internal fun LoanChargeDialogScreen(
                                 readOnly = true,
                             )
 
-                            Spacer(modifier = Modifier.height(16.dp))
+                            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
                             Button(
                                 onClick = {
@@ -288,7 +290,7 @@ internal fun LoanChargeDialogScreen(
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(50.dp),
+                                    .height(DesignToken.spacing.dp52),
                             ) {
                                 Text(
                                     text = stringResource(
@@ -303,7 +305,7 @@ internal fun LoanChargeDialogScreen(
                     is LoanChargeDialogUiState.Error -> MifosSweetError(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(300.dp),
+                            .height(DesignToken.spacing.dp300),
                         message = stringResource(state.message),
                     ) {
                     }
@@ -311,7 +313,7 @@ internal fun LoanChargeDialogScreen(
                     is LoanChargeDialogUiState.Loading -> MifosProgressIndicator(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(300.dp),
+                            .heightIn(DesignToken.spacing.dp300),
                     )
 
                     is LoanChargeDialogUiState.LoanChargesCreatedSuccessfully -> {

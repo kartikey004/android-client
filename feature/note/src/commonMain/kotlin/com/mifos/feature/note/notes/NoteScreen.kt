@@ -32,7 +32,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -49,7 +48,6 @@ import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.model.objects.notes.Note
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.MifosActionsNoteListingComponent
@@ -65,6 +63,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -189,8 +188,8 @@ private fun NoteContent(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = DesignToken.spacing.large)
-            .padding(bottom = DesignToken.spacing.large),
+            .padding(horizontal = KptTheme.spacing.lg)
+            .padding(bottom = KptTheme.spacing.lg),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -200,14 +199,14 @@ private fun NoteContent(
             Column {
                 Text(
                     text = stringResource(Res.string.feature_note_notes),
-                    style = MifosTypography.titleMediumEmphasized,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
                 )
 
                 Text(
                     text = "${state.notes.size} ${stringResource(Res.string.feature_note_item)}",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.secondary,
+                    style = KptTheme.typography.labelMedium,
+                    color = KptTheme.colorScheme.secondary,
                 )
             }
 
@@ -220,7 +219,7 @@ private fun NoteContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(DesignToken.spacing.large))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
 
         if (state.notes.isEmpty()) {
             MifosEmptyCard(
@@ -228,7 +227,7 @@ private fun NoteContent(
             )
         } else {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(DesignToken.spacing.small),
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
             ) {
                 items(state.notes.reversed()) { note ->
 

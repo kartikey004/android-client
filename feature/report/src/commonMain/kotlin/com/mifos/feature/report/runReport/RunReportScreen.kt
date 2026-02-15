@@ -53,18 +53,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.designsystem.component.MifosMenuDropDownItem
 import com.mifos.core.designsystem.component.MifosSweetError
 import com.mifos.core.designsystem.icon.MifosIcons
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.model.objects.runreport.client.ClientReportTypeItem
 import com.mifos.core.ui.components.MifosProgressIndicator
 import org.jetbrains.compose.resources.painterResource
@@ -73,6 +67,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun RunReportScreen(
@@ -139,7 +134,7 @@ internal fun RunReportScreen(
                     }
                 },
                 title = {},
-                actions =  {
+                actions = {
                     Row(
                         modifier = Modifier.clickable {
                             showMenu = showMenu.not()
@@ -148,21 +143,18 @@ internal fun RunReportScreen(
                     ) {
                         Text(
                             text = menuTitle,
-                            style = TextStyle(
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Medium,
-                                fontStyle = FontStyle.Normal,
-                            ),
+                            style = KptTheme.typography.titleMedium,
+                            color = KptTheme.colorScheme.onSurface,
                             textAlign = TextAlign.Start,
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
                         Icon(
                             imageVector = if (showMenu) MifosIcons.ArrowUp else MifosIcons.ArrowDown,
                             contentDescription = null,
                         )
                     }
                     DropdownMenu(
-                        modifier = Modifier.background(White),
+                        modifier = Modifier.background(KptTheme.colorScheme.surface),
                         expanded = showMenu,
                         onDismissRequest = { showMenu = false },
                     ) {
@@ -267,7 +259,7 @@ private fun RunReportCardItem(
 ) {
     OutlinedCard(
         modifier = modifier
-            .padding(8.dp)
+            .padding(KptTheme.spacing.sm)
             .clickable {
                 onReportClick(report)
             },
@@ -275,58 +267,48 @@ private fun RunReportCardItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    16.dp,
-                ),
+                .padding(KptTheme.spacing.md),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .size(42.dp)
-                    .background(Blue, CircleShape),
+                    .size(DesignToken.sizes.dp42)
+                    .background(KptTheme.colorScheme.primaryContainer, CircleShape),
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.feature_report_ic_report_item),
                     contentDescription = null,
+                    tint = KptTheme.colorScheme.onPrimaryContainer,
                 )
             }
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 16.dp),
+                    .padding(start = KptTheme.spacing.md),
             ) {
                 report.reportName?.let {
                     Text(
                         text = it,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                        ),
+                        style = KptTheme.typography.bodyLarge,
+                        color = KptTheme.colorScheme.onSurface,
                     )
                 }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = KptTheme.spacing.sm),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         text = report.reportType.toString(),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                        ),
+                        style = KptTheme.typography.bodyMedium,
+                        color = KptTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
                         text = report.reportCategory.toString(),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                        ),
+                        style = KptTheme.typography.bodyMedium,
+                        color = KptTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }

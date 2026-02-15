@@ -19,11 +19,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,8 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.mifos.core.designsystem.icon.MifosIcons
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.room.entities.group.GroupEntity
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal expect fun GroupsListRoute(
@@ -56,29 +56,29 @@ fun GroupItem(
     onSelectItem: () -> Unit,
 ) {
     val borderStroke = if (doesSelected) {
-        BorderStroke(1.dp, Color.Blue)
+        BorderStroke(DesignToken.spacing.dp1, KptTheme.colorScheme.primary)
     } else {
         CardDefaults.outlinedCardBorder()
     }
     val containerColor = if (doesSelected) {
-        MaterialTheme.colorScheme.secondaryContainer
+        KptTheme.colorScheme.secondaryContainer
     } else {
         Color.Unspecified
     }
     // TODO: replace primary with Green after we define Theme colours of mockups
     val indicatorColor = if (group.active == true) {
-        MaterialTheme.colorScheme.primary
+        KptTheme.colorScheme.primary
     } else {
-        MaterialTheme.colorScheme.error
+        KptTheme.colorScheme.error
     }
 
     group.name?.let {
         OutlinedCard(
             modifier = modifier
                 .testTag(it)
-                .padding(8.dp)
+                .padding(KptTheme.spacing.sm)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
+                .clip(KptTheme.shapes.small)
                 .combinedClickable(
                     onClick = {
                         if (inSelectionMode) {
@@ -89,7 +89,7 @@ fun GroupItem(
                     },
                     onLongClick = onSelectItem,
                 ),
-            shape = RoundedCornerShape(8.dp),
+            shape = KptTheme.shapes.small,
             colors = CardDefaults.outlinedCardColors(
                 containerColor = containerColor,
             ),
@@ -98,7 +98,7 @@ fun GroupItem(
             ListItem(
                 leadingContent = {
                     Canvas(
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(KptTheme.spacing.md),
                         onDraw = {
                             drawCircle(
                                 color = indicatorColor,
@@ -107,28 +107,43 @@ fun GroupItem(
                     )
                 },
                 headlineContent = {
-                    Text(text = it)
+                    Text(
+                        text = it,
+                        style = KptTheme.typography.bodyLarge,
+                    )
                 },
                 supportingContent =
                 {
-                    Text(text = group.accountNo ?: "")
+                    Text(
+                        text = group.accountNo ?: "",
+                        style = KptTheme.typography.bodyMedium,
+                    )
                 },
                 overlineContent =
                 {
-                    Text(text = group.officeName ?: "")
+                    Text(
+                        text = group.officeName ?: "",
+                        style = KptTheme.typography.labelSmall,
+                    )
                 },
                 trailingContent = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        // SPACING: Replaced 4.dp with KptTheme.spacing.xs
+                        horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
                     ) {
                         if (group.sync) {
-                            Icon(imageVector = MifosIcons.DoneAll, contentDescription = "Sync")
+                            Icon(
+                                imageVector = MifosIcons.DoneAll,
+                                contentDescription = "Sync",
+                                tint = KptTheme.colorScheme.primary,
+                            )
                         }
 
                         Icon(
                             imageVector = MifosIcons.ArrowForward,
                             contentDescription = "Arrow Forward Icon",
+                            tint = KptTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 },

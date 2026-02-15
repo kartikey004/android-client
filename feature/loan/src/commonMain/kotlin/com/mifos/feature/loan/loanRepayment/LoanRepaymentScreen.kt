@@ -47,7 +47,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -64,10 +63,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.component.MifosDatePickerTextField
@@ -75,6 +71,7 @@ import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.MifosSweetError
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.ui.components.MifosProgressIndicator
 import com.mifos.room.entities.PaymentTypeOptionEntity
 import com.mifos.room.entities.accounts.loans.LoanRepaymentRequestEntity
@@ -87,6 +84,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -180,7 +178,7 @@ internal fun LoanRepaymentScreen(
                         title = {
                             Text(
                                 text = stringResource(Res.string.feature_loan_sync_previous_transaction),
-                                style = MaterialTheme.typography.titleLarge,
+                                style = KptTheme.typography.titleLarge,
                             )
                         },
                         text = { Text(text = stringResource(Res.string.feature_loan_dialog_message_sync_transaction)) },
@@ -288,18 +286,18 @@ private fun LoanRepaymentContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = KptTheme.spacing.md)
             .verticalScroll(scrollState),
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
         Text(
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground,
+            style = KptTheme.typography.bodyLarge,
+            color = KptTheme.colorScheme.onBackground,
             text = clientName,
         )
 
-        HorizontalDivider(modifier = Modifier.padding(top = 10.dp))
+        HorizontalDivider(modifier = Modifier.padding(top = KptTheme.spacing.sm))
 
         FarApartTextItem(title = loanProductName, value = loanId.toString())
         FarApartTextItem(
@@ -311,7 +309,7 @@ private fun LoanRepaymentContent(
             value = loanRepaymentTemplate.amount?.toString() ?: "",
         )
 
-        HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp))
+        HorizontalDivider(modifier = Modifier.padding(vertical = KptTheme.spacing.sm))
 
         MifosDatePickerTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -323,7 +321,7 @@ private fun LoanRepaymentContent(
             showDatePickerDialog = true
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
         MifosTextFieldDropdown(
             modifier = Modifier.fillMaxWidth(),
@@ -338,7 +336,7 @@ private fun LoanRepaymentContent(
             readOnly = true,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
         MifosOutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -351,7 +349,7 @@ private fun LoanRepaymentContent(
             keyboardType = KeyboardType.Number,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
         MifosOutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -364,7 +362,7 @@ private fun LoanRepaymentContent(
             keyboardType = KeyboardType.Number,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
         MifosOutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -377,7 +375,7 @@ private fun LoanRepaymentContent(
             keyboardType = KeyboardType.Number,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
         MifosOutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -391,8 +389,7 @@ private fun LoanRepaymentContent(
             error = null,
             readOnly = true,
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -400,7 +397,7 @@ private fun LoanRepaymentContent(
         ) {
             Button(
                 modifier = Modifier
-                    .heightIn(46.dp),
+                    .heightIn(DesignToken.spacing.dp46),
                 onClick = { navigateBack.invoke() },
             ) {
                 Text(text = stringResource(Res.string.feature_loan_cancel))
@@ -408,7 +405,7 @@ private fun LoanRepaymentContent(
 
             Button(
                 modifier = Modifier
-                    .heightIn(46.dp),
+                    .heightIn(DesignToken.spacing.dp46),
                 onClick = {
                     if (isAllFieldsValid(
                             amount = amount,
@@ -432,19 +429,19 @@ private fun FarApartTextItem(title: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp),
+            .padding(top = KptTheme.spacing.sm),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            style = MaterialTheme.typography.bodyLarge,
+            style = KptTheme.typography.bodyLarge,
             text = title,
-            color = Black,
+            color = KptTheme.colorScheme.onSurface,
         )
 
         Text(
-            style = MaterialTheme.typography.bodyLarge,
+            style = KptTheme.typography.bodyLarge,
             text = value,
-            color = DarkGray,
+            color = KptTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
@@ -494,7 +491,7 @@ private fun ShowLoanRepaymentConfirmationDialog(
         title = {
             Text(
                 text = stringResource(Res.string.feature_loan_review_payment),
-                style = MaterialTheme.typography.titleLarge,
+                style = KptTheme.typography.titleLarge,
             )
         },
         text = {

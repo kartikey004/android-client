@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,14 +43,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.MifosSweetError
@@ -65,6 +57,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun LoanChargeScreen(
@@ -182,11 +175,14 @@ private fun LoanChargeItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(0.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+            .padding(KptTheme.spacing.sm),
+        shape = KptTheme.shapes.small,
+        elevation = CardDefaults.cardElevation(defaultElevation = KptTheme.elevation.level1),
+        colors = CardDefaults.cardColors(
+            containerColor = KptTheme.colorScheme.surface,
+        ),
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
         MifosLoanChargeDetailsText(
             stringResource(Res.string.feature_loan_client_id),
             charges.chargeId.toString(),
@@ -203,7 +199,7 @@ private fun LoanChargeItem(
             stringResource(Res.string.feature_loan_charge_due_date),
             charges.formattedDueDate,
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
     }
 }
 
@@ -217,25 +213,17 @@ private fun MifosLoanChargeDetailsText(field: String, value: String) {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .padding(start = 16.dp),
+                .padding(start = KptTheme.spacing.md),
             text = field,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Normal,
-            ),
-            color = Black,
+            style = KptTheme.typography.bodyLarge,
+            color = KptTheme.colorScheme.onSurface,
             textAlign = TextAlign.Start,
         )
         Text(
             modifier = Modifier.weight(1f),
             text = value,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Normal,
-            ),
-            color = DarkGray,
+            style = KptTheme.typography.bodyLarge,
+            color = KptTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Start,
         )
     }

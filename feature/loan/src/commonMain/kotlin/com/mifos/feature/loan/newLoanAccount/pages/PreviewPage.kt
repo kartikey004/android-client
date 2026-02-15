@@ -61,16 +61,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.mifos.core.common.utils.CurrencyFormatter
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosDefaultListingComponentFromStringResources
 import com.mifos.core.ui.components.MifosRowWithTextAndButton
 import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountAction
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun PreviewPage(
@@ -78,17 +76,22 @@ fun PreviewPage(
     modifier: Modifier = Modifier,
     onAction: (NewLoanAccountAction) -> Unit,
 ) {
+    // PADDING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
     Column(
-        Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large),
+        Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg),
     ) {
         Column(
             modifier = modifier.weight(1f)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            // SPACING: Replaced 20.dp with KptTheme.spacing.lg
+            verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.lg),
         ) {
             Text(
                 text = stringResource(Res.string.step_details),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                // COLOR: Added for theme consistency
+                color = KptTheme.colorScheme.onSurface,
             )
             DetailsCard(
                 productName = state.productLoans[state.loanProductSelected].name.toString(),
@@ -114,7 +117,9 @@ fun PreviewPage(
 
             Text(
                 text = stringResource(Res.string.terms),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
             TermsCard(
                 principal = CurrencyFormatter.format(
@@ -162,7 +167,9 @@ fun PreviewPage(
 
             Text(
                 text = stringResource(Res.string.loan_new_loan_moratorium),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
             MoratoriumCard(
                 onPrincipalPayment = state.moratoriumGraceOnPrincipalPayment.toString(),
@@ -183,7 +190,9 @@ fun PreviewPage(
 
             Text(
                 text = stringResource(Res.string.loan_new_loan_charges),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
 
             MifosRowWithTextAndButton(
@@ -192,7 +201,8 @@ fun PreviewPage(
                 btnText = stringResource(Res.string.loan_new_loan_view),
                 modifier = Modifier.fillMaxWidth(),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
         }
         MifosTwoButtonRow(
             firstBtnText = stringResource(Res.string.back),
@@ -221,7 +231,8 @@ private fun MoratoriumCard(
             Res.string.loan_new_loan_recalculate_interest to recalculateInterest,
             Res.string.loan_new_loan_days_in_month to daysInMonth,
         ),
-        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+        // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
     )
 }
 
@@ -263,7 +274,8 @@ private fun TermsCard(
             Res.string.loan_new_loan_installment_amount to installmentAmount,
             Res.string.loan_new_loan_ballon_repayment_amount to ballonRepayment,
         ),
-        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+        // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
     )
 }
 
@@ -287,6 +299,7 @@ private fun DetailsCard(
             Res.string.loan_new_loan_loan_purpose to loadPurpose,
             Res.string.loan_new_loan_is_savings_linked to isSavingsLinked,
         ),
-        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+        // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
     )
 }

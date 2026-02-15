@@ -36,11 +36,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.MifosActionsLoanListingComponent
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
@@ -52,6 +49,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientLoanAccountsScreenRoute(
@@ -101,7 +99,7 @@ private fun ClientLoanAccountsScreen(
             false -> {
                 Column(
                     modifier = Modifier.fillMaxSize()
-                        .padding(horizontal = DesignToken.padding.large),
+                        .padding(horizontal = KptTheme.spacing.md),
                 ) {
                     ClientsAccountHeader(
                         totalItem = state.loanAccounts.size.toString(),
@@ -123,7 +121,7 @@ private fun ClientLoanAccountsScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(DesignToken.padding.large))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
                     if (state.loanAccounts.isEmpty()) {
                         MifosEmptyCard()
@@ -182,8 +180,7 @@ private fun ClientLoanAccountsScreen(
                                         }
                                     },
                                 )
-
-                                Spacer(modifier = Modifier.height(8.dp))
+                                Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
                             }
                         }
                     }
@@ -204,12 +201,12 @@ private fun ClientsAccountHeader(
         Column {
             Text(
                 text = stringResource(Res.string.feature_client_loan_account),
-                style = MifosTypography.titleMedium,
+                style = KptTheme.typography.titleMedium,
             )
 
             Text(
                 text = totalItem + " " + stringResource(Res.string.client_savings_item),
-                style = MifosTypography.labelMedium,
+                style = KptTheme.typography.labelMedium,
             )
         }
 

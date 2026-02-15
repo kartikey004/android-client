@@ -40,7 +40,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -58,7 +57,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.component.MifosBottomSheet
@@ -73,6 +71,7 @@ import com.mifos.room.entities.organisation.OfficeEntity
 import com.mifos.room.entities.organisation.StaffEntity
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -148,6 +147,7 @@ internal fun NewIndividualCollectionSheetScreen(
             showCollectionSheetDialog = true
         }
     }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -213,16 +213,19 @@ internal fun NewIndividualCollectionSheetScreen(
                     .verticalScroll(rememberScrollState()),
             ) {
                 Text(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(KptTheme.spacing.md),
                     text = stringResource(Res.string.feature_collection_sheet_generate_new),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = KptTheme.typography.titleLarge,
                 )
                 Text(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    modifier = Modifier.padding(
+                        start = KptTheme.spacing.md,
+                        end = KptTheme.spacing.md,
+                    ),
                     text = stringResource(Res.string.feature_collection_sheet_fill_collection_sheet_message),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = KptTheme.typography.bodyMedium,
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 MifosTextFieldDropdown(
                     value = selectedOffice,
                     onValueChanged = {
@@ -240,7 +243,7 @@ internal fun NewIndividualCollectionSheetScreen(
                     label = stringResource(Res.string.feature_collection_sheet_office),
                     options = state.officeList.map { it.name.toString() },
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
                 MifosDatePickerTextField(
                     value = DateHelper.getDateAsStringFromLong(repaymentDate),
                     label = stringResource(Res.string.feature_collection_sheet_repayment_date),
@@ -248,7 +251,7 @@ internal fun NewIndividualCollectionSheetScreen(
                         showDatePicker = true
                     },
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
                 MifosTextFieldDropdown(
                     value = selectedStaff,
                     onValueChanged = {
@@ -279,13 +282,13 @@ internal fun NewIndividualCollectionSheetScreen(
                         },
                         modifier = Modifier
                             .weight(1f)
-                            .padding(16.dp),
+                            .padding(KptTheme.spacing.md),
                         contentPadding = PaddingValues(),
                         enabled = selectedOffice != "",
                     ) {
                         Text(
                             text = stringResource(Res.string.feature_collection_sheet_generate),
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = KptTheme.typography.bodyLarge,
                         )
                     }
                     MifosButton(
@@ -297,12 +300,12 @@ internal fun NewIndividualCollectionSheetScreen(
                         },
                         modifier = Modifier
                             .weight(1f)
-                            .padding(16.dp),
+                            .padding(KptTheme.spacing.md),
                         contentPadding = PaddingValues(),
                     ) {
                         Text(
                             text = stringResource(Res.string.feature_collection_sheet_clear),
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = KptTheme.typography.bodyLarge,
                         )
                     }
                 }
@@ -325,61 +328,65 @@ private fun CollectionSheetDialogContent(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    .padding(
+                        start = KptTheme.spacing.md,
+                        end = KptTheme.spacing.md,
+                        bottom = KptTheme.spacing.md,
+                    ),
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
                     text = stringResource(Res.string.feature_collection_sheet_found_sheet),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = KptTheme.typography.titleLarge,
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 Text(
                     text = stringResource(Res.string.feature_collection_sheet_fill_collection_sheet_message),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = KptTheme.typography.bodyLarge,
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 Row {
                     Text(
                         text = stringResource(Res.string.feature_collection_sheet_date),
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = KptTheme.typography.bodyLarge,
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(KptTheme.spacing.md))
                     Text(
                         text = date,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = KptTheme.typography.bodyLarge,
                     )
                 }
 
                 Row {
                     Text(
                         text = stringResource(Res.string.feature_collection_sheet_member),
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = KptTheme.typography.bodyLarge,
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(KptTheme.spacing.md))
                     Text(
                         text = member,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = KptTheme.typography.bodyLarge,
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     MifosButton(
                         onClick = fillNow,
                     ) {
                         Text(
                             text = stringResource(Res.string.feature_collection_sheet_fill_now),
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = KptTheme.typography.bodyLarge,
                         )
                     }
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(KptTheme.spacing.md))
                     MifosButton(
                         onClick = onDismiss,
                     ) {
                         Text(
                             text = stringResource(Res.string.feature_collection_sheet_cancel),
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = KptTheme.typography.bodyLarge,
                         )
                     }
                 }

@@ -31,7 +31,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.SnackbarHostState
@@ -51,10 +50,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.icon.MifosIcons
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.model.objects.surveys.Scorecard
 import com.mifos.core.model.objects.surveys.ScorecardValues
 import com.mifos.core.ui.util.DevicePreview
@@ -67,6 +66,7 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun SurveyQuestionScreen(
@@ -230,11 +230,11 @@ private fun SurveyQuestionContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
+                .padding(KptTheme.spacing.lg),
         ) {
             Text(
                 text = questionData,
-                style = MaterialTheme.typography.bodyMedium,
+                style = KptTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.Start),
             )
@@ -253,7 +253,7 @@ private fun SurveyQuestionContent(
                 gotoNextQuestion.invoke(selectedOption)
             },
             modifier = Modifier
-                .width(160.dp)
+                .width(DesignToken.spacing.dp160)
                 .align(alignment = Alignment.CenterHorizontally),
         ) {
             Text(text = stringResource(Res.string.feature_client_next))
@@ -271,11 +271,11 @@ private fun RadioGroup(options: List<String>, selectedOptionIndex: Int, onOption
                 RadioButton(
                     selected = index == selectedOptionIndex,
                     onClick = { onOptionSelected(index) },
-                    colors = RadioButtonDefaults.colors(MaterialTheme.colorScheme.primary),
+                    colors = RadioButtonDefaults.colors(KptTheme.colorScheme.primary),
                 )
                 Text(
                     text = option,
-                    modifier = Modifier.padding(start = 4.dp),
+                    modifier = Modifier.padding(start = KptTheme.spacing.xs),
                 )
             }
         }
@@ -290,7 +290,7 @@ private fun SurveyQuestionTopBar(
     showSubmitScreen: Boolean,
 ) {
     TopAppBar(
-        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MaterialTheme.colorScheme.surface),
+        colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = KptTheme.colorScheme.surface),
         navigationIcon = {
             IconButton(
                 onClick = { onBackPressed() },
@@ -298,7 +298,7 @@ private fun SurveyQuestionTopBar(
                 Icon(
                     imageVector = MifosIcons.ArrowBack,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground,
+                    tint = KptTheme.colorScheme.onBackground,
                 )
             }
         },
@@ -306,15 +306,15 @@ private fun SurveyQuestionTopBar(
             Column {
                 Text(
                     text = stringResource(Res.string.feature_client_survey),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = KptTheme.typography.titleMedium,
                     textAlign = TextAlign.Start,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.xs))
 
                 if (!showSubmitScreen) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = KptTheme.typography.bodyLarge,
                         textAlign = TextAlign.Start,
                     )
                 }

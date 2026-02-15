@@ -50,7 +50,7 @@ fun NavGraphBuilder.individualCollectionSheetNavGraph(
             submit = navController::navigateToPaymentDetailsScreen,
         )
 
-        paymentDetailsScreen( onBackPressed = onBackPressed)
+        paymentDetailsScreen(onBackPressed = onBackPressed)
     }
 }
 
@@ -102,7 +102,7 @@ fun NavGraphBuilder.generateCollectionSheetScreen(
 
 // TODO:change while implementing screens because this is not primitive
 fun NavGraphBuilder.paymentDetailsScreen(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     composable(
         route = CollectionSheetScreens.PaymentDetailsScreen.route,
@@ -112,7 +112,7 @@ fun NavGraphBuilder.paymentDetailsScreen(
             },
         ),
     ) {
-        PaymentDetailsScreenRoute( onBackPressed = onBackPressed)
+        PaymentDetailsScreenRoute(onBackPressed = onBackPressed)
     }
 }
 

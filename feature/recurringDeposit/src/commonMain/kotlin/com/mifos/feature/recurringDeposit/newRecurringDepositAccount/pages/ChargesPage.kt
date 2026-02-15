@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,7 +45,6 @@ import androidx.compose.ui.Modifier
 import com.mifos.core.designsystem.component.MifosBottomSheet
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.AddChargeBottomSheet
 import com.mifos.core.ui.components.MifosActionsChargeListingComponent
@@ -56,6 +54,7 @@ import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountAction
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun ChargesPage(
@@ -63,44 +62,43 @@ fun ChargesPage(
     modifier: Modifier = Modifier,
     onAction: (RecurringAccountAction) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    Column(modifier = Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
-            Text(
-                stringResource(Res.string.feature_recurring_deposit_step_charges),
-                style = MifosTypography.labelLargeEmphasized,
-            )
-            Spacer(Modifier.height(DesignToken.padding.large))
             Row(
                 modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End,
             ) {
+                Text(
+                    text = stringResource(Res.string.feature_recurring_deposit_step_charges),
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
+                )
+
                 Row(
                     modifier = Modifier.clickable {
-                        onAction(
-                            RecurringAccountAction.ShowAddChargeDialog,
-                        )
+                        onAction(RecurringAccountAction.ShowAddChargeDialog)
                     },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         imageVector = MifosIcons.Add,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = KptTheme.colorScheme.primary,
                         modifier = Modifier.size(DesignToken.sizes.iconSmall),
                     )
 
                     Text(
                         text = stringResource(Res.string.feature_recurring_deposit_btn_add_new),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MifosTypography.labelLargeEmphasized,
+                        color = KptTheme.colorScheme.primary,
+                        style = KptTheme.typography.titleMedium,
                     )
                 }
             }
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosRowWithTextAndButton(
                 onBtnClick = {
@@ -112,7 +110,7 @@ fun ChargesPage(
                 text = state.addedCharges.size.toString() + " " + stringResource(Res.string.feature_recurring_deposit_active_charge),
                 btnEnabled = state.addedCharges.isNotEmpty(),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
         }
         MifosTwoButtonRow(
             firstBtnText = stringResource(Res.string.feature_recurring_deposit_back),
@@ -197,12 +195,12 @@ internal fun ShowChargesDialog(
         },
         content = {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(DesignToken.padding.large),
-                verticalArrangement = Arrangement.spacedBy(DesignToken.padding.largeIncreased),
+                modifier = Modifier.fillMaxWidth().padding(KptTheme.spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xl),
             ) {
                 Text(
                     text = stringResource(Res.string.feature_recurring_deposit_view_charge),
-                    style = MifosTypography.titleMediumEmphasized,
+                    style = KptTheme.typography.titleMedium,
                 )
 
                 if (state.addedCharges.isNotEmpty()) {

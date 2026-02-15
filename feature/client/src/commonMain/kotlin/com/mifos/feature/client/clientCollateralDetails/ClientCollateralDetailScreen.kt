@@ -27,8 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.network.model.CollateralItemResult
 import com.mifos.core.ui.components.MifosActionsCollateralDataListingComponent
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
@@ -37,6 +35,7 @@ import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosProgressIndicator
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientCollateralDetailScreen(
@@ -68,7 +67,7 @@ internal fun ClientCollateralDetailScreenContent(
 
         when (state.state) {
             ClientCollateralDetailsState.State.Empty -> {
-                MifosEmptyCard(modifier = Modifier.padding(horizontal = DesignToken.padding.large))
+                MifosEmptyCard(modifier = Modifier.padding(horizontal = KptTheme.spacing.lg))
             }
 
             is ClientCollateralDetailsState.State.Error -> {
@@ -90,14 +89,14 @@ internal fun ClientCollateralDetailScreenContent(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = DesignToken.padding.large),
+                        .padding(horizontal = KptTheme.spacing.lg),
                 ) {
                     CollateralDetailsScreenHeader(state.collaterals.size.toString())
 
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()
-                            .padding(top = DesignToken.padding.large),
-                        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+                            .padding(top = KptTheme.spacing.lg),
+                        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
                     ) {
                         items(
                             items = state.collaterals,
@@ -122,12 +121,12 @@ private fun CollateralDetailsScreenHeader(
         Column {
             Text(
                 text = stringResource(Res.string.client_profile_general_action_title_collateral_data),
-                style = MifosTypography.titleMedium,
+                style = KptTheme.typography.titleMedium,
             )
 
             Text(
                 text = totalItem + " " + stringResource(Res.string.client_savings_item),
-                style = MifosTypography.labelMedium,
+                style = KptTheme.typography.labelMedium,
             )
         }
     }

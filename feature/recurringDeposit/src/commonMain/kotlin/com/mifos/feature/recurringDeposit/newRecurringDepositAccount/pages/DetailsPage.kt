@@ -42,12 +42,11 @@ import com.mifos.core.designsystem.component.MifosDatePickerTextField
 import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosTextFieldConfig
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountAction
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -110,15 +109,19 @@ fun DetailsPage(
         }
     }
 
-    Column(Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    // PADDING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+    Column(Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = stringResource(Res.string.feature_recurring_deposit_step_details),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
             MifosTextFieldDropdown(
                 value = if (state.recurringDepositAccountDetail.loanProductSelected == -1) {
                     ""
@@ -154,7 +157,8 @@ fun DetailsPage(
                     },
                 )
 
-                Spacer(Modifier.height(DesignToken.padding.large))
+                // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+                Spacer(Modifier.height(KptTheme.spacing.lg))
                 MifosTextFieldDropdown(
                     value = if (state.recurringDepositAccountDetail.fieldOfficerIndex == -1) {
                         ""
@@ -193,7 +197,7 @@ fun DetailsPage(
                         ),
                     ),
                 )
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
             }
         }
 
@@ -202,7 +206,7 @@ fun DetailsPage(
             secondBtnText = stringResource(Res.string.feature_recurring_deposit_next),
             onFirstBtnClick = { onAction(RecurringAccountAction.NavigateBack) },
             onSecondBtnClick = { onAction(RecurringAccountAction.RecurringAccountDetailsAction.OnDetailNext) },
-            modifier = Modifier.padding(top = DesignToken.padding.small),
+            modifier = Modifier.padding(top = KptTheme.spacing.sm),
         )
     }
 }

@@ -45,13 +45,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosTextFieldConfig
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosCheckBox
 import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.client.newFixedDepositAccount.NewFixedDepositAccountAction
 import com.mifos.feature.client.newFixedDepositAccount.NewFixedDepositAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun SettingPage(
@@ -59,15 +58,15 @@ fun SettingPage(
     modifier: Modifier = Modifier,
     onAction: (NewFixedDepositAccountAction) -> Unit,
 ) {
-    Column(Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    Column(Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.md)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 stringResource(Res.string.feature_fixed_deposit_setting_lock_in_period),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             MifosOutlinedTextField(
                 value = state.lockInPeriodFrequency,
@@ -82,7 +81,7 @@ fun SettingPage(
                     ),
                 ),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
             MifosTextFieldDropdown(
                 value = if (state.lockInPeriodTypeIndex != -1) {
                     state.template.lockinPeriodFrequencyTypeOptions?.get(state.lockInPeriodTypeIndex)?.value.orEmpty()
@@ -100,13 +99,13 @@ fun SettingPage(
                 },
                 label = stringResource(Res.string.feature_fixed_deposit_setting_type),
             )
-            Spacer(Modifier.height(DesignToken.padding.small))
+            Spacer(Modifier.height(KptTheme.spacing.sm))
 
             Text(
                 stringResource(Res.string.feature_fixed_deposit_setting_minimum_deposit_term),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             MifosOutlinedTextField(
                 value = state.minimumDispositTermFrequency,
@@ -123,7 +122,7 @@ fun SettingPage(
                     ),
                 ),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
             MifosTextFieldDropdown(
                 value = if (state.minimumDispositTermTypeIndex != -1) {
                     state.template.periodFrequencyTypeOptions?.get(state.minimumDispositTermTypeIndex)?.value.orEmpty()
@@ -142,9 +141,9 @@ fun SettingPage(
 
             Text(
                 stringResource(Res.string.feature_fixed_deposit_setting_thereafter_in_multiples),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             MifosOutlinedTextField(
                 value = state.multiplesFrequency,
@@ -159,7 +158,7 @@ fun SettingPage(
                     ),
                 ),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
             MifosTextFieldDropdown(
                 value = if (state.multiplesTypeIndex != -1) {
                     state.template.periodFrequencyTypeOptions?.get(state.multiplesTypeIndex)?.value.orEmpty()
@@ -180,9 +179,9 @@ fun SettingPage(
 
             Text(
                 stringResource(Res.string.feature_fixed_deposit_setting_maximum_deposit_term),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             MifosOutlinedTextField(
                 value = state.maximumDispositFrequency,
@@ -198,7 +197,7 @@ fun SettingPage(
                 ),
                 modifier = Modifier.fillMaxWidth(),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
             MifosTextFieldDropdown(
                 value = if (state.maximumDispositTypeIndex != -1) {
                     state.template.periodFrequencyTypeOptions?.get(state.maximumDispositTypeIndex)?.value.orEmpty()
@@ -216,13 +215,13 @@ fun SettingPage(
                 },
                 label = stringResource(Res.string.feature_fixed_deposit_setting_type),
             )
-            Spacer(Modifier.height(DesignToken.padding.small))
+            Spacer(Modifier.height(KptTheme.spacing.sm))
 
             Text(
                 stringResource(Res.string.feature_fixed_deposit_setting_interest_transfer),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
             MifosCheckBox(
                 text = stringResource(Res.string.feature_fixed_deposit_setting_linked_saving_account),
                 checked = state.transferLinkedSavingAccountInterest,
@@ -252,13 +251,13 @@ fun SettingPage(
                     errorMessage = state.linkedSavingAccountError?.let { stringResource(it) },
                 )
             }
-            Spacer(Modifier.height(DesignToken.padding.small))
+            Spacer(Modifier.height(KptTheme.spacing.sm))
 
             Text(
                 stringResource(Res.string.feature_fixed_deposit_setting_maturity_instructions),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
             MifosTextFieldDropdown(
                 value = if (state.maturityInstructionsIndex != -1) {
                     state.template.maturityInstructionOptions?.get(state.maturityInstructionsIndex)?.value.orEmpty()
@@ -295,14 +294,13 @@ fun SettingPage(
                 label = stringResource(Res.string.feature_fixed_deposit_setting_investing_account),
                 errorMessage = state.investingAccountError?.let { stringResource(it) },
             )
-
-            Spacer(Modifier.height(DesignToken.padding.small))
+            Spacer(Modifier.height(KptTheme.spacing.sm))
 
             Text(
                 stringResource(Res.string.feature_fixed_deposit_setting_pre_mature_closure),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
             MifosCheckBox(
                 text = stringResource(Res.string.feature_fixed_deposit_setting_apply_penal_interest),
                 checked = state.applyPenalInterest,
@@ -333,7 +331,7 @@ fun SettingPage(
                         ),
                     )
 
-                    Spacer(Modifier.height(DesignToken.padding.large))
+                    Spacer(Modifier.height(KptTheme.spacing.md))
 
                     MifosTextFieldDropdown(
                         value = if (state.periodIndex != -1) {
