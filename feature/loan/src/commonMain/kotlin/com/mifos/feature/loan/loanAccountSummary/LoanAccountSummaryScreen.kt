@@ -63,7 +63,6 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,7 +80,6 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -97,7 +95,6 @@ import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.AppColors
 import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.designsystem.theme.MifosTheme
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosProgressIndicator
 import com.mifos.room.entities.accounts.loans.LoanStatusEntity
@@ -109,6 +106,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun LoanAccountSummaryScreen(
@@ -189,6 +187,7 @@ internal fun LoanAccountSummaryScreen(
                 DropdownMenu(
                     expanded = openDropdown,
                     onDismissRequest = { openDropdown = false },
+                    modifier = Modifier.background(KptTheme.colorScheme.surface),
                 ) {
                     MifosMenuDropDownItem(
                         option = Constants.DATA_TABLE_LOAN_NAME,
@@ -228,17 +227,17 @@ internal fun LoanAccountSummaryScreen(
                 }
             }
         },
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .padding(paddingValues)
+                .background(KptTheme.colorScheme.background),
         ) {
             MifosBreadcrumbNavBar(navController)
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it),
+                    .fillMaxSize(),
             ) {
                 when (uiState) {
                     is LoanAccountSummaryUiState.ShowFetchingError -> {
@@ -314,22 +313,22 @@ private fun LoanAccountSummaryContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = DesignToken.padding.medium)
+            .padding(horizontal = KptTheme.spacing.md)
             .verticalScroll(scrollState),
-        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.medium),
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
     ) {
         MifosCard(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(
-                modifier = Modifier.padding(DesignToken.padding.large),
-                verticalArrangement = Arrangement.spacedBy(DesignToken.spacing.mediumSmall),
+                modifier = Modifier.padding(KptTheme.spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
                     text = loanWithAssociations.clientName,
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = KptTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                 )
 
@@ -363,11 +362,11 @@ private fun LoanAccountSummaryContent(
                             )
                         },
                     )
-                    Spacer(modifier = Modifier.width(DesignToken.spacing.mediumSmall))
+                    Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
                     Text(
                         text = loanWithAssociations.loanProductName,
-                        style = MifosTypography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        style = KptTheme.typography.bodyLarge,
+                        color = KptTheme.colorScheme.onSurface,
                     )
                 }
 
@@ -377,10 +376,10 @@ private fun LoanAccountSummaryContent(
                 ) {
                     Text(
                         text = stringResource(Res.string.feature_loan_loan_id) + loanWithAssociations.accountNo,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MifosTypography.bodyMedium,
+                        color = KptTheme.colorScheme.onSurfaceVariant,
+                        style = KptTheme.typography.bodyMedium,
                     )
-                    Spacer(modifier = Modifier.width(DesignToken.spacing.extraSmall))
+                    Spacer(modifier = Modifier.width(KptTheme.spacing.xs))
                     IconButton(
                         onClick = {
                             clipboardManager.setText(AnnotatedString(loanWithAssociations.accountNo))
@@ -396,7 +395,7 @@ private fun LoanAccountSummaryContent(
                             imageVector = MifosIcons.Copy,
                             contentDescription = stringResource(Res.string.feature_loan_copy),
                             modifier = Modifier.size(DesignToken.sizes.iconSmall),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = KptTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
@@ -409,7 +408,7 @@ private fun LoanAccountSummaryContent(
                 infoText = formatCurrency(summary?.totalExpectedRepayment),
                 modifier = Modifier.fillMaxWidth(0.5f),
             )
-            Spacer(modifier = Modifier.width(DesignToken.spacing.medium))
+            Spacer(modifier = Modifier.width(KptTheme.spacing.md))
             InfoCard(
                 titleText = stringResource(Res.string.feature_loan_amount_paid),
                 infoText = formatCurrency(summary?.totalRepayment),
@@ -424,15 +423,15 @@ private fun LoanAccountSummaryContent(
 
         MifosCard {
             Column(
-                modifier = Modifier.padding(DesignToken.padding.large),
+                modifier = Modifier.padding(KptTheme.spacing.lg),
             ) {
                 Text(
                     text = stringResource(Res.string.feature_loan_loan_overview),
-                    style = MifosTypography.bodyLarge,
+                    style = KptTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = KptTheme.colorScheme.onSurface,
                 )
-                Spacer(modifier = Modifier.height(DesignToken.spacing.medium))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -511,7 +510,7 @@ private fun LoanAccountSummaryContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(DesignToken.sizes.buttonHeightMedium),
-            shape = DesignToken.shapes.small,
+            shape = KptTheme.shapes.small,
             onClick = when {
                 loanWithAssociations.status.active == true -> {
                     { makeRepayment.invoke() }
@@ -533,14 +532,14 @@ private fun LoanAccountSummaryContent(
                     { Logger.e("LoanAccountSummary") { "TRANSACTION ACTION NOT SET" } }
                 }
             },
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+            colors = ButtonDefaults.buttonColors(containerColor = KptTheme.colorScheme.primary),
         ) {
             Text(
-                color = MaterialTheme.colorScheme.background,
+                color = KptTheme.colorScheme.onPrimary,
                 text = getButtonText(loanWithAssociations.status),
             )
         }
-        Spacer(modifier = Modifier.height(DesignToken.spacing.medium))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.md))
     }
 }
 
@@ -572,7 +571,7 @@ private fun LoanSummaryDataTable(
             amountColumnValue = stringResource(Res.string.feature_loan_amount_paid),
             balanceColumnValue = stringResource(Res.string.feature_loan_balance),
             isHeader = true,
-            color = MaterialTheme.colorScheme.primary.copy(
+            color = KptTheme.colorScheme.primary.copy(
                 alpha = 0.3f,
             ),
         )
@@ -584,7 +583,7 @@ private fun LoanSummaryDataTable(
             balanceColumnValue = formatAmount(summary?.principalOutstanding),
         )
 
-        HorizontalDivider(thickness = 0.5.dp)
+        HorizontalDivider(thickness = DesignToken.spacing.dp1)
 
         DataTableRow(
             summaryColumnTitle = stringResource(Res.string.feature_loan_loan_interest),
@@ -593,7 +592,7 @@ private fun LoanSummaryDataTable(
             balanceColumnValue = formatAmount(summary?.interestOutstanding),
         )
 
-        HorizontalDivider(thickness = 0.5.dp)
+        HorizontalDivider(thickness = DesignToken.spacing.dp1)
 
         DataTableRow(
             summaryColumnTitle = stringResource(Res.string.feature_loan_loan_fees),
@@ -602,7 +601,7 @@ private fun LoanSummaryDataTable(
             balanceColumnValue = formatAmount(summary?.feeChargesOutstanding),
         )
 
-        HorizontalDivider(thickness = 0.5.dp)
+        HorizontalDivider(thickness = DesignToken.spacing.dp1)
 
         DataTableRow(
             summaryColumnTitle = stringResource(Res.string.feature_loan_loan_penalty),
@@ -618,21 +617,21 @@ private fun LoanSummaryFarApartTextItem(title: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(DesignToken.padding.small),
+            .padding(KptTheme.spacing.sm),
     ) {
         Text(
-            style = MaterialTheme.typography.bodyMedium,
+            style = KptTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold,
             text = "$title:",
-            color = MaterialTheme.colorScheme.onSurface,
+            color = KptTheme.colorScheme.onSurface,
         )
 
-        Spacer(modifier = Modifier.width(DesignToken.spacing.extraSmall))
+        Spacer(modifier = Modifier.width(KptTheme.spacing.xs))
 
         Text(
-            style = MaterialTheme.typography.bodyMedium,
+            style = KptTheme.typography.bodyMedium,
             text = value,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = KptTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
@@ -647,18 +646,18 @@ private fun InfoCard(
         modifier = modifier,
     ) {
         Column(
-            modifier = Modifier.padding(DesignToken.padding.large),
+            modifier = Modifier.padding(KptTheme.spacing.lg),
         ) {
             Text(
                 text = titleText,
-                style = MifosTypography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+                style = KptTheme.typography.bodyLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
-            Spacer(modifier = Modifier.height(DesignToken.spacing.medium))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
             Text(
                 text = infoText,
-                style = MifosTypography.headlineSmallEmphasized,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = KptTheme.typography.headlineSmall,
+                color = KptTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
@@ -671,7 +670,7 @@ private fun DataTableRow(
     amountColumnValue: String,
     balanceColumnValue: String,
     isHeader: Boolean = false,
-    color: Color = MaterialTheme.colorScheme.surface,
+    color: Color = KptTheme.colorScheme.surface,
 ) {
     Row(
         modifier = Modifier
@@ -684,43 +683,43 @@ private fun DataTableRow(
             text = summaryColumnTitle,
             modifier = Modifier
                 .weight(1f)
-                .padding(DesignToken.padding.small),
-            style = MaterialTheme.typography.bodyMedium,
+                .padding(KptTheme.spacing.sm),
+            style = KptTheme.typography.bodyMedium,
             fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = KptTheme.colorScheme.onSurface,
         )
 
         Text(
             text = loanColumnValue,
             modifier = Modifier
                 .weight(1f)
-                .padding(DesignToken.padding.small),
-            style = MaterialTheme.typography.bodyMedium,
+                .padding(KptTheme.spacing.sm),
+            style = KptTheme.typography.bodyMedium,
             fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal,
             textAlign = TextAlign.End,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = KptTheme.colorScheme.onSurfaceVariant,
         )
 
         Text(
             text = amountColumnValue,
             modifier = Modifier
                 .weight(1f)
-                .padding(DesignToken.padding.small),
-            style = MaterialTheme.typography.bodyMedium,
+                .padding(KptTheme.spacing.sm),
+            style = KptTheme.typography.bodyMedium,
             fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal,
             textAlign = TextAlign.End,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = KptTheme.colorScheme.onSurfaceVariant,
         )
 
         Text(
             text = balanceColumnValue,
             modifier = Modifier
                 .weight(1f)
-                .padding(DesignToken.padding.small),
-            style = MaterialTheme.typography.bodyMedium,
+                .padding(KptTheme.spacing.sm),
+            style = KptTheme.typography.bodyMedium,
             fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal,
             textAlign = TextAlign.End,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = KptTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

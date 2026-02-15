@@ -42,8 +42,6 @@ import androidx.compose.ui.Modifier
 import com.mifos.core.common.utils.CurrencyFormatter
 import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.component.MifosBottomSheet
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosActionsChargeListingComponent
 import com.mifos.core.ui.components.MifosDefaultListingComponentFromStringResources
 import com.mifos.core.ui.components.MifosRowWithTextAndButton
@@ -51,6 +49,7 @@ import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountAction
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun InterestPage(
@@ -58,15 +57,19 @@ fun InterestPage(
     modifier: Modifier = Modifier,
     onAction: (RecurringAccountAction) -> Unit,
 ) {
-    Column(Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    // PADDING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+    Column(Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = stringResource(Res.string.feature_recurring_deposit_step_interest),
-                style = MifosTypography.labelLargeEmphasized,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosDefaultListingComponentFromStringResources(
                 data = mapOf(
@@ -90,10 +93,12 @@ fun InterestPage(
                         stringResource(Res.string.feature_recurring_deposit_no)
                     },
                 ),
-                verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+                // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosRowWithTextAndButton(
                 onBtnClick = {
@@ -109,7 +114,8 @@ fun InterestPage(
                 },
                 btnEnabled = state.isRateChartEmpty,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+            Spacer(Modifier.height(KptTheme.spacing.lg))
         }
 
         MifosTwoButtonRow(
@@ -132,12 +138,16 @@ fun RateChart(
         },
         content = {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(DesignToken.padding.large),
-                verticalArrangement = Arrangement.spacedBy(DesignToken.padding.largeIncreased),
+                // PADDING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+                modifier = Modifier.fillMaxWidth().padding(KptTheme.spacing.lg),
+                // SPACING: Replaced DesignToken.padding.largeIncreased with KptTheme.spacing.xl
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xl),
             ) {
                 Text(
                     text = stringResource(Res.string.feature_recurring_deposit_rate_chart),
-                    style = MifosTypography.titleMediumEmphasized,
+                    // TYPOGRAPHY: Mapped to KptTheme
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
                 )
 
                 state.template.accountChart?.chartSlabs?.forEachIndexed { index, slab ->

@@ -95,6 +95,18 @@ data class AppSpacing(
     val extraExtraLarge: Dp = 48.dp,
     val half: Dp = 500.dp,
     val full: Dp = 1000.dp,
+    val dp1: Dp = 1.dp,
+    val dp2: Dp = 2.dp,
+    val dp30: Dp = 30.dp,
+    val dp40: Dp = 40.dp,
+    val dp44: Dp = 44.dp,
+    val dp46: Dp = 46.dp,
+    val dp50: Dp = 50.dp,
+    val dp52: Dp = 52.dp,
+    val dp80: Dp = 80.dp,
+    val dp160: Dp = 160.dp,
+    val dp164: Dp = 164.dp,
+    val dp300: Dp = 300.dp,
 )
 
 /**
@@ -144,6 +156,7 @@ data class AppPadding(
     val extraLargeIncreased: Dp = 32.dp,
     val extraExtraLarge: Dp = 48.dp,
     val full: Dp = 1000.dp,
+    val dp40: Dp = 40.dp,
 )
 
 /**
@@ -312,6 +325,16 @@ data class AppSizes(
     val logoSizeTopAppBar: Dp = 28.dp,
     val topAppBarHeight: Dp = 85.dp,
     val bottomAppBarHeight: Dp = 70.dp,
+    val dp5: Dp = 5.dp,
+    val dp18: Dp = 18.dp,
+    val dp20: Dp = 20.dp,
+    val dp42: Dp = 42.dp,
+    val dp48: Dp = 48.dp,
+    val dp72: Dp = 72.dp,
+    val dp100: Dp = 100.dp,
+    val dp120: Dp = 120.dp,
+    val dp128: Dp = 128.dp,
+
 )
 
 /**

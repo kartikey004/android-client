@@ -62,16 +62,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.mifos.core.common.utils.DateHelper
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosDefaultListingComponentFromStringResources
 import com.mifos.core.ui.components.MifosRowWithTextAndButton
 import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountAction
 import com.mifos.feature.recurringDeposit.newRecurringDepositAccount.RecurringAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun PreviewPage(
@@ -79,42 +77,55 @@ fun PreviewPage(
     modifier: Modifier = Modifier,
     onAction: (RecurringAccountAction) -> Unit,
 ) {
+    // PADDING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
     Column(
-        Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large),
+        Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg),
     ) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            // SPACING: Replaced 20.dp with KptTheme.spacing.lg
+            verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.lg),
         ) {
             Text(
                 text = stringResource(Res.string.feature_recurring_deposit_step_details),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                // COLOR: Added for theme consistency
+                color = KptTheme.colorScheme.onSurface,
             )
             DetailsCard(state)
 
             Text(
                 text = stringResource(Res.string.feature_recurring_deposit_step_terms),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
 
             TermsCard(state)
 
             Text(
                 text = stringResource(Res.string.feature_recurring_deposit_step_settings),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
             SettingCard(state)
 
             Text(
                 text = stringResource(Res.string.feature_recurring_deposit_interest_page),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
 
             InterestCard(state, onAction)
 
             Text(
                 text = stringResource(Res.string.feature_recurring_deposit_charges_page),
-                style = MifosTypography.labelLarge,
+                // TYPOGRAPHY: Mapped to KptTheme
+                style = KptTheme.typography.labelLarge,
+                color = KptTheme.colorScheme.onSurface,
             )
 
             MifosRowWithTextAndButton(
@@ -128,7 +139,8 @@ fun PreviewPage(
                 btnEnabled = state.addedCharges.isNotEmpty(),
             )
         }
-        Spacer(Modifier.height(DesignToken.padding.large))
+        // SPACING: Replaced DesignToken.padding.large with KptTheme.spacing.lg
+        Spacer(Modifier.height(KptTheme.spacing.lg))
         MifosTwoButtonRow(
             firstBtnText = stringResource(Res.string.feature_recurring_deposit_back),
             secondBtnText = stringResource(Res.string.feature_recurring_deposit_next),
@@ -170,10 +182,12 @@ fun InterestCard(
                     stringResource(Res.string.feature_recurring_deposit_no)
                 },
             ),
-            verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+            // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+            verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
         )
 
-        Spacer(Modifier.height(DesignToken.padding.small))
+        // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+        Spacer(Modifier.height(KptTheme.spacing.sm))
 
         MifosRowWithTextAndButton(
             onBtnClick = {
@@ -299,7 +313,8 @@ fun SettingCard(state: RecurringAccountState) {
             },
             Res.string.feature_recurring_deposit_period to state.template.currency?.displaySymbol.orEmpty() + " " + state.recurringDepositAccountSettings.preMatureClosure.minimumBalanceForInterestCalculation,
         ),
-        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+        // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
     )
 }
 
@@ -340,7 +355,8 @@ private fun TermsCard(
                 ""
             },
         ),
-        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+        // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
     )
 }
 
@@ -365,6 +381,7 @@ private fun DetailsCard(
             },
             Res.string.feature_recurring_deposit_external_id to state.recurringDepositAccountDetail.externalId,
         ),
-        verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+        // SPACING: Replaced DesignToken.padding.small with KptTheme.spacing.sm
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
     )
 }

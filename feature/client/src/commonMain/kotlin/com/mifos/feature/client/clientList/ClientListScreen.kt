@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,7 +37,6 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -72,6 +70,7 @@ import androidx.paging.PagingData
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.MifosSweetError
 import com.mifos.core.designsystem.icon.MifosIcons
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.ui.components.SelectionModeTopAppBar
 import com.mifos.core.ui.util.DevicePreview
 import com.mifos.feature.client.syncClientDialog.SyncClientsDialogScreen
@@ -80,6 +79,7 @@ import kotlinx.coroutines.flow.Flow
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 /**
  * Created by Aditya Gupta on 21/02/24.
@@ -154,7 +154,7 @@ internal fun ClientListScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { createNewClient() },
-                containerColor = MaterialTheme.colorScheme.secondary,
+                containerColor = KptTheme.colorScheme.secondary,
             ) {
                 Icon(
                     imageVector = MifosIcons.AddFilled,
@@ -162,7 +162,7 @@ internal fun ClientListScreen(
                 )
             }
         },
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = KptTheme.colorScheme.surface,
         snackbarHostState = snackbarHostState,
     ) { padding ->
         Column(
@@ -232,13 +232,13 @@ private fun SelectionModeTopAppBar(
     val selectedItems = currentSelectedItems.toMutableStateList()
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
+            containerColor = KptTheme.colorScheme.secondary,
         ),
         title = {
             Text(
                 text = "${selectedItems.size} selected",
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.onBackground,
+                style = KptTheme.typography.titleLarge.copy(
+                    color = KptTheme.colorScheme.onBackground,
                 ),
             )
         },
@@ -249,7 +249,7 @@ private fun SelectionModeTopAppBar(
                 Icon(
                     imageVector = MifosIcons.Close,
                     contentDescription = "Close",
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = KptTheme.colorScheme.onSurface,
                 )
             }
         },
@@ -263,7 +263,7 @@ private fun SelectionModeTopAppBar(
                 Icon(
                     imageVector = MifosIcons.Sync,
                     contentDescription = "Sync",
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = KptTheme.colorScheme.onSurface,
                 )
             }
         },
@@ -317,40 +317,40 @@ internal expect fun LazyColumnForClientListApi(
 @Composable
 private fun LazyColumnForClientListDb(clientList: List<ClientEntity>) {
     LazyColumn(
-        contentPadding = PaddingValues(top = 8.dp, bottom = 80.dp)
+        contentPadding = PaddingValues(top = KptTheme.spacing.sm, bottom = DesignToken.spacing.dp80),
     ) {
         items(clientList) { client ->
 
             ElevatedCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 6.dp),
-                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+                    .padding(horizontal = KptTheme.spacing.md, vertical = KptTheme.spacing.md),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = KptTheme.elevation.level1),
                 colors = CardDefaults.elevatedCardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
+                    containerColor = KptTheme.colorScheme.surface,
                 ),
-                shape = RoundedCornerShape(12.dp)
+                shape = KptTheme.shapes.medium,
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(KptTheme.spacing.md),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Surface(
                         shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.size(48.dp)
+                        color = KptTheme.colorScheme.primaryContainer,
+                        modifier = Modifier.size(DesignToken.sizes.avatarMedium),
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Image(
                                 painter = painterResource(Res.drawable.feature_client_ic_dp_placeholder),
                                 contentDescription = null,
                                 modifier = Modifier
-                                    .size(28.dp)
+                                    .size(DesignToken.sizes.logoSizeTopAppBar)
                                     .fillMaxSize(),
                                 contentScale = ContentScale.Fit,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                                colorFilter = ColorFilter.tint(KptTheme.colorScheme.onPrimaryContainer),
                             )
                         }
                     }
@@ -358,33 +358,33 @@ private fun LazyColumnForClientListDb(clientList: List<ClientEntity>) {
                     Column(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(horizontal = 16.dp),
-                        verticalArrangement = Arrangement.Center
+                            .padding(horizontal = KptTheme.spacing.md),
+                        verticalArrangement = Arrangement.Center,
                     ) {
                         client.displayName?.let {
                             Text(
                                 text = it,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = KptTheme.typography.titleMedium,
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
                             )
                         }
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(KptTheme.spacing.xs))
                         Text(
                             text = "Account: ${client.accountNo}",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = KptTheme.typography.bodyMedium,
+                            color = KptTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
                         )
                     }
                     if (client.sync) {
                         Icon(
                             painter = painterResource(Res.drawable.feature_client_ic_done_all_black_24dp),
                             contentDescription = "Synced",
-                            modifier = Modifier.size(24.dp),
-                            tint = MaterialTheme.colorScheme.primary
+                            modifier = Modifier.size(KptTheme.spacing.lg),
+                            tint = KptTheme.colorScheme.primary,
                         )
                     }
                 }

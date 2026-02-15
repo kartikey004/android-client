@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,7 +51,6 @@ import com.mifos.core.designsystem.component.MifosOutlinedButton
 import com.mifos.core.designsystem.component.MifosTextButton
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosImageCropperDialog
@@ -63,6 +61,7 @@ import com.mifos.core.ui.util.EventsEffect
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientSignatureScreen(
@@ -127,7 +126,7 @@ fun ClientSignatureDialog(
                     Icon(
                         imageVector = MifosIcons.DeleteDocument,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = KptTheme.colorScheme.primary,
                         modifier = Modifier.size(DesignToken.sizes.iconMedium),
                     )
                 },
@@ -176,44 +175,45 @@ internal fun ClientSignatureContent(
         Column(modifier.fillMaxSize()) {
             MifosBreadcrumbNavBar(navController)
             Column(
-                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(
-                    horizontal = DesignToken.padding.large,
-                ),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = KptTheme.spacing.md),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
 
                 Text(
                     text = state.clientName,
-                    style = MifosTypography.titleMediumEmphasized,
+                    style = KptTheme.typography.titleMedium,
                 )
-                Spacer(Modifier.height(DesignToken.padding.extraExtraSmall))
+                Spacer(Modifier.height(KptTheme.spacing.xs))
                 Text(
                     text = stringResource(Res.string.account_number_prefix, state.accountNo),
-                    style = MifosTypography.bodySmall,
-                    color = MaterialTheme.colorScheme.secondary,
+                    style = KptTheme.typography.bodySmall,
+                    color = KptTheme.colorScheme.secondary,
                 )
-                Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
 
                 MifosUserSignatureImage(
                     bitmap = state.clientSignatureImage,
                     emptyMessage = stringResource(Res.string.client_signature_not_found),
                 )
                 if (state.signatureId == null) {
-                    Spacer(Modifier.height(DesignToken.padding.large))
+                    Spacer(Modifier.height(KptTheme.spacing.md))
                     Text(
                         text = stringResource(Res.string.client_signature_upload_message),
-                        style = MifosTypography.bodySmall,
-                        color = MaterialTheme.colorScheme.secondary,
+                        style = KptTheme.typography.bodySmall,
+                        color = KptTheme.colorScheme.secondary,
                         textAlign = TextAlign.Center,
                     )
                 }
-                Spacer(Modifier.height(DesignToken.padding.extraExtraLarge))
+                Spacer(Modifier.height(KptTheme.spacing.xxl))
                 MifosOutlinedButton(
                     text = {
                         Text(
                             text = stringResource(Res.string.client_signature_delete),
-                            style = MifosTypography.labelLarge,
+                            style = KptTheme.typography.labelLarge,
                         )
                     },
                     onClick = {
@@ -228,12 +228,12 @@ internal fun ClientSignatureContent(
                     },
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 MifosTextButton(
                     text = {
                         Text(
                             text = stringResource(Res.string.client_signature_upload),
-                            style = MifosTypography.labelLarge,
+                            style = KptTheme.typography.labelLarge,
                         )
                     },
                     onClick = {
@@ -244,7 +244,7 @@ internal fun ClientSignatureContent(
                         Icon(
                             painter = painterResource(Res.drawable.arrow_up),
                             contentDescription = null,
-                            modifier = Modifier.size(DesignToken.sizes.iconAverage),
+                            modifier = Modifier.size(KptTheme.spacing.lg),
                         )
                     },
                 )
@@ -265,9 +265,9 @@ private fun ShowUploadOption(
         Row(
             modifier = Modifier
                 .padding(
-                    start = DesignToken.padding.large,
-                    end = DesignToken.padding.large,
-                    bottom = DesignToken.padding.large,
+                    start = KptTheme.spacing.md,
+                    end = KptTheme.spacing.md,
+                    bottom = KptTheme.spacing.md,
                 ),
         ) {
             MifosBottomSheetOptionItem(

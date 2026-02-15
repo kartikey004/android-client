@@ -43,8 +43,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.designsystem.utils.onClick
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.MifosActionsIdentifierListingComponent
@@ -59,6 +57,7 @@ import com.mifos.feature.client.utils.getClientIdentifierStatus
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientIdentifiersListScreen(
@@ -112,14 +111,14 @@ internal fun ClientIdentifiersListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = DesignToken.padding.large),
+                .padding(horizontal = KptTheme.spacing.md),
         ) {
             ClientIdentifiersHeader(
                 totalItem = state.clientIdentitiesList.size.toString(),
                 onAction = onAction,
             )
 
-            Spacer(modifier = Modifier.height(DesignToken.padding.largeIncreasedExtra))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
 
             if (state.clientIdentitiesList.isEmpty()) {
                 MifosEmptyCard(stringResource(Res.string.client_identifiers_click_on_plus_button_to_add_an_item))
@@ -196,7 +195,7 @@ internal fun ClientIdentifiersListScreen(
                                 isExpanded = (index == state.currentExpandedItem) && state.expandClientIdentity,
                             )
 
-                            Spacer(Modifier.height(DesignToken.spacing.small))
+                            Spacer(Modifier.height(KptTheme.spacing.sm))
                         }
                     }
                 }
@@ -216,12 +215,12 @@ private fun ClientIdentifiersHeader(
         Column {
             Text(
                 text = stringResource(Res.string.feature_client_identifiers),
-                style = MifosTypography.titleMedium,
+                style = KptTheme.typography.titleMedium,
             )
 
             Text(
                 text = totalItem + " " + stringResource(Res.string.client_savings_item),
-                style = MifosTypography.labelMedium,
+                style = KptTheme.typography.labelMedium,
             )
         }
 
@@ -235,7 +234,7 @@ private fun ClientIdentifiersHeader(
             contentDescription = null,
         )
 
-        Spacer(modifier = Modifier.width(DesignToken.padding.largeIncreased))
+        Spacer(modifier = Modifier.width(KptTheme.spacing.lg))
 
         Icon(
             modifier = Modifier.onClick {

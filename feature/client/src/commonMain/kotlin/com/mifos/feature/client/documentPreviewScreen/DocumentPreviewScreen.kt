@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,6 +51,7 @@ import com.mifos.core.ui.util.EventsEffect
 import com.mifos.feature.client.EntityDocumentState
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun DocumentPreviewScreen(
@@ -82,7 +82,7 @@ private fun ViewDocumentContent(
 ) {
     Column(
         modifier = modifier
-            .padding(DesignToken.padding.large)
+            .padding(KptTheme.spacing.md)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -92,7 +92,7 @@ private fun ViewDocumentContent(
             modifier = Modifier.weight(1f),
             onAction = onAction,
         )
-        Spacer(modifier = Modifier.height(DesignToken.spacing.largeIncreased))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -108,25 +108,25 @@ private fun ViewDocumentContent(
                     }
                 },
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimary,
-                    contentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = KptTheme.colorScheme.onPrimary,
+                    contentColor = KptTheme.colorScheme.primary,
                 ),
                 border = BorderStroke(
-                    1.dp,
-                    MaterialTheme.colorScheme.secondaryContainer,
+                    DesignToken.spacing.dp1,
+                    KptTheme.colorScheme.secondaryContainer,
                 ),
-                shape = DesignToken.shapes.small,
+                shape = KptTheme.shapes.small,
                 modifier = Modifier
-                    .height(DesignToken.sizes.iconExtraLarge)
+                    .height(DesignToken.sizes.buttonHeightMedium)
                     .weight(1f),
             ) {
                 Text(
                     stringResource(Res.string.btn_back),
                     fontFamily = FontFamily.SansSerif,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = KptTheme.typography.labelLarge,
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
             MifosOutlinedButton(
                 onClick = {
                     if (state.step == EntityDocumentState.Step.PREVIEW) {
@@ -136,18 +136,18 @@ private fun ViewDocumentContent(
                     }
                 },
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    containerColor = KptTheme.colorScheme.primary,
+                    contentColor = KptTheme.colorScheme.onPrimary,
                 ),
                 border = BorderStroke(
-                    1.dp,
-                    MaterialTheme.colorScheme.secondaryContainer,
+                    DesignToken.spacing.dp1,
+                    KptTheme.colorScheme.secondaryContainer,
                 ),
-                shape = DesignToken.shapes.small,
+                shape = KptTheme.shapes.small,
                 enabled = state.step == EntityDocumentState.Step.PREVIEW ||
                     state.step == EntityDocumentState.Step.UPDATE_PREVIEW,
                 modifier = Modifier
-                    .height(DesignToken.sizes.iconExtraLarge)
+                    .height(DesignToken.sizes.buttonHeightMedium)
                     .weight(1f),
             ) {
                 Text(
@@ -157,7 +157,7 @@ private fun ViewDocumentContent(
                         stringResource(Res.string.btn_submit)
                     },
                     fontFamily = FontFamily.SansSerif,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = KptTheme.typography.labelLarge,
                 )
             }
         }
@@ -213,9 +213,9 @@ private fun ViewDocumentsScreenContent(
 ) {
     MifosCard(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
+        colors = CardDefaults.cardColors(containerColor = KptTheme.colorScheme.onPrimary),
         elevation = 0.dp,
-        borderStroke = BorderStroke(1.dp, MaterialTheme.colorScheme.secondaryContainer),
+        borderStroke = BorderStroke(1.dp, KptTheme.colorScheme.secondaryContainer),
     ) {
         if (state.dialogState != null) {
             DocumentsPreviewScreenDialog(

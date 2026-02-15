@@ -58,8 +58,6 @@ import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.MifosSweetError
 import com.mifos.core.designsystem.component.MifosTextFieldConfig
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.AddChargeBottomSheet
 import com.mifos.core.ui.components.MifosActionsChargeListingComponent
@@ -81,6 +79,7 @@ import com.mifos.feature.loan.newLoanAccount.pages.TermsPage
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.ExperimentalTime
 
 @Composable
@@ -284,7 +283,7 @@ private fun AddNewCollateralDialog(
                     options = state.collaterals.map { it.name },
                     label = stringResource(Res.string.collateral),
                 )
-                Spacer(modifier = Modifier.height(DesignToken.padding.medium))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.md))
                 MifosOutlinedTextField(
                     value = state.collateralQuantity.toString(),
                     onValueChange = {
@@ -301,7 +300,7 @@ private fun AddNewCollateralDialog(
                         ),
                     ),
                 )
-                Spacer(modifier = Modifier.height(DesignToken.padding.large))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
                 MifosOutlinedTextField(
                     value = state.collateralTotal.toString(),
                     onValueChange = {},
@@ -311,7 +310,7 @@ private fun AddNewCollateralDialog(
                         enabled = false,
                     ),
                 )
-                Spacer(modifier = Modifier.height(DesignToken.padding.large))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
                 MifosOutlinedTextField(
                     value = state.totalCollateral.toString(),
                     onValueChange = {},
@@ -343,18 +342,18 @@ private fun ShowCollateralsDialog(
         },
         content = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(DesignToken.padding.largeIncreased),
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xl),
             ) {
                 state.addedCollaterals.forEach {
                     MifosListingComponentOutline {
                         Column(
                             Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(DesignToken.padding.extraExtraSmall),
+                            verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
                         ) {
                             MifosListingRowItem(
                                 key = it.name,
                                 value = "",
-                                keyStyle = MifosTypography.titleSmallEmphasized,
+                                keyStyle = KptTheme.typography.titleSmall,
                             )
                             MifosListingRowItem(
                                 key = stringResource(Res.string.quantity),
@@ -459,12 +458,13 @@ private fun ShowChargesDialog(
         },
         content = {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(DesignToken.padding.large),
-                verticalArrangement = Arrangement.spacedBy(DesignToken.padding.largeIncreased),
+                modifier = Modifier.fillMaxWidth().padding(KptTheme.spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xl),
             ) {
                 Text(
                     text = stringResource(Res.string.view_charges),
-                    style = MifosTypography.titleMediumEmphasized,
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
                 )
                 if (isOverDue) {
                     state.loanTemplate?.overdueCharges?.forEachIndexed { index, it ->

@@ -31,9 +31,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,9 +42,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.mifos.core.designsystem.theme.AppColors
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosProgressIndicator
@@ -55,6 +50,7 @@ import com.mifos.core.ui.util.EventsEffect
 import com.mifos.core.ui.util.TextUtil
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientProfileGeneralScreen(
@@ -164,29 +160,28 @@ internal fun ClientProfileGeneralContent(
             MifosBreadcrumbNavBar(navController)
             Column(
                 modifier = Modifier.fillMaxSize()
-                    .verticalScroll(rememberScrollState()).padding(
-                        horizontal = DesignToken.padding.large,
-                    ),
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = KptTheme.spacing.md),
             ) {
                 Text(
                     stringResource(Res.string.client_profile_general_header_performance_history),
-                    style = MaterialTheme.typography.labelLarge,
+                    style = KptTheme.typography.labelLarge,
                 )
 
-                Spacer(Modifier.height(DesignToken.spacing.medium))
+                Spacer(Modifier.height(KptTheme.spacing.md))
 
                 PerformanceHistoryCard(
                     state = state,
                 )
 
-                Spacer(Modifier.height(DesignToken.spacing.largeIncreased))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
 
                 Text(
                     stringResource(Res.string.client_profile_general_header_actions),
-                    style = MaterialTheme.typography.labelLarge,
+                    style = KptTheme.typography.labelLarge,
                 )
 
-                Spacer(Modifier.height(DesignToken.spacing.small))
+                Spacer(Modifier.height(KptTheme.spacing.sm))
 
                 clientProfileGeneralActions.forEach {
                     MifosRowCard(
@@ -195,8 +190,8 @@ internal fun ClientProfileGeneralContent(
                         leftValues = listOf(
                             TextUtil(
                                 text = stringResource(it.subTitle),
-                                style = MifosTypography.bodySmall,
-                                color = MaterialTheme.colorScheme.secondary,
+                                style = KptTheme.typography.bodySmall,
+                                color = KptTheme.colorScheme.secondary,
                             ),
                         ),
                         rightValues = listOf(
@@ -205,11 +200,11 @@ internal fun ClientProfileGeneralContent(
                                 // Placeholder values.
 //                                text = "12",
                                 text = "",
-                                style = MifosTypography.bodySmall,
-                                color = AppColors.customEnable,
+                                style = KptTheme.typography.bodySmall,
+                                color = KptTheme.colorScheme.primary,
                             ),
                         ),
-                        modifier = Modifier.padding(vertical = DesignToken.padding.medium)
+                        modifier = Modifier.padding(vertical = KptTheme.spacing.md)
                             .clickable {
                                 onAction(
                                     ClientProfileGeneralAction.OnActionClick(it),
@@ -225,16 +220,16 @@ internal fun ClientProfileGeneralContent(
 @Composable
 fun PerformanceHistoryCard(state: ClientProfileGeneralState) {
     Box(
-        modifier = Modifier.fillMaxWidth().wrapContentHeight().clip(
-            RoundedCornerShape(12),
-        ).background(MaterialTheme.colorScheme.primary)
-            .padding(DesignToken.padding.largeIncreasedExtra),
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(KptTheme.shapes.medium)
+            .background(KptTheme.colorScheme.primary)
+            .padding(KptTheme.spacing.lg),
         contentAlignment = Alignment.Center,
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(
-                DesignToken.spacing.small,
-            ),
+            verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val performanceHistory = state.performanceHistory
@@ -283,8 +278,8 @@ fun PerformanceHistoryRows(
     value: String,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = TextStyle(
-        color = AppColors.customWhite,
-        fontStyle = MaterialTheme.typography.labelMedium.fontStyle,
+        color = KptTheme.colorScheme.onPrimary,
+        fontStyle = KptTheme.typography.labelMedium.fontStyle,
     ),
 ) {
     Row(

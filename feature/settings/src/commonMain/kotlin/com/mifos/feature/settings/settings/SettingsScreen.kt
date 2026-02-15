@@ -21,13 +21,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -44,7 +42,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.touchlab.kermit.Logger
 import com.mifos.core.common.enums.MifosAppLanguage
@@ -59,6 +56,8 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.KptMaterialTheme
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun SettingsScreen(
@@ -70,27 +69,30 @@ internal fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    SettingsScreen(
-        onBackPressed = onBackPressed,
-        state = uiState,
-        changePasscode = { changePasscode(uiState.passcode) },
-        handleEndpointUpdate = { baseURL, tenant ->
-            if (viewModel.tryUpdatingEndpoint(selectedBaseUrl = baseURL, selectedTenant = tenant)) {
-                navigateToLoginScreen()
-            }
-        },
-        updateTheme = {
-            viewModel.updateTheme(it)
-        },
-        updateLanguage = {
-            val isSystemLanguage = viewModel.updateLanguage(it.code)
-            updateLanguageLocale(
-                language = it.code,
-                isSystemLanguage = isSystemLanguage,
-            )
-        },
-        onClickUpdateConfig = onClickUpdateConfig,
-    )
+    // WRAPPER: Added KptMaterialTheme
+    KptMaterialTheme {
+        SettingsScreen(
+            onBackPressed = onBackPressed,
+            state = uiState,
+            changePasscode = { changePasscode(uiState.passcode) },
+            handleEndpointUpdate = { baseURL, tenant ->
+                if (viewModel.tryUpdatingEndpoint(selectedBaseUrl = baseURL, selectedTenant = tenant)) {
+                    navigateToLoginScreen()
+                }
+            },
+            updateTheme = {
+                viewModel.updateTheme(it)
+            },
+            updateLanguage = {
+                val isSystemLanguage = viewModel.updateLanguage(it.code)
+                updateLanguageLocale(
+                    language = it.code,
+                    isSystemLanguage = isSystemLanguage,
+                )
+            },
+            onClickUpdateConfig = onClickUpdateConfig,
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -117,24 +119,25 @@ internal fun SettingsScreen(
                 title = {
                     Text(
                         text = stringResource(resource = Res.string.feature_settings),
-                        style = MaterialTheme.typography.titleLarge
+                        style = KptTheme.typography.titleLarge,
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackPressed) {
                         Icon(
                             imageVector = MifosIcons.ArrowBack,
-                            contentDescription = "Navigate back"
+                            contentDescription = "Navigate back",
+                            tint = KptTheme.colorScheme.onSurface,
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
-                )
+                    containerColor = KptTheme.colorScheme.surface,
+                    titleContentColor = KptTheme.colorScheme.onSurface,
+                    navigationIconContentColor = KptTheme.colorScheme.onSurface,
+                ),
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             Modifier.padding(paddingValues),
@@ -223,12 +226,12 @@ private fun SettingsCardItem(
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        shape = RoundedCornerShape(0.dp),
+        shape = KptTheme.shapes.extraSmall,
         onClick = { onclick.invoke() },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 16.dp),
+            modifier = Modifier.padding(vertical = KptTheme.spacing.md),
         ) {
             icon?.let {
                 Icon(
@@ -245,13 +248,14 @@ private fun SettingsCardItem(
             ) {
                 Text(
                     text = stringResource(title),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = KptTheme.typography.bodyLarge,
+                    color = KptTheme.colorScheme.onSurface,
                 )
                 Text(
-                    modifier = Modifier.padding(end = 16.dp),
+                    modifier = Modifier.padding(end = KptTheme.spacing.md),
                     text = stringResource(details),
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
-                    style = MaterialTheme.typography.bodyMedium,
+                    color = KptTheme.colorScheme.onSurfaceVariant,
+                    style = KptTheme.typography.bodyMedium,
                 )
             }
         }

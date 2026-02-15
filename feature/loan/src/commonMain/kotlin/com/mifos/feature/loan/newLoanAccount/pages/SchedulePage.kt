@@ -21,12 +21,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.model.objects.account.loan.Period
 import com.mifos.core.ui.components.MifosDefaultListingComponentFromStringResources
 import com.mifos.core.ui.components.MifosTwoButtonRow
@@ -34,6 +31,7 @@ import com.mifos.feature.loan.component.RepaymentPeriodCard
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountAction
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun SchedulePage(
@@ -42,28 +40,29 @@ fun SchedulePage(
     onAction: (NewLoanAccountAction) -> Unit,
 ) {
     Column(
-        Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large),
+        Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg),
     ) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = stringResource(Res.string.repayment_schedule),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             if (!state.repaymentSchedules.isEmpty()) {
                 MifosDefaultListingComponentFromStringResources(
                     data = state.repaymentSchedules,
-                    backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
-                    borderColor = MaterialTheme.colorScheme.surfaceDim,
-                    verticalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+                    backgroundColor = KptTheme.colorScheme.surfaceContainer,
+                    borderColor = KptTheme.colorScheme.surfaceDim,
+                    verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
                 )
             }
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             RepaymentScheduleList(
                 periods = state.loanWithAssociationsEntity.repaymentSchedule.periods.orEmpty()
@@ -71,7 +70,7 @@ fun SchedulePage(
                 currencyCode = state.loanWithAssociationsEntity.currency.code,
                 maxDigits = state.loanWithAssociationsEntity.currency.decimalPlaces,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
         }
 
         MifosTwoButtonRow(
@@ -96,7 +95,7 @@ fun RepaymentScheduleList(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(DesignToken.spacing.medium),
+        verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
     ) {
         periods.forEach { period ->
             RepaymentPeriodCard(

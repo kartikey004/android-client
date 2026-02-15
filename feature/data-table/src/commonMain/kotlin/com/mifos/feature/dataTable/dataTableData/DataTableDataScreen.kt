@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -50,16 +49,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -81,6 +71,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun DataTableDataScreen(
@@ -256,75 +247,59 @@ fun DataTableDataCardItem(
 ) {
     OutlinedCard(
         modifier = modifier
-            .padding(8.dp)
+            .padding(KptTheme.spacing.sm)
             .clickable {
                 onDataClicked(dataItem.clientId?.toInt() ?: dataItem.id?.toInt() ?: 0)
             },
-        colors = CardDefaults.cardColors(White),
+        colors = CardDefaults.cardColors(KptTheme.colorScheme.surface),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(KptTheme.spacing.md),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 16.dp),
+                    .padding(start = KptTheme.spacing.md),
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = KptTheme.spacing.sm),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
                         text = stringResource(Res.string.feature_data_table_client_id),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                            color = Black,
-                        ),
+                        style = KptTheme.typography.bodyMedium,
+                        color = KptTheme.colorScheme.onSurface,
                     )
 
                     Text(
                         modifier = Modifier.weight(1f),
                         text = dataItem.clientId ?: "-",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                            color = DarkGray,
-                        ),
+                        style = KptTheme.typography.bodyMedium,
+                        color = KptTheme.colorScheme.onSurfaceVariant,
                     )
                 }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = KptTheme.spacing.sm),
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
                         text = stringResource(Res.string.feature_data_table_data_id),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                            color = Black,
-                        ),
+                        style = KptTheme.typography.bodyMedium,
+                        color = KptTheme.colorScheme.onSurface,
                     )
                     Text(
                         modifier = Modifier.weight(1f),
                         text = dataItem.id ?: "-",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                            color = DarkGray,
-                        ),
+                        style = KptTheme.typography.bodyMedium,
+                        color = KptTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
@@ -361,28 +336,25 @@ fun SelectOptionsDialog(
         ),
     ) {
         Card(
-            colors = CardDefaults.cardColors(White),
-            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(KptTheme.colorScheme.surface),
+            shape = KptTheme.shapes.large,
             modifier = modifier,
         ) {
             Column(
                 modifier = Modifier
-                    .padding(30.dp),
+                    .padding(KptTheme.spacing.xl),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = stringResource(Res.string.feature_data_table_select_options),
                     modifier = Modifier.fillMaxWidth(),
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Normal,
-                        fontStyle = FontStyle.Normal,
-                    ),
-                    color = Color.Black,
+                    // TYPOGRAPHY: Mapped to KptTheme titleMedium
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
                 )
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
 
                 Button(
                     onClick = { deleteDataTable() },
@@ -390,12 +362,8 @@ fun SelectOptionsDialog(
                     Text(
                         text = stringResource(Res.string.feature_data_table_delete_data_table),
                         modifier = Modifier.fillMaxWidth(),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontStyle = FontStyle.Normal,
-                        ),
-                        color = Color.Black,
+                        style = KptTheme.typography.labelLarge,
+                        color = KptTheme.colorScheme.onPrimary,
                         textAlign = TextAlign.Center,
                     )
                 }

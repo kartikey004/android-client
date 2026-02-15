@@ -19,11 +19,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -32,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.designsystem.component.MifosScaffold
@@ -45,6 +42,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 /**
  * Created on 27/06/2024 (11:38 PM) by Pronay Sarker
@@ -156,23 +154,24 @@ fun DataTableItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = 4.dp,
-                vertical = 4.dp,
+                horizontal = KptTheme.spacing.xs,
+                vertical = KptTheme.spacing.xs,
             ),
-        shape = RoundedCornerShape(0.dp),
+        shape = KptTheme.shapes.extraSmall,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
+            containerColor = KptTheme.colorScheme.surface,
         ),
         onClick = { onClick.invoke(dataTable) },
     ) {
         dataTable.registeredTableName?.let {
             Text(
                 modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 18.dp,
+                    horizontal = KptTheme.spacing.md,
+                    vertical = KptTheme.spacing.md,
                 ),
-                style = MaterialTheme.typography.bodyLarge,
+                style = KptTheme.typography.bodyLarge,
+                color = KptTheme.colorScheme.onSurface,
                 text = it,
             )
         }

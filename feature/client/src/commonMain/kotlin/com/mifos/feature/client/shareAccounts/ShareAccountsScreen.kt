@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -32,8 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mifos.core.designsystem.component.MifosSweetError
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.designsystem.utils.onClick
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.MifosActionsShareListingComponent
@@ -44,6 +43,7 @@ import com.mifos.core.ui.util.EventsEffect
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ShareAccountsScreen(
@@ -92,14 +92,13 @@ internal fun ShareAccountsContent(
             false -> {
                 Column(
                     modifier = Modifier.fillMaxSize()
-                        .padding(horizontal = DesignToken.padding.large),
+                        .padding(horizontal = KptTheme.spacing.md),
                 ) {
                     ShareAccountHeader(
                         totalItem = state.accounts.size.toString(),
                         onAction = onAction,
                     )
-
-                    Spacer(modifier = Modifier.height(DesignToken.padding.large))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
                     if (state.accounts.isNotEmpty()) {
                         val emptyText = stringResource(Res.string.string_not_available)
@@ -135,8 +134,7 @@ internal fun ShareAccountsContent(
                                             )
                                         },
                                     )
-
-                                    Spacer(Modifier.height(DesignToken.padding.small))
+                                    Spacer(Modifier.height(KptTheme.spacing.sm))
                                 }
                             }
                         }
@@ -160,12 +158,12 @@ private fun ShareAccountHeader(
         Column {
             Text(
                 text = stringResource(Res.string.client_product_shares_account),
-                style = MifosTypography.titleMedium,
+                style = KptTheme.typography.titleMedium,
             )
 
             Text(
                 text = totalItem + " " + stringResource(Res.string.client_savings_item),
-                style = MifosTypography.labelMedium,
+                style = KptTheme.typography.labelMedium,
             )
         }
 
@@ -178,6 +176,7 @@ private fun ShareAccountHeader(
             contentDescription = null,
         )
 
+        Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
         Icon(
             modifier = Modifier.onClick { onAction.invoke(ShareAccountsAction.ToggleFiler) },
             painter = painterResource(Res.drawable.filter),

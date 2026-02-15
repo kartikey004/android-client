@@ -43,8 +43,6 @@ import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.component.MifosBottomSheet
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.MifosSweetError
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.AddChargeBottomSheet
 import com.mifos.core.ui.components.MifosActionsChargeListingComponent
@@ -64,6 +62,7 @@ import com.mifos.feature.savings.savingsAccountv2.pages.TermsPage
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -310,14 +309,15 @@ private fun ShowChargesDialog(
         },
         content = {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(DesignToken.padding.large),
-                verticalArrangement = Arrangement.spacedBy(DesignToken.padding.largeIncreased),
+                modifier = Modifier.fillMaxWidth().padding(KptTheme.spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xl),
             ) {
                 Text(
                     text = stringResource(Res.string.step_charges_view) + " " + stringResource(
                         Res.string.step_charges,
                     ),
-                    style = MifosTypography.titleMediumEmphasized,
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
                 )
 
                 if (state.addedCharges.isNotEmpty()) {

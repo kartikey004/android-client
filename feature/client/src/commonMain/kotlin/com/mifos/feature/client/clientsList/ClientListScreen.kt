@@ -30,7 +30,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SheetState
@@ -50,9 +49,7 @@ import androidx.paging.PagingData
 import com.mifos.core.designsystem.component.BasicDialogState
 import com.mifos.core.designsystem.component.MifosBasicDialog
 import com.mifos.core.designsystem.icon.MifosIcons
-import com.mifos.core.designsystem.theme.AppColors
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosEmptyCard
 import com.mifos.core.ui.components.MifosProgressIndicator
 import com.mifos.core.ui.components.MifosRowCard
@@ -62,6 +59,7 @@ import com.mifos.room.entities.client.ClientEntity
 import kotlinx.coroutines.flow.Flow
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,7 +119,7 @@ private fun ClientActions(
     toggleFilterVisibility: () -> Unit,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(DesignToken.padding.large),
+        modifier = modifier.fillMaxWidth().padding(KptTheme.spacing.md),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -134,17 +132,17 @@ private fun ClientActions(
                     modifier = Modifier.clickable {
                         onAction(ClientListAction.NavigateToCreateClient)
                     },
-                    horizontalArrangement = Arrangement.spacedBy(DesignToken.padding.small),
+                    horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.sm),
                 ) {
                     Text(
                         text = "Clients",
-                        style = MifosTypography.titleMediumEmphasized,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = KptTheme.typography.titleMedium,
+                        color = KptTheme.colorScheme.primary,
                     )
                     Icon(
                         imageVector = MifosIcons.Add,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = KptTheme.colorScheme.primary,
                         modifier = Modifier
                             .size(DesignToken.sizes.iconAverage),
                     )
@@ -175,7 +173,7 @@ private fun ClientActions(
 //                )
 //            }
         }
-        Spacer(Modifier.width(DesignToken.padding.largeIncreased))
+        Spacer(Modifier.width(KptTheme.spacing.lg))
         Icon(
             imageVector = MifosIcons.Filter,
             contentDescription = null,
@@ -214,7 +212,7 @@ private fun ClientListContentScreen(
                     onClientClick = { clientId ->
                         onAction(ClientListAction.OnClientClick(clientId))
                     },
-                    modifier = Modifier.padding(DesignToken.padding.large),
+                    modifier = Modifier.padding(KptTheme.spacing.md),
                     fetchImage = {
                         onAction(ClientListAction.FetchImage(it))
                     },
@@ -281,13 +279,13 @@ fun ClientItem(client: ClientEntity, byteArray: ByteArray?, onClientClick: (Int)
                     Res.string.account_number_prefix,
                     (client.accountNo ?: stringResource(Res.string.string_not_available)),
                 ),
-                style = MifosTypography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
+                style = KptTheme.typography.bodySmall,
+                color = KptTheme.colorScheme.secondary,
             ),
             TextUtil(
                 text = client.officeName ?: stringResource(Res.string.string_not_available),
-                style = MifosTypography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
+                style = KptTheme.typography.bodySmall,
+                color = KptTheme.colorScheme.secondary,
             ),
         ),
         rightValues = buildList {
@@ -295,11 +293,11 @@ fun ClientItem(client: ClientEntity, byteArray: ByteArray?, onClientClick: (Int)
                 add(
                     TextUtil(
                         text = status,
-                        style = MifosTypography.labelSmall,
+                        style = KptTheme.typography.labelSmall,
                         color = when (status) {
-                            "Active" -> AppColors.customEnable
-                            "Pending" -> AppColors.customYellow
-                            else -> MaterialTheme.colorScheme.error
+                            "Active" -> KptTheme.colorScheme.primary
+                            "Pending" -> KptTheme.colorScheme.tertiary
+                            else -> KptTheme.colorScheme.error
                         },
                     ),
                 )
@@ -309,8 +307,8 @@ fun ClientItem(client: ClientEntity, byteArray: ByteArray?, onClientClick: (Int)
                 add(
                     TextUtil(
                         text = externalId,
-                        style = MifosTypography.labelSmall,
-                        color = MaterialTheme.colorScheme.secondary,
+                        style = KptTheme.typography.labelSmall,
+                        color = KptTheme.colorScheme.secondary,
                     ),
                 )
             }
@@ -319,7 +317,7 @@ fun ClientItem(client: ClientEntity, byteArray: ByteArray?, onClientClick: (Int)
             .clickable {
                 onClientClick(client.id)
             }
-            .padding(DesignToken.padding.large),
+            .padding(KptTheme.spacing.md),
     )
 }
 
@@ -373,24 +371,24 @@ fun FilterBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         dragHandle = null,
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = KptTheme.colorScheme.surface,
     ) {
         val sortTypes = listOf(SortTypes.NAME, SortTypes.ACCOUNT_NUMBER, SortTypes.EXTERNAL_ID)
         val statusTypes = listOf("Active", "Pending", "Closed")
 
         Column(
-            modifier = Modifier.padding(15.dp),
+            modifier = Modifier.padding(KptTheme.spacing.md),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
-                    .padding(10.dp),
+                    .padding(KptTheme.spacing.sm),
             ) {
                 Text(
                     text = "Filters",
-                    style = MifosTypography.titleLargeEmphasized,
-                    color = MaterialTheme.colorScheme.primary,
+                    style = KptTheme.typography.titleLarge,
+                    color = KptTheme.colorScheme.primary,
                 )
                 Row {
                     IconButton(
@@ -416,7 +414,7 @@ fun FilterBottomSheet(
             }
             HorizontalDivider(Modifier.fillMaxWidth(), thickness = 1.5.dp)
             Column(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(KptTheme.spacing.sm),
             ) {
                 var isExpanded by remember { mutableStateOf(false) }
                 Row(
@@ -428,7 +426,7 @@ fun FilterBottomSheet(
                 ) {
                     Text(
                         text = "Sort by",
-                        style = MifosTypography.titleMediumEmphasized,
+                        style = KptTheme.typography.titleMedium,
                     )
                     if (isExpanded) {
                         Icon(
@@ -451,7 +449,7 @@ fun FilterBottomSheet(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Spacer(modifier = Modifier.width(10.dp))
+                                Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
                                 RadioButton(
                                     selected = isSelected,
                                     onClick = {
@@ -466,7 +464,7 @@ fun FilterBottomSheet(
             }
             HorizontalDivider(Modifier.fillMaxWidth(), thickness = 1.5.dp)
             Column(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(KptTheme.spacing.sm),
             ) {
                 var isExpanded by remember { mutableStateOf(false) }
                 Row(
@@ -478,7 +476,7 @@ fun FilterBottomSheet(
                 ) {
                     Text(
                         text = "Account Status",
-                        style = MifosTypography.titleMediumEmphasized,
+                        style = KptTheme.typography.titleMedium,
                     )
                     if (isExpanded) {
                         Icon(
@@ -501,7 +499,7 @@ fun FilterBottomSheet(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Spacer(modifier = Modifier.width(10.dp))
+                                Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
                                 Checkbox(
                                     checked = isChecked,
                                     onCheckedChange = { handleFilterClick(status, FilterType.STATUS) },
@@ -515,7 +513,7 @@ fun FilterBottomSheet(
             HorizontalDivider(Modifier.fillMaxWidth(), thickness = 1.5.dp)
 
             Column(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(KptTheme.spacing.sm),
             ) {
                 var isExpanded by remember { mutableStateOf(false) }
                 Row(
@@ -527,7 +525,7 @@ fun FilterBottomSheet(
                 ) {
                     Text(
                         "Office Name",
-                        style = MifosTypography.titleMediumEmphasized,
+                        style = KptTheme.typography.titleMedium,
                     )
                     if (isExpanded) {
                         Icon(
@@ -552,7 +550,7 @@ fun FilterBottomSheet(
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
                                     Checkbox(
                                         checked = isChecked,
                                         onCheckedChange = { handleFilterClick(name, FilterType.OFFICE) },

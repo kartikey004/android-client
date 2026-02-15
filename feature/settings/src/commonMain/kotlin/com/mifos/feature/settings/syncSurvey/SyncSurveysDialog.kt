@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
@@ -53,15 +52,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import co.touchlab.kermit.Logger
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.ui.components.MifosProgressIndicator
 import com.mifos.core.ui.util.DevicePreview
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun SyncSurveysDialog(
@@ -226,137 +225,180 @@ private fun SyncSurveysDialogContent(
     Dialog(onDismissRequest = { closeDialog.invoke() }) {
         Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color.White)
-                .padding(16.dp),
+                .clip(KptTheme.shapes.large)
+                .background(KptTheme.colorScheme.surface)
+                .padding(KptTheme.spacing.md),
             contentAlignment = Alignment.Center,
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp),
+                    .padding(KptTheme.spacing.xs),
             ) {
                 Text(
                     text = stringResource(Res.string.feature_settings_sync_surveys_full_information),
                     modifier = Modifier
-                        .padding(10.dp)
+                        .padding(KptTheme.spacing.sm)
                         .align(Alignment.CenterHorizontally),
+                    color = KptTheme.colorScheme.onSurface,
                 )
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(KptTheme.spacing.sm),
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = stringResource(Res.string.feature_settings_name))
-                        Text(text = surveyName)
+                        Text(
+                            text = stringResource(Res.string.feature_settings_name),
+                            color = KptTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = surveyName,
+                            color = KptTheme.colorScheme.onSurface,
+                        )
                     }
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = stringResource(Res.string.feature_settings_total))
-                        Text(text = totalSurveysText)
+                        Text(
+                            text = stringResource(Res.string.feature_settings_total),
+                            color = KptTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = totalSurveysText,
+                            color = KptTheme.colorScheme.onSurface,
+                        )
                     }
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = stringResource(Res.string.feature_settings_syncing_survey))
-                        Text(text = surveyName)
+                        Text(
+                            text = stringResource(Res.string.feature_settings_syncing_survey),
+                            color = KptTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = surveyName,
+                            color = KptTheme.colorScheme.onSurface,
+                        )
                     }
 
                     LinearProgressIndicator(
                         progress = { surveySyncProgress },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                     )
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = stringResource(Res.string.feature_settings_syncing_question))
-                        Text(text = questionName)
+                        Text(
+                            text = stringResource(Res.string.feature_settings_syncing_question),
+                            color = KptTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = questionName,
+                            color = KptTheme.colorScheme.onSurface,
+                        )
                     }
 
                     LinearProgressIndicator(
                         progress = { questionSyncProgress },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                     )
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = stringResource(Res.string.feature_settings_syncing_response))
-                        Text(text = responseName)
+                        Text(
+                            text = stringResource(Res.string.feature_settings_syncing_response),
+                            color = KptTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = responseName,
+                            color = KptTheme.colorScheme.onSurface,
+                        )
                     }
 
                     LinearProgressIndicator(
                         progress = { responseSyncProgress },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                     )
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = stringResource(Res.string.feature_settings_total_sync_progress))
-                        Text(text = totalProgressText)
+                        Text(
+                            text = stringResource(Res.string.feature_settings_total_sync_progress),
+                            color = KptTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = totalProgressText,
+                            color = KptTheme.colorScheme.onSurface,
+                        )
                     }
 
                     LinearProgressIndicator(
                         progress = { totalSyncProgress },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                     )
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = KptTheme.spacing.sm),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = stringResource(Res.string.feature_settings_failed_sync))
-                        Text(text = syncFailedText)
+                        Text(
+                            text = stringResource(Res.string.feature_settings_failed_sync),
+                            color = KptTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = syncFailedText,
+                            color = KptTheme.colorScheme.onSurface,
+                        )
                     }
                 }
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                        .padding(vertical = KptTheme.spacing.md),
                 ) {
                     SyncSurveyButton(
                         onClick = { closeDialog.invoke() },
                         modifier = Modifier
                             .weight(1f)
-                            .padding(end = 8.dp),
+                            .padding(end = KptTheme.spacing.sm),
                         text = stringResource(Res.string.feature_settings_cancel),
                         isEnabled = showCancelButton,
                     )
@@ -365,7 +407,7 @@ private fun SyncSurveysDialogContent(
                         onClick = { closeDialog.invoke() },
                         modifier = Modifier
                             .weight(1f)
-                            .padding(start = 8.dp),
+                            .padding(start = KptTheme.spacing.sm),
                         text = stringResource(Res.string.feature_settings_hide),
                         isEnabled = true,
                     )
@@ -386,9 +428,9 @@ private fun SyncSurveyButton(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .height(40.dp),
+            .height(DesignToken.spacing.dp40),
         colors = ButtonDefaults.buttonColors(
-            disabledContainerColor = Color.DarkGray,
+            disabledContainerColor = KptTheme.colorScheme.onSurface.copy(alpha = 0.12f),
         ),
         enabled = isEnabled,
     ) {

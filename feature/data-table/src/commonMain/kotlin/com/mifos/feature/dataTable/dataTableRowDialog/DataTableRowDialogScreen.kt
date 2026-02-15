@@ -21,11 +21,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,12 +33,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.core.designsystem.component.MifosSweetError
 import com.mifos.core.designsystem.icon.MifosIcons
+import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.ui.components.MifosProgressIndicator
 import com.mifos.room.entities.noncore.DataTableEntity
 import kotlinx.coroutines.launch
@@ -49,6 +46,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun DataTableRowDialogScreen(
@@ -97,8 +95,8 @@ fun DataTableRowDialogScreen(
     ) {
         Surface(
             modifier = modifier,
-            shape = RoundedCornerShape(16.dp),
-            color = Color.White,
+            shape = KptTheme.shapes.medium,
+            color = KptTheme.colorScheme.surface,
         ) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -119,26 +117,27 @@ fun DataTableRowDialogScreen(
                     }
 
                     is DataTableRowDialogUiState.Initial -> {
-                        Column(modifier = Modifier.padding(20.dp)) {
+                        Column(modifier = Modifier.padding(KptTheme.spacing.lg)) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(bottom = 16.dp),
+                                    .padding(bottom = KptTheme.spacing.md),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
                                     text = stringResource(Res.string.feature_data_table_add_data_table),
-                                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                                    color = Color.Blue,
+                                    style = KptTheme.typography.titleLarge,
+                                    color = KptTheme.colorScheme.primary,
                                 )
                                 IconButton(onClick = { onDismiss() }) {
                                     Icon(
                                         imageVector = MifosIcons.Close,
                                         contentDescription = "",
                                         modifier = Modifier
-                                            .width(30.dp)
-                                            .height(30.dp),
+                                            .width(DesignToken.spacing.dp30)
+                                            .height(DesignToken.spacing.dp30),
+                                        tint = KptTheme.colorScheme.onSurface,
                                     )
                                 }
                             }
@@ -171,7 +170,7 @@ fun DataTableRowDialogContent(
         },
         modifier = modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(DesignToken.spacing.dp50),
     ) {
         Text(text = stringResource(Res.string.feature_data_table_submit))
     }

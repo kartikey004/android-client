@@ -57,7 +57,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -65,7 +64,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextFieldDefaults.colors
 import androidx.compose.material3.SelectableDates
@@ -100,7 +98,6 @@ import com.mifos.core.designsystem.component.MifosTextFieldConfig
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosProgressIndicator
 import com.mifos.core.ui.components.MifosStatusDialog
@@ -119,6 +116,7 @@ import kotlinx.datetime.toInstant
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -445,9 +443,8 @@ private fun UpdateClientDetailsFields(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    top = DesignToken.padding.largeIncreased,
-                    start = DesignToken.padding.largeIncreased,
-                    end = DesignToken.padding.largeIncreased,
+                    start = KptTheme.spacing.lg,
+                    end = KptTheme.spacing.lg,
                     bottom = contentPadding.calculateBottomPadding(),
                 )
                 .pointerInput(Unit) {
@@ -462,9 +459,9 @@ private fun UpdateClientDetailsFields(
             Text(
                 text = stringResource(Res.string.feature_client_personal_details),
                 fontWeight = FontWeight.SemiBold,
-                fontSize = MaterialTheme.typography.labelLarge.fontSize,
-                letterSpacing = MaterialTheme.typography.labelLarge.letterSpacing,
-                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = KptTheme.typography.labelLarge.fontSize,
+                letterSpacing = KptTheme.typography.labelLarge.letterSpacing,
+                color = KptTheme.colorScheme.onSurface,
             )
             ClientInputTextFields(
                 firstName = firstName,
@@ -482,7 +479,7 @@ private fun UpdateClientDetailsFields(
                 onEmailAddressChange = { emailAddress = it },
             )
 
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
             clientTemplate.genderOptions?.let { list ->
                 MifosTextFieldDropdown(
                     enabled = list.isNotEmpty(),
@@ -503,27 +500,27 @@ private fun UpdateClientDetailsFields(
                 openDatePicker = { showDateOfBirthDatepicker = !showDateOfBirthDatepicker },
             )
 
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
             Text(
                 text = stringResource(Res.string.feature_client_account_information),
                 fontWeight = FontWeight.SemiBold,
-                fontSize = MaterialTheme.typography.labelLarge.fontSize,
-                letterSpacing = MaterialTheme.typography.labelLarge.letterSpacing,
-                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = KptTheme.typography.labelLarge.fontSize,
+                letterSpacing = KptTheme.typography.labelLarge.letterSpacing,
+                color = KptTheme.colorScheme.onSurface,
             )
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
             MifosOutlinedTextField(
                 value = acccountNo,
                 onValueChange = { acccountNo = it },
                 label = stringResource(Res.string.account_no),
-                shape = DesignToken.shapes.medium,
-                textStyle = MifosTypography.bodyLarge,
+                shape = KptTheme.shapes.medium,
+                textStyle = KptTheme.typography.bodyLarge,
                 colors = colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                    errorBorderColor = MaterialTheme.colorScheme.error,
+                    focusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                    unfocusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                    errorBorderColor = KptTheme.colorScheme.error,
                 ),
                 config = MifosTextFieldConfig(
                     enabled = false,
@@ -533,7 +530,7 @@ private fun UpdateClientDetailsFields(
                             Icon(
                                 imageVector = MifosIcons.Error,
                                 contentDescription = stringResource(Res.string.feature_client_error),
-                                tint = MaterialTheme.colorScheme.error,
+                                tint = KptTheme.colorScheme.error,
                             )
                         }
                     } else {
@@ -541,7 +538,7 @@ private fun UpdateClientDetailsFields(
                     },
                 ),
             )
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
             MifosTextFieldDropdown(
                 enabled = false,
@@ -566,12 +563,12 @@ private fun UpdateClientDetailsFields(
                 value = externalId,
                 onValueChange = { externalId = it },
                 label = stringResource(Res.string.feature_client_external_id),
-                shape = DesignToken.shapes.medium,
-                textStyle = MifosTypography.bodyLarge,
+                shape = KptTheme.shapes.medium,
+                textStyle = KptTheme.typography.bodyLarge,
                 colors = colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                    errorBorderColor = MaterialTheme.colorScheme.error,
+                    focusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                    unfocusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                    errorBorderColor = KptTheme.colorScheme.error,
                 ),
                 config = MifosTextFieldConfig(
                     isError = false,
@@ -580,7 +577,7 @@ private fun UpdateClientDetailsFields(
                             Icon(
                                 imageVector = MifosIcons.Error,
                                 contentDescription = stringResource(Res.string.feature_client_error),
-                                tint = MaterialTheme.colorScheme.error,
+                                tint = KptTheme.colorScheme.error,
                             )
                         }
                     } else {
@@ -588,16 +585,16 @@ private fun UpdateClientDetailsFields(
                     },
                 ),
             )
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
             Text(
                 text = stringResource(Res.string.feature_client_office_use),
                 fontWeight = FontWeight.SemiBold,
-                fontSize = MaterialTheme.typography.labelLarge.fontSize,
-                letterSpacing = MaterialTheme.typography.labelLarge.letterSpacing,
-                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = KptTheme.typography.labelLarge.fontSize,
+                letterSpacing = KptTheme.typography.labelLarge.letterSpacing,
+                color = KptTheme.colorScheme.onSurface,
             )
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
             clientTemplate.clientLegalFormOptions?.let { list ->
                 MifosTextFieldDropdown(
@@ -650,7 +647,7 @@ private fun UpdateClientDetailsFields(
                 openDatePicker = { showDateOfSubmissionDatepicker = false },
             )
 
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
             MifosDatePickerTextField(
                 enabled = false,
                 value = DateHelper.getDateAsStringFromLong(activationDate),
@@ -658,7 +655,7 @@ private fun UpdateClientDetailsFields(
                 openDatePicker = { showDateOfActivationDatepicker = false },
             )
 
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
 
             MifosTextFieldDropdown(
                 enabled = false,
@@ -674,7 +671,7 @@ private fun UpdateClientDetailsFields(
                 readOnly = true,
             )
 
-            Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
         }
     }
 }
@@ -702,17 +699,17 @@ private fun ClientInputTextFields(
     onEmailAddressChange: (String) -> Unit,
 ) {
     Column {
-        Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
         MifosOutlinedTextField(
             value = firstName,
             onValueChange = onFirstNameChange,
             label = stringResource(Res.string.feature_client_first_name_mandatory),
-            shape = DesignToken.shapes.medium,
-            textStyle = MifosTypography.bodyLarge,
+            shape = KptTheme.shapes.medium,
+            textStyle = KptTheme.typography.bodyLarge,
             colors = colors(
-                focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                errorBorderColor = MaterialTheme.colorScheme.error,
+                focusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                unfocusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                errorBorderColor = KptTheme.colorScheme.error,
             ),
             config = MifosTextFieldConfig(
                 isError = firstNameError != null,
@@ -722,7 +719,7 @@ private fun ClientInputTextFields(
                         Icon(
                             imageVector = MifosIcons.Error,
                             contentDescription = stringResource(Res.string.feature_client_error),
-                            tint = MaterialTheme.colorScheme.error,
+                            tint = KptTheme.colorScheme.error,
                         )
                     }
                 } else {
@@ -731,17 +728,17 @@ private fun ClientInputTextFields(
             ),
         )
 
-        Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
         MifosOutlinedTextField(
             value = middleName,
             onValueChange = onMiddleNameChange,
             label = stringResource(Res.string.feature_client_middle_name),
-            shape = DesignToken.shapes.medium,
-            textStyle = MifosTypography.bodyLarge,
+            shape = KptTheme.shapes.medium,
+            textStyle = KptTheme.typography.bodyLarge,
             colors = colors(
-                focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                errorBorderColor = MaterialTheme.colorScheme.error,
+                focusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                unfocusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                errorBorderColor = KptTheme.colorScheme.error,
             ),
             config = MifosTextFieldConfig(
                 isError = middleNameError != null,
@@ -751,7 +748,7 @@ private fun ClientInputTextFields(
                         Icon(
                             imageVector = MifosIcons.Error,
                             contentDescription = stringResource(Res.string.feature_client_error),
-                            tint = MaterialTheme.colorScheme.error,
+                            tint = KptTheme.colorScheme.error,
                         )
                     }
                 } else {
@@ -760,17 +757,17 @@ private fun ClientInputTextFields(
             ),
         )
 
-        Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
         MifosOutlinedTextField(
             value = lastName,
             onValueChange = onLastNameChange,
             label = stringResource(Res.string.feature_client_last_name_mandatory),
-            shape = DesignToken.shapes.medium,
-            textStyle = MifosTypography.bodyLarge,
+            shape = KptTheme.shapes.medium,
+            textStyle = KptTheme.typography.bodyLarge,
             colors = colors(
-                focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                errorBorderColor = MaterialTheme.colorScheme.error,
+                focusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                unfocusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                errorBorderColor = KptTheme.colorScheme.error,
             ),
             config = MifosTextFieldConfig(
                 isError = lastNameError != null,
@@ -780,7 +777,7 @@ private fun ClientInputTextFields(
                         Icon(
                             imageVector = MifosIcons.Error,
                             contentDescription = stringResource(Res.string.feature_client_error),
-                            tint = MaterialTheme.colorScheme.error,
+                            tint = KptTheme.colorScheme.error,
                         )
                     }
                 } else {
@@ -788,17 +785,17 @@ private fun ClientInputTextFields(
                 },
             ),
         )
-        Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
         MifosOutlinedTextField(
             value = mobileNumber,
             onValueChange = onMobileNumberChange,
             label = stringResource(Res.string.feature_client_phone_no),
-            shape = DesignToken.shapes.medium,
-            textStyle = MifosTypography.bodyLarge,
+            shape = KptTheme.shapes.medium,
+            textStyle = KptTheme.typography.bodyLarge,
             colors = colors(
-                focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                errorBorderColor = MaterialTheme.colorScheme.error,
+                focusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                unfocusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                errorBorderColor = KptTheme.colorScheme.error,
             ),
             config = MifosTextFieldConfig(
                 isError = false,
@@ -807,7 +804,7 @@ private fun ClientInputTextFields(
                         Icon(
                             imageVector = MifosIcons.Error,
                             contentDescription = stringResource(Res.string.feature_client_error),
-                            tint = MaterialTheme.colorScheme.error,
+                            tint = KptTheme.colorScheme.error,
                         )
                     }
                 } else {
@@ -816,17 +813,17 @@ private fun ClientInputTextFields(
             ),
         )
 
-        Spacer(modifier = Modifier.height(DesignToken.spacing.small))
+        Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
         MifosOutlinedTextField(
             value = emailAddress,
             onValueChange = onEmailAddressChange,
             label = stringResource(Res.string.email_address),
-            shape = DesignToken.shapes.medium,
-            textStyle = MifosTypography.bodyLarge,
+            shape = KptTheme.shapes.medium,
+            textStyle = KptTheme.typography.bodyLarge,
             colors = colors(
-                focusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                errorBorderColor = MaterialTheme.colorScheme.error,
+                focusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                unfocusedBorderColor = KptTheme.colorScheme.secondaryContainer,
+                errorBorderColor = KptTheme.colorScheme.error,
             ),
             config = MifosTextFieldConfig(
                 isError = false,
@@ -835,7 +832,7 @@ private fun ClientInputTextFields(
                         Icon(
                             imageVector = MifosIcons.Error,
                             contentDescription = stringResource(Res.string.feature_client_error),
-                            tint = MaterialTheme.colorScheme.error,
+                            tint = KptTheme.colorScheme.error,
                         )
                     }
                 } else {
@@ -852,11 +849,11 @@ private fun UpdateClientDetailsBottomBar(
     onSubmitClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
+        modifier = Modifier.background(KptTheme.colorScheme.surface),
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth().padding(DesignToken.padding.small),
+                .fillMaxWidth().padding(KptTheme.spacing.sm),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             OutlinedButton(
@@ -865,48 +862,48 @@ private fun UpdateClientDetailsBottomBar(
                     .weight(0.4f)
                     .heightIn(DesignToken.sizes.avatarMedium),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimary,
-                    contentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = KptTheme.colorScheme.onPrimary,
+                    contentColor = KptTheme.colorScheme.primary,
                 ),
-                shape = RoundedCornerShape(DesignToken.sizes.iconMinyMiny),
+                shape = KptTheme.shapes.small,
                 border = BorderStroke(
                     width = Dp.Hairline,
-                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    color = KptTheme.colorScheme.secondaryContainer,
                 ),
                 onClick = { onCancelClick.invoke() },
             ) {
                 Icon(imageVector = MifosIcons.Close, contentDescription = "")
-                Spacer(modifier = Modifier.width(DesignToken.spacing.small))
+                Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
                 Text(
                     text = stringResource(Res.string.feature_client_cancel),
                     fontWeight = FontWeight.Medium,
-                    fontSize = MaterialTheme.typography.labelLarge.fontSize,
-                    letterSpacing = MaterialTheme.typography.labelLarge.letterSpacing,
-                    lineHeight = MaterialTheme.typography.labelLarge.lineHeight,
+                    fontSize = KptTheme.typography.labelLarge.fontSize,
+                    letterSpacing = KptTheme.typography.labelLarge.letterSpacing,
+                    lineHeight = KptTheme.typography.labelLarge.lineHeight,
                     textAlign = TextAlign.Center,
                 )
             }
-            Spacer(modifier = Modifier.width(DesignToken.spacing.small))
+            Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.4f)
                     .heightIn(DesignToken.sizes.avatarMedium),
-                shape = RoundedCornerShape(DesignToken.sizes.iconMinyMiny),
+                shape = KptTheme.shapes.small,
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    containerColor = KptTheme.colorScheme.primary,
+                    contentColor = KptTheme.colorScheme.onPrimary,
                 ),
                 onClick = { onSubmitClick.invoke() },
             ) {
                 Icon(imageVector = MifosIcons.Check, contentDescription = "")
-                Spacer(modifier = Modifier.width(DesignToken.spacing.small))
+                Spacer(modifier = Modifier.width(KptTheme.spacing.sm))
                 Text(
                     text = stringResource(Res.string.feature_client_submit),
                     fontWeight = FontWeight.Medium,
-                    fontSize = MaterialTheme.typography.labelLarge.fontSize,
-                    letterSpacing = MaterialTheme.typography.labelLarge.letterSpacing,
-                    lineHeight = MaterialTheme.typography.labelLarge.lineHeight,
+                    fontSize = KptTheme.typography.labelLarge.fontSize,
+                    letterSpacing = KptTheme.typography.labelLarge.letterSpacing,
+                    lineHeight = KptTheme.typography.labelLarge.lineHeight,
                     textAlign = TextAlign.Center,
                 )
             }

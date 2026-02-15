@@ -32,9 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.mifos.core.designsystem.component.MifosScaffold
 import com.mifos.core.designsystem.component.PermissionBox
 import com.mifos.core.designsystem.component.getRequiredPermissionsForExport
@@ -46,6 +43,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun ReportScreen(
@@ -95,7 +93,11 @@ fun ReportScreen(
                     checkPermission = true
                 },
             ) {
-                Text(text = stringResource(Res.string.feature_report_export_csv))
+                Text(
+                    text = stringResource(Res.string.feature_report_export_csv),
+                    style = KptTheme.typography.labelLarge,
+                    color = KptTheme.colorScheme.primary,
+                )
             }
         },
         snackbarHostState = snackbarHostState,
@@ -110,15 +112,19 @@ fun ReportScreen(
                 itemsIndexed(report.columnHeaders.map { it.columnName }) { index, columnName ->
                     Column {
                         Text(
-                            modifier = Modifier.padding(8.dp),
+                            modifier = Modifier.padding(KptTheme.spacing.sm),
                             text = columnName,
-                            style = TextStyle(
-                                fontWeight = FontWeight.Bold,
-                            ),
+                            style = KptTheme.typography.titleSmall,
+                            color = KptTheme.colorScheme.onSurface,
                         )
                         report.data.map { it.row }.forEach {
                             if (it[index] != null) {
-                                Text(text = it[index]!!, modifier = Modifier.padding(8.dp))
+                                Text(
+                                    text = it[index]!!,
+                                    modifier = Modifier.padding(KptTheme.spacing.sm),
+                                    style = KptTheme.typography.bodyMedium,
+                                    color = KptTheme.colorScheme.onSurface,
+                                )
                             }
                         }
                     }

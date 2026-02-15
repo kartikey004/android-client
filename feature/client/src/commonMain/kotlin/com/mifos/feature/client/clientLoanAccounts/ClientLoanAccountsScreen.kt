@@ -11,7 +11,6 @@ package com.mifos.feature.client.clientLoanAccounts
 
 import androidclient.feature.client.generated.resources.Res
 import androidclient.feature.client.generated.resources.cash_bundel
-import androidclient.feature.client.generated.resources.client_loan_accounts_not_available
 import androidclient.feature.client.generated.resources.client_savings_item
 import androidclient.feature.client.generated.resources.feature_client_account_status
 import androidclient.feature.client.generated.resources.feature_client_dialog_action_ok
@@ -46,7 +45,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
@@ -63,7 +61,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.MifosActionsLoanListingComponent
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
@@ -75,6 +72,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,7 +135,7 @@ private fun ClientLoanAccountsScreen(
             false -> {
                 Column(
                     modifier = Modifier.fillMaxSize()
-                        .padding(horizontal = DesignToken.padding.large),
+                        .padding(horizontal = KptTheme.spacing.lg),
                 ) {
                     ClientsAccountHeader(
                         totalItem = state.loanAccounts.size.toString(),
@@ -160,7 +158,7 @@ private fun ClientLoanAccountsScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(DesignToken.padding.large))
+                    Spacer(modifier = Modifier.height(KptTheme.spacing.lg))
 
                     if (state.loanAccounts.isEmpty()) {
                         MifosEmptyCard()
@@ -170,18 +168,16 @@ private fun ClientLoanAccountsScreen(
                                 val symbol = loan.currency?.displaySymbol ?: ""
                                 MifosActionsLoanListingComponent(
                                     accountNo = (
-                                        loan.accountNo ?: stringResource(
-                                            Res.string.client_loan_accounts_not_available,
-                                        )
+                                        loan.accountNo ?: "Not Available"
                                         ),
-                                    loanProduct = loan.productName ?: stringResource(Res.string.client_loan_accounts_not_available),
+                                    loanProduct = loan.productName ?: "Not Available",
                                     originalLoan = symbol + (
-                                        (loan.originalLoan ?: stringResource(Res.string.client_loan_accounts_not_available)).toString()
+                                        (loan.originalLoan ?: "Not Available").toString()
                                         ),
                                     amountPaid = symbol + (
                                         (
                                             if (loan.status?.pendingApproval == true) {
-                                                stringResource(Res.string.client_loan_accounts_not_available)
+                                                "Not Available"
                                             } else {
                                                 (
                                                     loan.amountPaid
@@ -193,7 +189,7 @@ private fun ClientLoanAccountsScreen(
                                     loanBalance = symbol + (
                                         (
                                             if (loan.status?.pendingApproval == true) {
-                                                stringResource(Res.string.client_loan_accounts_not_available)
+                                                "Not Available"
                                             } else {
                                                 (
                                                     loan.loanBalance
@@ -202,7 +198,7 @@ private fun ClientLoanAccountsScreen(
                                             }
                                             )
                                         ),
-                                    type = loan.loanType?.value ?: stringResource(Res.string.client_loan_accounts_not_available),
+                                    type = loan.loanType?.value ?: "Not Available",
                                     // TODO check if we need to add other options as well, such as disburse and all
                                     // currently didn't add it cuz its not in the UI design
                                     menuList = when {
@@ -239,7 +235,7 @@ private fun ClientLoanAccountsScreen(
                                     },
                                 )
 
-                                Spacer(modifier = Modifier.height(DesignToken.padding.small))
+                                Spacer(modifier = Modifier.height(KptTheme.spacing.sm))
                             }
                         }
                     }
@@ -261,12 +257,14 @@ private fun ClientsAccountHeader(
         Column {
             Text(
                 text = stringResource(Res.string.feature_client_loan_account),
-                style = MifosTypography.titleMedium,
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
 
             Text(
                 text = totalItem + " " + stringResource(Res.string.client_savings_item),
-                style = MifosTypography.labelMedium,
+                style = KptTheme.typography.labelMedium,
+                color = KptTheme.colorScheme.onSurfaceVariant,
             )
         }
 
@@ -279,6 +277,7 @@ private fun ClientsAccountHeader(
             Icon(
                 painter = painterResource(Res.drawable.search),
                 contentDescription = null,
+                tint = KptTheme.colorScheme.onSurface,
             )
         }
 
@@ -292,6 +291,7 @@ private fun ClientsAccountHeader(
                 Icon(
                     painter = painterResource(Res.drawable.filter),
                     contentDescription = null,
+                    tint = KptTheme.colorScheme.onSurface,
                 )
             }
 
@@ -299,10 +299,10 @@ private fun ClientsAccountHeader(
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(top = 12.dp, end = 16.dp)
-                        .size(8.dp)
+                        .padding(top = KptTheme.spacing.sm, end = KptTheme.spacing.md)
+                        .size(DesignToken.sizes.iconMinyMiny)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.error),
+                        .background(KptTheme.colorScheme.error),
                 )
             }
         }
@@ -348,22 +348,22 @@ private fun FilterBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         dragHandle = null,
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = KptTheme.colorScheme.surface,
     ) {
         Column(
-            modifier = Modifier.padding(DesignToken.padding.large),
+            modifier = Modifier.padding(KptTheme.spacing.lg),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(DesignToken.padding.medium),
+                    .padding(KptTheme.spacing.md),
             ) {
                 Text(
                     text = stringResource(Res.string.feature_client_filters),
-                    style = MifosTypography.titleLargeEmphasized,
-                    color = MaterialTheme.colorScheme.primary,
+                    style = KptTheme.typography.titleLarge,
+                    color = KptTheme.colorScheme.primary,
                 )
                 Row {
                     IconButton(
@@ -375,6 +375,7 @@ private fun FilterBottomSheet(
                         Icon(
                             imageVector = MifosIcons.Redo,
                             contentDescription = "Clear",
+                            tint = KptTheme.colorScheme.onSurface,
                         )
                     }
 
@@ -384,18 +385,20 @@ private fun FilterBottomSheet(
                         Icon(
                             imageVector = MifosIcons.Check,
                             contentDescription = "Apply",
+                            tint = KptTheme.colorScheme.onSurface,
                         )
                     }
                 }
             }
         }
 
-        HorizontalDivider(Modifier.fillMaxWidth(), thickness = 1.5.dp)
-        Column(modifier = Modifier.padding(DesignToken.padding.medium)) {
+        HorizontalDivider(Modifier.fillMaxWidth(), thickness = 1.5.dp, color = KptTheme.colorScheme.outlineVariant)
+        Column(modifier = Modifier.padding(KptTheme.spacing.md)) {
             Text(
                 text = stringResource(Res.string.feature_client_account_status),
-                style = MifosTypography.titleMediumEmphasized,
-                modifier = Modifier.padding(bottom = DesignToken.padding.small),
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = KptTheme.spacing.sm),
             )
 
             LoanStatusFilter.entries.forEach { status ->
@@ -410,12 +413,16 @@ private fun FilterBottomSheet(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Spacer(modifier = Modifier.width(DesignToken.padding.medium))
+                    Spacer(modifier = Modifier.width(KptTheme.spacing.md))
                     Checkbox(
                         checked = isChecked,
                         onCheckedChange = { handleFilterClick(status) },
                     )
-                    Text(text = statusLabel)
+                    Text(
+                        text = statusLabel,
+                        style = KptTheme.typography.bodyLarge,
+                        color = KptTheme.colorScheme.onSurface,
+                    )
                 }
             }
         }

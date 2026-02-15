@@ -21,17 +21,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mifos.core.designsystem.theme.DesignToken
 import com.mifos.core.designsystem.theme.MifosTheme
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosUserImage
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun ClientDetailsProfile(
@@ -41,32 +40,36 @@ fun ClientDetailsProfile(
     email: String?,
 ) {
     Row(
-        Modifier.fillMaxWidth()
-            .padding(top = DesignToken.padding.largeIncreasedExtra, bottom = DesignToken.padding.medium),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = KptTheme.spacing.sm,
+                bottom = KptTheme.spacing.md,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MifosUserImage(
             bitmap = image,
             modifier = Modifier.size(DesignToken.sizes.avatarLarge),
         )
-        Spacer(Modifier.width(DesignToken.padding.medium))
+        Spacer(Modifier.width(KptTheme.spacing.md))
         Column(
             Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(DesignToken.padding.extraExtraSmall),
+            verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.xs),
         ) {
             Text(
                 text = name ?: stringResource(Res.string.name_na),
-                style = MifosTypography.titleMediumEmphasized,
+                style = KptTheme.typography.titleMedium,
             )
             Text(
                 text = mobile ?: stringResource(Res.string.mobile_na),
-                style = MifosTypography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
+                style = KptTheme.typography.bodySmall,
+                color = KptTheme.colorScheme.secondary,
             )
             Text(
                 text = email ?: stringResource(Res.string.email_na),
-                style = MifosTypography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
+                style = KptTheme.typography.bodySmall,
+                color = KptTheme.colorScheme.secondary,
             )
         }
     }

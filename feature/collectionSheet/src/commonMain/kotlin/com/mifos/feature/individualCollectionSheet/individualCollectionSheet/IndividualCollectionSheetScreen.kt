@@ -20,7 +20,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,6 +36,7 @@ import com.mifos.feature.individualCollectionSheet.newIndividualCollectionSheet.
 import com.mifos.feature.individualCollectionSheet.savedIndividualCollectionSheet.SavedIndividualCollectionSheetCompose
 import com.mifos.room.entities.collectionsheet.IndividualCollectionSheet
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun IndividualCollectionSheetScreen(
@@ -65,24 +65,24 @@ internal fun IndividualCollectionSheetScreen(
                 title = {
                     Text(
                         text = stringResource(Res.string.feature_collection_sheet_individual_collection_sheet),
-                        style = MaterialTheme.typography.titleLarge
+                        style = KptTheme.typography.titleLarge,
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackPressed) {
                         Icon(
                             imageVector = MifosIcons.ArrowBack,
-                            contentDescription = "Navigate back"
+                            contentDescription = "Navigate back",
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
-                )
+                    containerColor = KptTheme.colorScheme.surface,
+                    titleContentColor = KptTheme.colorScheme.onSurface,
+                    navigationIconContentColor = KptTheme.colorScheme.onSurface,
+                ),
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues),

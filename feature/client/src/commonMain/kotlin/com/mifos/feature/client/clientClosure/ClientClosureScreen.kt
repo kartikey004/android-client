@@ -22,6 +22,7 @@ import androidclient.feature.client.generated.resources.client_closure_title
 import androidclient.feature.client.generated.resources.dialog_continue
 import androidclient.feature.client.generated.resources.feature_client_charge_cancel
 import androidclient.feature.client.generated.resources.feature_client_charge_select
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +35,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -52,7 +52,6 @@ import com.mifos.core.designsystem.component.MifosTextButton
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosProgressIndicator
@@ -60,6 +59,7 @@ import com.mifos.core.ui.components.MifosStatusDialog
 import com.mifos.core.ui.util.EventsEffect
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -117,14 +117,15 @@ private fun ClientClosureContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = DesignToken.padding.large),
+                    .padding(horizontal = KptTheme.spacing.lg),
             ) {
                 if (state.reasons.isNotEmpty()) {
                     Text(
                         text = stringResource(Res.string.client_closure_title),
-                        style = MifosTypography.labelLargeEmphasized,
+                        style = KptTheme.typography.labelLarge,
+                        color = KptTheme.colorScheme.onSurface,
                     )
-                    Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                    Spacer(Modifier.height(KptTheme.spacing.xl))
 
                     MifosDatePickerTextField(
                         value = DateHelper.getDateAsStringFromLong(state.date),
@@ -161,7 +162,7 @@ private fun ClientClosureContent(
                         }
                     }
 
-                    Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                    Spacer(Modifier.height(KptTheme.spacing.lg))
 
                     MifosTextFieldDropdown(
                         value = state.reasons[state.currentSelectedIndex].name,
@@ -177,42 +178,44 @@ private fun ClientClosureContent(
                         readOnly = true,
                     )
 
-                    Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                    Spacer(Modifier.height(KptTheme.spacing.xl))
 
-                    Row(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(KptTheme.spacing.md),
+                    ) {
                         MifosOutlinedButton(
                             onClick = { onAction(ClientClosureAction.NavigateBack) },
                             leadingIcon = {
                                 Icon(
                                     imageVector = MifosIcons.ChevronLeft,
                                     contentDescription = null,
-                                    modifier = Modifier.size(DesignToken.sizes.iconAverage),
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(DesignToken.sizes.iconSmall),
+                                    tint = KptTheme.colorScheme.primary,
                                 )
                             },
                             text = {
                                 Text(
                                     text = stringResource(Res.string.btn_back),
-                                    color = MaterialTheme.colorScheme.primary,
-                                    style = MifosTypography.labelLarge,
+                                    color = KptTheme.colorScheme.primary,
+                                    style = KptTheme.typography.labelLarge,
                                 )
                             },
                             modifier = Modifier.weight(1f),
                         )
-                        Spacer(Modifier.padding(DesignToken.padding.small))
                         MifosTextButton(
                             onClick = { onAction(ClientClosureAction.OnSubmit) },
                             leadingIcon = {
                                 Icon(
                                     imageVector = MifosIcons.Check,
                                     contentDescription = null,
-                                    modifier = Modifier.size(DesignToken.sizes.iconAverage),
+                                    modifier = Modifier.size(DesignToken.sizes.iconSmall),
                                 )
                             },
                             text = {
                                 Text(
                                     text = stringResource(Res.string.btn_submit),
-                                    style = MifosTypography.labelLarge,
+                                    style = KptTheme.typography.labelLarge,
                                 )
                             },
                             modifier = Modifier.weight(1f),
@@ -220,7 +223,11 @@ private fun ClientClosureContent(
                         )
                     }
                 } else {
-                    Text(stringResource(Res.string.client_closure_no_reasons_found))
+                    Text(
+                        text = stringResource(Res.string.client_closure_no_reasons_found),
+                        style = KptTheme.typography.bodyLarge,
+                        color = KptTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
         }

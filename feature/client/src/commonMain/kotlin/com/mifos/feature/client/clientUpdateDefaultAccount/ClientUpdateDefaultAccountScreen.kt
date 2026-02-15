@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,7 +40,6 @@ import com.mifos.core.designsystem.component.MifosTextButton
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosProgressIndicator
@@ -50,6 +48,7 @@ import com.mifos.core.ui.components.ResultStatus
 import com.mifos.core.ui.util.EventsEffect
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun UpdateDefaultAccountScreen(
@@ -98,14 +97,14 @@ private fun UpdateDefaultAccountContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = DesignToken.padding.large),
+                    .padding(horizontal = KptTheme.spacing.md),
             ) {
                 if (state.accounts.isNotEmpty()) {
                     Text(
                         text = stringResource(Res.string.update_default_account_title),
-                        style = MifosTypography.labelLargeEmphasized,
+                        style = KptTheme.typography.titleMedium,
                     )
-                    Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                    Spacer(Modifier.height(KptTheme.spacing.lg))
 
                     MifosTextFieldDropdown(
                         value = state.accounts[state.currentSelectedIndex].accountNo,
@@ -118,7 +117,7 @@ private fun UpdateDefaultAccountContent(
                         modifier = Modifier.fillMaxWidth(),
                     )
 
-                    Spacer(Modifier.height(DesignToken.padding.largeIncreased))
+                    Spacer(Modifier.height(KptTheme.spacing.lg))
 
                     Row(modifier = Modifier.fillMaxWidth()) {
                         MifosOutlinedButton(
@@ -128,19 +127,19 @@ private fun UpdateDefaultAccountContent(
                                     imageVector = MifosIcons.ChevronLeft,
                                     contentDescription = null,
                                     modifier = Modifier.size(DesignToken.sizes.iconAverage),
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    tint = KptTheme.colorScheme.primary,
                                 )
                             },
                             text = {
                                 Text(
                                     text = stringResource(Res.string.btn_back),
-                                    color = MaterialTheme.colorScheme.primary,
-                                    style = MifosTypography.labelLarge,
+                                    color = KptTheme.colorScheme.primary,
+                                    style = KptTheme.typography.labelLarge,
                                 )
                             },
                             modifier = Modifier.weight(1f),
                         )
-                        Spacer(Modifier.padding(DesignToken.padding.small))
+                        Spacer(Modifier.padding(KptTheme.spacing.sm))
                         MifosTextButton(
                             onClick = { onAction(UpdateDefaultAccountAction.OnSave) },
                             leadingIcon = {
@@ -153,7 +152,7 @@ private fun UpdateDefaultAccountContent(
                             text = {
                                 Text(
                                     text = stringResource(Res.string.btn_submit),
-                                    style = MifosTypography.labelLarge,
+                                    style = KptTheme.typography.labelLarge,
                                 )
                             },
                             modifier = Modifier.weight(1f),

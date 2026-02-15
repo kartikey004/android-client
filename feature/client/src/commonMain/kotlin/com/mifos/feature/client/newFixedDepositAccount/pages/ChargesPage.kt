@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,7 +45,6 @@ import androidx.compose.ui.Modifier
 import com.mifos.core.designsystem.component.MifosBottomSheet
 import com.mifos.core.designsystem.icon.MifosIcons
 import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.Actions
 import com.mifos.core.ui.components.AddChargeBottomSheet
 import com.mifos.core.ui.components.MifosActionsChargeListingComponent
@@ -56,6 +54,7 @@ import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.client.newFixedDepositAccount.NewFixedDepositAccountAction
 import com.mifos.feature.client.newFixedDepositAccount.NewFixedDepositAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 fun ChargesPage(
@@ -65,15 +64,15 @@ fun ChargesPage(
 ) {
     val chargesState = state.fixedDepositAccountCharges
 
-    Column(modifier = Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    Column(modifier = Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.md)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 stringResource(Res.string.step_charges),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.labelLarge,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             // Add New Button
             Row(
@@ -92,19 +91,19 @@ fun ChargesPage(
                     Icon(
                         imageVector = MifosIcons.Add,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = KptTheme.colorScheme.primary,
                         modifier = Modifier.size(DesignToken.sizes.iconSmall),
                     )
 
                     Text(
                         text = stringResource(Res.string.feature_share_account_charge_add_new),
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MifosTypography.labelLargeEmphasized,
+                        color = KptTheme.colorScheme.primary,
+                        style = KptTheme.typography.labelLarge,
                     )
                 }
             }
 
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
 
             // Active Charges Row
             MifosRowWithTextAndButton(
@@ -117,7 +116,7 @@ fun ChargesPage(
                 text = "${chargesState.addedCharges.size} ${stringResource(Res.string.feature_share_account_charge_active_charge)}",
                 btnEnabled = chargesState.addedCharges.isNotEmpty(),
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.md))
         }
 
         // Back and Next Buttons
@@ -221,12 +220,12 @@ internal fun ShowChargesDialog(
         },
         content = {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(DesignToken.padding.large),
-                verticalArrangement = Arrangement.spacedBy(DesignToken.padding.largeIncreased),
+                modifier = Modifier.fillMaxWidth().padding(KptTheme.spacing.md),
+                verticalArrangement = Arrangement.spacedBy(KptTheme.spacing.lg),
             ) {
                 Text(
                     text = stringResource(Res.string.feature_share_account_charge_view_charges),
-                    style = MifosTypography.titleMediumEmphasized,
+                    style = KptTheme.typography.titleMedium,
                 )
 
                 if (state.fixedDepositAccountCharges.addedCharges.isNotEmpty()) {

@@ -45,8 +45,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosBreadcrumbNavBar
 import com.mifos.core.ui.components.MifosErrorComponent
 import com.mifos.core.ui.components.MifosProgressIndicator
@@ -56,6 +54,7 @@ import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.core.ui.util.EventsEffect
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import template.core.base.designsystem.theme.KptTheme
 
 @Composable
 internal fun ClientCollateralScreen(
@@ -97,7 +96,7 @@ private fun ClientCollateralContent(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(bottom = DesignToken.padding.large),
+                .padding(bottom = KptTheme.spacing.lg),
         ) {
             MifosBreadcrumbNavBar(
                 navController = navController,
@@ -105,11 +104,11 @@ private fun ClientCollateralContent(
 
             Text(
                 text = stringResource(Res.string.client_collateral_title),
-                style = MifosTypography.labelLargeEmphasized,
-                modifier = Modifier.padding(horizontal = DesignToken.padding.large),
+                style = KptTheme.typography.labelLarge,
+                modifier = Modifier.padding(horizontal = KptTheme.spacing.lg),
             )
 
-            Spacer(modifier = Modifier.height(DesignToken.spacing.medium))
+            Spacer(modifier = Modifier.height(KptTheme.spacing.md))
 
             if (state.collaterals.isNotEmpty()) {
                 Column(
@@ -117,7 +116,7 @@ private fun ClientCollateralContent(
                         .fillMaxWidth()
                         .weight(1f)
                         .verticalScroll(rememberScrollState())
-                        .padding(horizontal = DesignToken.padding.large),
+                        .padding(horizontal = KptTheme.spacing.lg),
                 ) {
                     MifosTextFieldDropdown(
                         value = state.collaterals[state.currentSelectedIndex].name,
@@ -205,10 +204,15 @@ private fun ClientCollateralContent(
                     secondBtnText = stringResource(Res.string.btn_submit),
                     onFirstBtnClick = { onAction(ClientCollateralAction.NavigateBack) },
                     onSecondBtnClick = { onAction(ClientCollateralAction.OnSave) },
-                    modifier = Modifier.padding(horizontal = DesignToken.padding.large),
+                    modifier = Modifier.padding(horizontal = KptTheme.spacing.lg),
                 )
             } else {
-                Text(stringResource(Res.string.client_collateral_no_options))
+                Text(
+                    text = stringResource(Res.string.client_collateral_no_options),
+                    style = KptTheme.typography.bodyLarge,
+                    color = KptTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = KptTheme.spacing.lg),
+                )
             }
         }
     }

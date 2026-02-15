@@ -49,12 +49,11 @@ import com.mifos.core.common.utils.DateHelper
 import com.mifos.core.designsystem.component.MifosDatePickerTextField
 import com.mifos.core.designsystem.component.MifosOutlinedTextField
 import com.mifos.core.designsystem.component.MifosTextFieldDropdown
-import com.mifos.core.designsystem.theme.DesignToken
-import com.mifos.core.designsystem.theme.MifosTypography
 import com.mifos.core.ui.components.MifosTwoButtonRow
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountAction
 import com.mifos.feature.loan.newLoanAccount.NewLoanAccountState
 import org.jetbrains.compose.resources.stringResource
+import template.core.base.designsystem.theme.KptTheme
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -141,15 +140,16 @@ fun DetailsPage(
         }
     }
 
-    Column(Modifier.fillMaxSize().padding(bottom = DesignToken.padding.large)) {
+    Column(Modifier.fillMaxSize().padding(bottom = KptTheme.spacing.lg)) {
         Column(
             modifier = modifier.weight(1f).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = stringResource(Res.string.step_details),
-                style = MifosTypography.labelLargeEmphasized,
+                style = KptTheme.typography.titleMedium,
+                color = KptTheme.colorScheme.onSurface,
             )
-            Spacer(Modifier.height(DesignToken.padding.large))
+            Spacer(Modifier.height(KptTheme.spacing.lg))
 
             MifosTextFieldDropdown(
                 value = if (state.loanProductSelected == -1) {
@@ -174,7 +174,7 @@ fun DetailsPage(
                     },
                     label = stringResource(Res.string.external_id),
                 )
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
                 MifosTextFieldDropdown(
                     value = if (state.loanOfficerIndex == -1) {
                         ""
@@ -228,7 +228,7 @@ fun DetailsPage(
                         onAction(NewLoanAccountAction.OnSubmissionDatePick(true))
                     },
                 )
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
                 MifosDatePickerTextField(
                     value = state.expectedDisbursementDate,
                     label = stringResource(Res.string.expected_disbursement),
@@ -236,12 +236,13 @@ fun DetailsPage(
                         onAction(NewLoanAccountAction.OnExpectedDisbursementDatePick(true))
                     },
                 )
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
                 Text(
                     text = stringResource(Res.string.savings_linkage),
-                    style = MifosTypography.labelLargeEmphasized,
+                    style = KptTheme.typography.titleMedium,
+                    color = KptTheme.colorScheme.onSurface,
                 )
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
                 MifosTextFieldDropdown(
                     value = if (state.linkSavingsIndex == -1) {
                         ""
@@ -255,7 +256,7 @@ fun DetailsPage(
                     options = state.loanTemplate.accountLinkingOptions.map { it.productName.toString() },
                     label = stringResource(Res.string.link_savings),
                 )
-                Spacer(Modifier.height(DesignToken.padding.medium))
+                Spacer(Modifier.height(KptTheme.spacing.md))
                 Row(
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -268,10 +269,11 @@ fun DetailsPage(
                     )
                     Text(
                         text = stringResource(Res.string.create_standing_instructions),
-                        style = MifosTypography.labelLarge,
+                        style = KptTheme.typography.labelLarge,
+                        color = KptTheme.colorScheme.onSurface,
                     )
                 }
-                Spacer(Modifier.height(DesignToken.padding.large))
+                Spacer(Modifier.height(KptTheme.spacing.lg))
             }
         }
 
@@ -285,7 +287,7 @@ fun DetailsPage(
                 onAction(NewLoanAccountAction.NextStep)
             },
             isSecondButtonEnabled = state.isDetailsNextEnabled,
-            modifier = Modifier.padding(top = DesignToken.padding.small),
+            modifier = Modifier.padding(top = KptTheme.spacing.sm),
         )
     }
 }
