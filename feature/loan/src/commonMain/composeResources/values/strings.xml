@@ -108,6 +108,8 @@
     <string name="feature_loan_closed">Loan Closed</string>
     <string name="feature_loan_total_loan">Total Loan</string>
 
+    <string name="feature_loan_overpaid">Overpaid</string>
+
     <string name="feature_loan_failed_to_load_loan_repayment">Failed to load loan repayment</string>
     <string name="feature_loan_repayment_make_sure_every_field_has_a_value">Make sure every field has a value</string>
     <string name="feature_loan_additional_payment">Additional Payment</string>
@@ -143,7 +145,8 @@
 
 
     <string name="feature_loan_unknown_error_occured">An Unknown Error Occured</string>
-    <string name="feature_loan_payment_success_message">Payment Successful, Transaction ID = </string>
+    <string name="feature_loan_payment_success_transaction_label">Transaction ID: %1$s</string>
+    <string name="feature_loan_payment_success_title">Payment Successful</string>
 
     <!-- New Loan Account -->
     <string name="new_loan_account_title">New Loan Account</string>
